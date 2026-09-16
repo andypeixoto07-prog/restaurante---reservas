@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestão Profissional de Mesas & Clientes Habituais</title>
+    <title>Gestão de Sala & Reservas em Tempo Real</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -17,101 +17,94 @@
             --text-main: #ffffff;
             --text-muted: #94a3b8;
             
-            /* Cores de Estado das Mesas */
             --st-livre: #22c55e;
             --st-reservada: #ef4444;
             --st-indisponivel: #18181b;
             --st-azul: #3b82f6;
 
-            --radius-md: 10px;
-            --shadow-md: 0 4px 12px rgba(0,0,0,0.5);
+            --radius-md: 8px;
         }
 
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        body {
-            background-color: var(--bg-dark);
-            color: var(--text-main);
+        html, body {
+            width: 100%; height: 100vh; overflow: hidden;
+            background-color: var(--bg-dark); color: var(--text-main);
             font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            line-height: 1.5;
+            display: flex; flex-direction: column;
         }
 
         header {
-            background: var(--panel-bg);
-            border-bottom: 1px solid var(--panel-border);
-            padding: 10px 20px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
+            background: var(--panel-bg); border-bottom: 1px solid var(--panel-border);
+            padding: 8px 16px; flex-shrink: 0;
         }
 
         .header-container {
-            max-width: 100%;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 12px;
+            display: flex; justify-content: space-between; align-items: center; gap: 12px;
         }
 
-        .brand-area { display: flex; align-items: center; gap: 12px; }
-        .brand-icon { font-size: 26px; background: rgba(217, 173, 87, 0.15); padding: 4px 8px; border-radius: var(--radius-md); border: 1px solid var(--accent-gold); }
-        .brand-area h1 { font-size: 1.15rem; font-weight: 800; }
-        .brand-area .subtitulo { font-size: 0.72rem; color: var(--accent-gold); font-weight: 600; text-transform: uppercase; }
+        .brand-area { display: flex; align-items: center; gap: 10px; }
+        .brand-icon { font-size: 22px; background: rgba(217, 173, 87, 0.15); padding: 2px 6px; border-radius: var(--radius-md); border: 1px solid var(--accent-gold); }
+        .brand-area h1 { font-size: 1.05rem; font-weight: 800; }
 
-        .header-center { display: flex; align-items: center; gap: 6px; }
+        .header-center { display: flex; align-items: center; gap: 4px; }
         .nav-btn {
             background: transparent; border: 0; color: var(--text-muted);
-            padding: 8px 14px; border-radius: 6px; font-weight: 600; font-size: 0.88rem; cursor: pointer;
+            padding: 6px 12px; border-radius: 6px; font-weight: 600; font-size: 0.82rem; cursor: pointer;
         }
         .nav-btn.active { color: #0b141b; background: var(--accent-gold); }
 
-        .header-right { display: flex; align-items: center; gap: 10px; }
+        .header-right { display: flex; align-items: center; gap: 8px; }
 
         .btn {
-            border: 0; border-radius: 8px; padding: 9px 16px; font-weight: 700; font-size: 0.88rem;
+            border: 0; border-radius: 6px; padding: 7px 12px; font-weight: 700; font-size: 0.82rem;
             cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s ease;
         }
         .btn-gold { background: var(--accent-gold); color: #17120a; }
         .btn-gold:hover { background: var(--accent-gold-hover); }
         .btn-music { background: #8b5cf6; color: #fff; }
-        .btn-music.ativo { background: #ec4899; box-shadow: 0 0 12px #ec4899; }
+        .btn-music.ativo { background: #ec4899; box-shadow: 0 0 10px #ec4899; }
         .btn-secondary { background: #334155; color: #fff; }
         .btn-danger { background: #ef5350; color: #fff; }
         .btn-outline { background: transparent; border: 1px solid var(--panel-border); color: var(--text-main); }
         .btn-outline:hover { background: rgba(255,255,255,0.05); }
 
-        .conteudo { max-width: 100%; margin: 0 auto; padding: 12px; width: 100%; flex: 1; }
-        .tab-page { display: none; }
-        .tab-page.active { display: block; }
+        .conteudo { flex: 1; padding: 8px; display: flex; flex-direction: column; overflow: hidden; }
+        .tab-page { display: none; width: 100%; height: 100%; }
+        .tab-page.active { display: flex; flex-direction: column; }
 
-        /* MAPA OTIMIZADO PARA OCUPAR A TELA COMPLETA */
-        .layout-mapa { display: grid; grid-template-columns: 1fr 310px; gap: 14px; height: calc(100vh - 90px); }
+        /* BARRA SUPERIOR DE AÇÕES */
+        .mapa-header-bar {
+            background: var(--panel-bg); border: 1px solid var(--panel-border); border-radius: var(--radius-md);
+            padding: 6px 12px; margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0;
+        }
+
+        /* LAYOUT PRINCIPAL REDIMENSIONÁVEL */
+        .layout-mapa {
+            display: flex; gap: 8px; flex: 1; height: calc(100% - 40px); overflow: hidden;
+        }
 
         .mapa-viewport {
             background: #0f171e; border: 2px solid #2a3844; border-radius: var(--radius-md);
-            overflow: auto; position: relative; width: 100%; height: 100%;
+            flex: 1; height: 100%; position: relative; overflow: hidden; display: flex;
+            align-items: center; justify-content: center;
         }
 
+        /* CANVAS AJUSTADO À ESTRUTURA VISUAL */
         .mapa-canvas {
-            position: relative; width: 1100px; height: 760px; background-color: #0b1217;
+            position: relative; width: 1050px; height: 720px; background-color: #0b1217;
             background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 0);
-            background-size: 20px 20px; margin: 0 auto;
+            background-size: 20px 20px; transform-origin: center center;
         }
 
-        .parede { position: absolute; inset: 10px; border: 3px solid #000; pointer-events: none; }
-        .porta-icon { position: absolute; top: 0; left: 620px; font-size: 1.5rem; pointer-events: none; }
+        .parede { position: absolute; inset: 8px; border: 3px solid #000; pointer-events: none; }
+        .porta-icon { position: absolute; top: 0; left: 620px; font-size: 1.4rem; pointer-events: none; }
         .balcao-obj {
-            position: absolute; left: 680px; bottom: 25px; width: 170px; height: 60px;
+            position: absolute; left: 680px; bottom: 20px; width: 170px; height: 55px;
             background: #523417; border: 2px solid #855523; border-radius: 6px;
-            display: flex; align-items: center; justify-content: center; font-weight: 800; color: #fff;
+            display: flex; align-items: center; justify-content: center; font-weight: 800; color: #fff; font-size: 0.85rem;
         }
 
-        /* PISTA DE DANÇA / DJ AMOVÍVEL */
         .dj-booth {
             position: absolute; left: 520px; top: 200px; width: 250px; height: 210px;
             background: radial-gradient(circle, rgba(139,92,246,0.4) 0%, rgba(236,72,153,0.2) 70%);
@@ -119,64 +112,66 @@
             align-items: center; justify-content: center; color: #f472b6; font-weight: 800;
             box-shadow: 0 0 20px rgba(236,72,153,0.3); z-index: 10; user-select: none;
         }
-        .dj-booth.draggable { cursor: move; border-color: #facc15; box-shadow: 0 0 25px #facc15; }
+        .dj-booth.draggable { cursor: move; border-color: #facc15; }
 
-        /* MESAS COM PREENCHIMENTO COMPLETO DE COR */
+        /* MESAS */
         .mesa {
             position: absolute; display: flex; flex-direction: column; justify-content: center;
-            align-items: center; color: #fff; font-weight: 800; font-size: 0.82rem;
+            align-items: center; color: #fff; font-weight: 800; font-size: 0.8rem;
             box-shadow: 0 4px 10px rgba(0,0,0,0.6); cursor: pointer; user-select: none;
             transition: transform 0.15s ease, background-color 0.2s ease; border: 2px solid rgba(255,255,255,0.2);
             text-shadow: 0 1px 3px rgba(0,0,0,0.8);
         }
-        .mesa:hover { transform: scale(1.05); z-index: 30; }
+        .mesa:hover { transform: scale(1.08); z-index: 30; }
         .mesa.draggable { cursor: move; outline: 2px dashed var(--accent-gold); }
         .mesa.selecionada-grupo { outline: 4px solid #38bdf8 !important; }
 
-        /* ESTADOS DE COR COMPLETA */
-        .mesa.st-livre { background-color: var(--st-livre) !important; color: #ffffff; }
-        .mesa.st-reservada { background-color: var(--st-reservada) !important; color: #ffffff; }
-        .mesa.st-indisponivel { background-color: var(--st-indisponivel) !important; color: #a1a1aa; border-color: #3f3f46; }
-        .mesa.st-azul { background-color: var(--st-azul) !important; color: #ffffff; }
+        .mesa.st-livre { background-color: var(--st-livre) !important; }
+        .mesa.st-reservada { background-color: var(--st-reservada) !important; }
+        .mesa.st-indisponivel { background-color: var(--st-indisponivel) !important; color: #a1a1aa; }
+        .mesa.st-azul { background-color: var(--st-azul) !important; }
 
         .mesa small { font-size: 9px; font-weight: 600; opacity: 0.9; }
         .mesa .badge-habitual { position: absolute; bottom: -8px; background: var(--accent-gold); color: #000; font-size: 8px; font-weight: 800; padding: 1px 4px; border-radius: 4px; border: 1px solid #000; }
 
-        /* FORMATOS DE MESA */
-        .retangular { width: 100px; height: 55px; border-radius: 6px; }
-        .quadrada { width: 52px; height: 52px; border-radius: 6px; }
-        .redonda { width: 72px; height: 72px; border-radius: 50%; }
-        .grande { width: 210px; height: 60px; border-radius: 30px; }
+        .retangular { width: 95px; height: 50px; border-radius: 6px; }
+        .quadrada { width: 50px; height: 50px; border-radius: 6px; }
+        .redonda { width: 68px; height: 68px; border-radius: 50%; }
+        .grande { width: 200px; height: 55px; border-radius: 28px; }
         .mesa-fusa { border-radius: 8px; border: 2px dashed #f59e0b; }
 
-        .mapa-header-bar {
-            background: var(--panel-bg); border: 1px solid var(--panel-border); border-radius: var(--radius-md);
-            padding: 8px 14px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
+        /* PAINEL LATERAL DE RESERVAS (RECOLHÍVEL) */
+        .painel-lateral {
+            width: 320px; background: var(--panel-bg); border: 1px solid var(--panel-border);
+            border-radius: var(--radius-md); padding: 12px; display: flex; flex-direction: column;
+            transition: all 0.25s ease;
         }
+        .painel-lateral.oculto { display: none; }
+        .painel-lateral h2 { font-size: 0.95rem; color: var(--accent-gold); margin-bottom: 8px; border-bottom: 1px solid var(--panel-border); padding-bottom: 4px; }
+        .lista-reservas-scroll { flex: 1; overflow-y: auto; }
 
-        .painel-lateral { background: var(--panel-bg); border: 1px solid var(--panel-border); border-radius: var(--radius-md); padding: 14px; overflow-y: auto; }
-        .painel-lateral h2 { font-size: 1.05rem; color: var(--accent-gold); margin-bottom: 10px; border-bottom: 1px solid var(--panel-border); padding-bottom: 6px; }
+        .reserva-card-side {
+            background: rgba(0,0,0,0.3); border: 1px solid var(--panel-border); border-radius: 6px;
+            padding: 8px; margin-bottom: 6px; cursor: pointer; transition: background 0.15s;
+        }
+        .reserva-card-side:hover { background: rgba(217, 173, 87, 0.15); border-color: var(--accent-gold); }
 
-        .reserva-card-side { background: rgba(0,0,0,0.3); border: 1px solid var(--panel-border); border-radius: 6px; padding: 10px; margin-bottom: 8px; }
-
-        /* TABELAS E FORMULÁRIOS */
-        .table-responsive { background: var(--panel-bg); border: 1px solid var(--panel-border); border-radius: var(--radius-md); overflow-x: auto; margin-top: 12px; }
-        .data-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.88rem; }
-        .data-table th, .data-table td { padding: 12px 14px; border-bottom: 1px solid var(--panel-border); }
+        .table-responsive { background: var(--panel-bg); border: 1px solid var(--panel-border); border-radius: var(--radius-md); overflow: auto; flex: 1; }
+        .data-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.85rem; }
+        .data-table th, .data-table td { padding: 10px 12px; border-bottom: 1px solid var(--panel-border); }
         .data-table th { background: rgba(0,0,0,0.4); color: var(--accent-gold); }
 
-        /* MODAIS */
         .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(4px); align-items: center; justify-content: center; z-index: 1000; }
         .modal.aberto { display: flex; }
-        .caixa-modal { background: var(--panel-bg); border: 1px solid var(--accent-gold); border-radius: 12px; padding: 22px; width: min(540px, 94vw); max-height: 90vh; overflow-y: auto; }
-        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .caixa-modal { background: var(--panel-bg); border: 1px solid var(--accent-gold); border-radius: 12px; padding: 20px; width: min(500px, 94vw); max-height: 90vh; overflow-y: auto; }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         .form-group-full { grid-column: span 2; }
 
-        input, select, textarea { width: 100%; padding: 9px 12px; background: var(--bg-dark); color: #fff; border: 1px solid var(--panel-border); border-radius: 6px; font-size: 0.88rem; }
-        label { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 4px; display: block; }
+        input, select, textarea { width: 100%; padding: 8px 10px; background: var(--bg-dark); color: #fff; border: 1px solid var(--panel-border); border-radius: 6px; font-size: 0.85rem; }
+        label { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 3px; display: block; }
 
-        #toast-container { position: fixed; bottom: 20px; right: 20px; z-index: 2000; display: flex; flex-direction: column; gap: 8px; }
-        .toast { background: #1e293b; color: #fff; padding: 12px 18px; border-radius: 6px; border-left: 4px solid var(--accent-gold); font-size: 0.88rem; }
+        #toast-container { position: fixed; bottom: 16px; right: 16px; z-index: 2000; display: flex; flex-direction: column; gap: 6px; }
+        .toast { background: #1e293b; color: #fff; padding: 10px 14px; border-radius: 6px; border-left: 4px solid var(--accent-gold); font-size: 0.85rem; }
     </style>
 </head>
 <body>
@@ -185,10 +180,7 @@
         <div class="header-container">
             <div class="brand-area">
                 <span class="brand-icon">🍽️</span>
-                <div>
-                    <h1 id="rest-title-display">Restaurante Gourmet</h1>
-                    <div class="subtitulo">Gestão de Mesas & Clientes Habituais</div>
-                </div>
+                <h1>Restaurante Gourmet</h1>
             </div>
 
             <nav class="header-center">
@@ -198,6 +190,7 @@
             </nav>
 
             <div class="header-right">
+                <button class="btn btn-outline" onclick="toggleSidebarReservas()">👁️ Mostrar/Esconder Reservas</button>
                 <button id="btn-musica-ao-vivo" class="btn btn-music" onclick="toggleModoMusica()">🎵 Música ao Vivo (OFF)</button>
                 <button class="btn btn-gold" onclick="abrirNovaReservaModal()">+ Nova Reserva</button>
             </div>
@@ -210,16 +203,16 @@
         <!-- TAB 1: MAPA DA SALA -->
         <section id="tab-mapa" class="tab-page active">
             <div class="mapa-header-bar">
-                <div style="display:flex; gap:14px; font-size:0.85rem; align-items:center; font-weight:600;">
+                <div style="display:flex; gap:12px; font-size:0.8rem; align-items:center; font-weight:600;">
                     <span style="color:var(--st-livre);">🟢 Livre</span>
                     <span style="color:var(--st-reservada);">🔴 Reservada</span>
                     <span style="color:#a1a1aa;">⬛ Indisponível</span>
-                    <span style="color:var(--st-azul);">🔵 Especial / VIP</span>
+                    <span style="color:var(--st-azul);">🔵 VIP</span>
                 </div>
-                <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                <div style="display:flex; gap:6px;">
                     <button class="btn btn-outline" onclick="abrirModalCriarMesa()">➕ Criar Mesa</button>
                     <button id="btn-modo-grupo" class="btn btn-outline" onclick="toggleModoGrupo()">🔗 Unir Mesas</button>
-                    <button id="btn-edit-layout" class="btn btn-secondary" onclick="toggleEditLayout()">✏️ Mover Mesas e Pista</button>
+                    <button id="btn-edit-layout" class="btn btn-secondary" onclick="toggleEditLayout()">✏️ Mover Elementos</button>
                     <button id="btn-save-layout" class="btn btn-gold" style="display:none;" onclick="salvarPosicoesLayout()">💾 Guardar Planta</button>
                 </div>
             </div>
@@ -231,43 +224,39 @@
                         <div class="porta-icon">🚪</div>
                         <div class="balcao-obj">BALCÃO</div>
 
-                        <!-- PISTA DE DANÇA / DJ ARRASTÁVEL -->
                         <div id="dj-booth-element" class="dj-booth" style="display:none;">
-                            <div style="font-size:1.6rem;">🎧 🎷</div>
+                            <div style="font-size:1.5rem;">🎧 🎷</div>
                             <div>PISTA DE DANÇA</div>
-                            <div style="font-size:0.75rem; color:#fbcfe8;">Música ao Vivo</div>
+                            <div style="font-size:0.7rem; color:#fbcfe8;">Música ao Vivo</div>
                         </div>
                     </div>
                 </div>
 
-                <aside class="painel-lateral">
+                <aside id="sidebar-reservas" class="painel-lateral">
                     <h2>📅 Reservas de Hoje</h2>
-                    <div id="reservas-hoje-sidebar"></div>
+                    <div id="reservas-hoje-sidebar" class="lista-reservas-scroll"></div>
                 </aside>
             </div>
         </section>
 
         <!-- TAB 2: CLIENTES HABITUAIS -->
         <section id="tab-habituais" class="tab-page">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
                 <h2>⭐ Lista de Clientes Habituais</h2>
-                <button class="btn btn-gold" onclick="abrirModalClienteHabitual()">+ Adicionar Cliente Habitual</button>
+                <button class="btn btn-gold" onclick="abrirModalClienteHabitual()">+ Adicionar Cliente</button>
             </div>
-
             <div class="table-responsive">
                 <table class="data-table">
                     <thead>
                         <tr>
-                            <th>Nome do Cliente</th>
+                            <th>Cliente</th>
                             <th>Contacto</th>
-                            <th>Mesa Habitual Associada</th>
-                            <th>Observações / Preferências</th>
+                            <th>Mesa Habitual</th>
+                            <th>Observações</th>
                             <th>Ações</th>
                         </tr>
                     </thead>
-                    <tbody id="tbody-habituais">
-                        <!-- Gerado por JS -->
-                    </tbody>
+                    <tbody id="tbody-habituais"></tbody>
                 </table>
             </div>
         </section>
@@ -287,9 +276,7 @@
                             <th>Ações</th>
                         </tr>
                     </thead>
-                    <tbody id="tbody-reservas">
-                        <!-- Gerado por JS -->
-                    </tbody>
+                    <tbody id="tbody-reservas"></tbody>
                 </table>
             </div>
         </section>
@@ -299,8 +286,7 @@
     <div class="modal" id="modalInfo">
         <div class="caixa-modal">
             <h2 id="infoTitulo">Mesa --</h2>
-            
-            <div class="form-grid" style="margin-bottom:12px;">
+            <div class="form-grid" style="margin-bottom:10px;">
                 <div class="form-group">
                     <label>Número / Nome:</label>
                     <input type="text" id="edit-mesa-nome">
@@ -310,25 +296,22 @@
                     <input type="number" id="edit-mesa-capacidade" min="1">
                 </div>
                 <div class="form-group form-group-full">
-                    <label>Cor / Estado Visual da Mesa:</label>
+                    <label>Cor / Estado Visual:</label>
                     <select id="edit-mesa-estado">
                         <option value="livre">🟢 Verde (Livre)</option>
                         <option value="reservada">🔴 Vermelho (Reservada)</option>
                         <option value="indisponivel">⬛ Preto (Indisponível)</option>
-                        <option value="azul">🔵 Azul (Especial / VIP)</option>
+                        <option value="azul">🔵 Azul (VIP)</option>
                     </select>
                 </div>
             </div>
-
-            <div style="display:flex; justify-content:space-between; gap:8px;">
-                <button class="btn btn-danger" onclick="removerMesaAtual()">🗑️ Eliminar Mesa</button>
-                <button class="btn btn-gold" onclick="guardarAlteracoesMesa()">Guardar Alterações</button>
+            <div style="display:flex; justify-content:space-between; gap:6px;">
+                <button class="btn btn-danger" onclick="removerMesaAtual()">🗑️ Eliminar</button>
+                <button class="btn btn-gold" onclick="guardarAlteracoesMesa()">Guardar</button>
             </div>
-
-            <hr style="margin:16px 0; border-color:var(--panel-border);">
+            <hr style="margin:12px 0; border-color:var(--panel-border);">
             <div id="infoTexto"></div>
-
-            <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:12px;">
+            <div style="display:flex; justify-content:flex-end; gap:6px; margin-top:10px;">
                 <button class="btn btn-gold" id="infoBtnReservar">Reservar Esta Mesa</button>
                 <button class="btn btn-outline" onclick="fecharModal('modalInfo')">Fechar</button>
             </div>
@@ -338,32 +321,30 @@
     <!-- MODAL CLIENTE HABITUAL -->
     <div class="modal" id="modalHabitual">
         <div class="caixa-modal">
-            <h2 id="modalHabitualTitulo">Adicionar Cliente Habitual</h2>
+            <h2 id="modalHabitualTitulo">Cliente Habitual</h2>
             <form onsubmit="guardarClienteHabitual(event)">
                 <input type="hidden" id="hab-id">
                 <div class="form-grid">
                     <div class="form-group">
-                        <label>Nome do Cliente *</label>
+                        <label>Nome *</label>
                         <input type="text" id="hab-nome" required>
                     </div>
                     <div class="form-group">
-                        <label>Contacto / Telefone *</label>
+                        <label>Contacto *</label>
                         <input type="tel" id="hab-telefone" required>
                     </div>
                     <div class="form-group form-group-full">
-                        <label>Associar a Mesa Habitual Specific</label>
-                        <select id="hab-mesa">
-                            <option value="">Nenhuma Mesa Fixa</option>
-                        </select>
+                        <label>Mesa Habitual</label>
+                        <select id="hab-mesa"></select>
                     </div>
                     <div class="form-group form-group-full">
-                        <label>Observações / Preferências</label>
-                        <textarea id="hab-obs" rows="2" placeholder="Ex: Prefere mesa no canto, vinho verde..."></textarea>
+                        <label>Observações</label>
+                        <textarea id="hab-obs" rows="2"></textarea>
                     </div>
                 </div>
-                <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:16px;">
+                <div style="display:flex; justify-content:flex-end; gap:6px; margin-top:12px;">
                     <button type="button" class="btn btn-outline" onclick="fecharModal('modalHabitual')">Cancelar</button>
-                    <button type="submit" class="btn btn-gold">Guardar Cliente</button>
+                    <button type="submit" class="btn btn-gold">Guardar</button>
                 </div>
             </form>
         </div>
@@ -391,14 +372,14 @@
                     </select>
                 </div>
             </div>
-            <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:16px;">
+            <div style="display:flex; justify-content:flex-end; gap:6px; margin-top:12px;">
                 <button class="btn btn-outline" onclick="fecharModal('modalCriarMesa')">Cancelar</button>
-                <button class="btn btn-gold" onclick="confirmarCriarMesa()">Adicionar Mesa</button>
+                <button class="btn btn-gold" onclick="confirmarCriarMesa()">Adicionar</button>
             </div>
         </div>
     </div>
 
-    <!-- MODAL NOVA RESERVA -->
+    <!-- MODAL RESERVA -->
     <div class="modal" id="modalReserva">
         <div class="caixa-modal">
             <h2>Nova Reserva</h2>
@@ -429,7 +410,7 @@
                         <select id="res-mesa"></select>
                     </div>
                 </div>
-                <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:16px;">
+                <div style="display:flex; justify-content:flex-end; gap:6px; margin-top:12px;">
                     <button type="button" class="btn btn-outline" onclick="fecharModal('modalReserva')">Cancelar</button>
                     <button type="submit" class="btn btn-gold">Guardar Reserva</button>
                 </div>
@@ -439,21 +420,16 @@
 
     <script>
         const MESAS_PADRAO = [
-            // Salinhas
             { id: "Salinha 1", nome: "Salinha 1", capacidade: 20, classe: "retangular", x: 30, y: 70, estadoCor: "livre" },
             { id: "Salinha 2", nome: "Salinha 2", capacidade: 20, classe: "retangular", x: 30, y: 155, estadoCor: "livre" },
             { id: "Salinha 3", nome: "Salinha 3", capacidade: 20, classe: "retangular", x: 30, y: 240, estadoCor: "livre" },
             { id: "Salinha 4", nome: "Salinha 4", capacidade: 20, classe: "retangular", x: 30, y: 325, estadoCor: "livre" },
-
-            // Topo Esquerdo
             { id: "Redondo", nome: "Redondo", capacidade: 25, classe: "grande", x: 220, y: 35, estadoCor: "livre" },
             { id: "39", nome: "Mesa 39", capacidade: 8, classe: "redonda", x: 285, y: 135, estadoCor: "livre" },
             { id: "36", nome: "Mesa 36", capacidade: 8, classe: "redonda", x: 400, y: 135, estadoCor: "livre" },
             { id: "40", nome: "Mesa 40", capacidade: 8, classe: "redonda", x: 285, y: 270, estadoCor: "livre" },
             { id: "35", nome: "Mesa 35", capacidade: 8, classe: "redonda", x: 400, y: 270, estadoCor: "livre" },
             { id: "29", nome: "Mesa 29", capacidade: 10, classe: "redonda", x: 265, y: 560, estadoCor: "livre" },
-
-            // Bloco Central Superior (Removido na Música ao Vivo)
             { id: "19", nome: "Mesa 19", capacidade: 2, classe: "quadrada", x: 530, y: 210, estadoCor: "livre" },
             { id: "18", nome: "Mesa 18", capacidade: 2, classe: "quadrada", x: 600, y: 210, estadoCor: "livre" },
             { id: "17", nome: "Mesa 17", capacidade: 4, classe: "retangular", x: 670, y: 210, estadoCor: "livre" },
@@ -463,8 +439,6 @@
             { id: "12", nome: "Mesa 12", capacidade: 2, classe: "quadrada", x: 530, y: 350, estadoCor: "livre" },
             { id: "11", nome: "Mesa 11", capacidade: 2, classe: "quadrada", x: 600, y: 350, estadoCor: "livre" },
             { id: "10", nome: "Mesa 10", capacidade: 4, classe: "retangular", x: 670, y: 350, estadoCor: "livre" },
-
-            // Bloco Central Inferior
             { id: "24", nome: "Mesa 24", capacidade: 2, classe: "quadrada", x: 370, y: 490, estadoCor: "livre" },
             { id: "23", nome: "Mesa 23", capacidade: 2, classe: "quadrada", x: 435, y: 490, estadoCor: "livre" },
             { id: "22", nome: "Mesa 22", capacidade: 2, classe: "quadrada", x: 500, y: 490, estadoCor: "livre" },
@@ -477,8 +451,6 @@
             { id: "27", nome: "Mesa 27", capacidade: 2, classe: "quadrada", x: 435, y: 630, estadoCor: "livre" },
             { id: "26", nome: "Mesa 26", capacidade: 2, classe: "quadrada", x: 500, y: 630, estadoCor: "livre" },
             { id: "25", nome: "Mesa 25", capacidade: 2, classe: "quadrada", x: 565, y: 630, estadoCor: "livre" },
-
-            // Direita
             { id: "5", nome: "Mesa 5", capacidade: 2, classe: "quadrada", x: 790, y: 20, estadoCor: "livre" },
             { id: "4", nome: "Mesa 4", capacidade: 8, classe: "redonda", x: 960, y: 55, estadoCor: "livre" },
             { id: "6", nome: "Mesa 6", capacidade: 8, classe: "redonda", x: 865, y: 140, estadoCor: "livre" },
@@ -507,27 +479,45 @@
             iniciarNavegacao();
             renderizarTudo();
             configurarDragPista();
+            ajustarEscalaMapa();
+            window.addEventListener("resize", ajustarEscalaMapa);
         });
 
         function carregarDados() {
-            const m = localStorage.getItem("mesas_v5");
+            const m = localStorage.getItem("mesas_v6");
             mesas = m ? JSON.parse(m) : JSON.parse(JSON.stringify(MESAS_PADRAO));
-
-            const r = localStorage.getItem("reservas_v5");
+            const r = localStorage.getItem("reservas_v6");
             reservas = r ? JSON.parse(r) : [];
-
-            const h = localStorage.getItem("habituais_v5");
+            const h = localStorage.getItem("habituais_v6");
             habituais = h ? JSON.parse(h) : [];
-
-            const p = localStorage.getItem("pista_v5");
+            const p = localStorage.getItem("pista_v6");
             if (p) pistaPos = JSON.parse(p);
         }
 
         function guardarDados() {
-            localStorage.setItem("mesas_v5", JSON.stringify(mesas));
-            localStorage.setItem("reservas_v5", JSON.stringify(reservas));
-            localStorage.setItem("habituais_v5", JSON.stringify(habituais));
-            localStorage.setItem("pista_v5", JSON.stringify(pistaPos));
+            localStorage.setItem("mesas_v6", JSON.stringify(mesas));
+            localStorage.setItem("reservas_v6", JSON.stringify(reservas));
+            localStorage.setItem("habituais_v6", JSON.stringify(habituais));
+            localStorage.setItem("pista_v6", JSON.stringify(pistaPos));
+        }
+
+        /* AUTO-AJUSTE DE ESCALA PARA MANTER O MAPA INTEIRO VISÍVEL */
+        function ajustarEscalaMapa() {
+            const vp = document.getElementById("mapa-viewport-element");
+            const canvas = document.getElementById("restaurant-map-canvas");
+            if (!vp || !canvas) return;
+
+            const scaleX = vp.clientWidth / 1060;
+            const scaleY = vp.clientHeight / 730;
+            const fitScale = Math.min(scaleX, scaleY, 1);
+
+            canvas.style.transform = `scale(${fitScale})`;
+        }
+
+        function toggleSidebarReservas() {
+            const side = document.getElementById("sidebar-reservas");
+            side.classList.toggle("oculto");
+            setTimeout(ajustarEscalaMapa, 100);
         }
 
         function renderizarTudo() {
@@ -536,6 +526,7 @@
             renderizarTabelaHabituais();
             renderizarTabelaReservas();
             atualizarSelectsMesas();
+            ajustarEscalaMapa();
         }
 
         function renderizarMapa() {
@@ -552,7 +543,6 @@
                 if (modoEdicao) el.classList.add("draggable");
                 if (mesasGrupoSelecionadas.includes(m.id)) el.classList.add("selecionada-grupo");
 
-                // Cálculo do estado de cor
                 const res = reservas.find(r => r.mesa === m.id && r.data === hoje);
                 let estadoClass = `st-${m.estadoCor || 'livre'}`;
                 if (res) estadoClass = "st-reservada";
@@ -564,22 +554,14 @@
                 if (m.altura) el.style.height = `${m.altura}px`;
                 el.dataset.id = m.id;
 
-                // Verificação de Cliente Habitual
                 const hab = habituais.find(h => h.mesa === m.id);
                 const badgeHabitual = hab ? `<span class="badge-habitual">⭐ ${hab.nome}</span>` : '';
 
-                el.innerHTML = `
-                    ${m.id}
-                    <small>${m.capacidade} pax</small>
-                    ${badgeHabitual}
-                `;
+                el.innerHTML = `${m.id}<small>${m.capacidade} pax</small>${badgeHabitual}`;
 
                 el.addEventListener("click", () => {
-                    if (modoGrupo) {
-                        toggleMesaNoGrupo(m.id);
-                    } else if (!modoEdicao) {
-                        abrirModalInfoMesa(m.id);
-                    }
+                    if (modoGrupo) toggleMesaNoGrupo(m.id);
+                    else if (!modoEdicao) abrirModalInfoMesa(m.id);
                 });
 
                 el.addEventListener("mousedown", iniciarDragMesa);
@@ -591,16 +573,15 @@
             dj.style.top = `${pistaPos.y}px`;
         }
 
-        // MOVER MESAS E PISTA
         function toggleEditLayout() {
             modoEdicao = !modoEdicao;
             const dj = document.getElementById("dj-booth-element");
-            document.getElementById("btn-edit-layout").textContent = modoEdicao ? "❌ Cancelar" : "✏️ Mover Mesas e Pista";
+            document.getElementById("btn-edit-layout").textContent = modoEdicao ? "❌ Cancelar" : "✏️ Mover Elementos";
             document.getElementById("btn-save-layout").style.display = modoEdicao ? "inline-block" : "none";
 
             if (modoEdicao) {
                 dj.classList.add("draggable");
-                mostrarToast("Arraste mesas ou a pista de dança livremente.");
+                mostrarToast("Modo de edição ativo.");
             } else {
                 dj.classList.remove("draggable");
                 carregarDados();
@@ -610,7 +591,7 @@
 
         function salvarPosicoesLayout() {
             modoEdicao = false;
-            document.getElementById("btn-edit-layout").textContent = "✏️ Mover Mesas e Pista";
+            document.getElementById("btn-edit-layout").textContent = "✏️ Mover Elementos";
             document.getElementById("btn-save-layout").style.display = "none";
             guardarDados();
             renderizarMapa();
@@ -677,7 +658,6 @@
             });
         }
 
-        // UNIR MESAS NUMA ÚNICA MESA MAIOR
         function toggleModoGrupo() {
             modoGrupo = !modoGrupo;
             mesasGrupoSelecionadas = [];
@@ -686,11 +666,8 @@
             if (modoGrupo) {
                 btn.textContent = "✅ Unir Selecionadas";
                 btn.classList.add("btn-gold");
-                mostrarToast("Selecione 2 ou mais mesas para as unir numa só.");
             } else {
-                if (mesasGrupoSelecionadas.length > 1) {
-                    unirMesasNumaSo();
-                }
+                if (mesasGrupoSelecionadas.length > 1) unirMesasNumaSo();
                 btn.textContent = "🔗 Unir Mesas";
                 btn.classList.remove("btn-gold");
             }
@@ -714,65 +691,46 @@
             }, 0);
 
             const primeira = mesas.find(x => x.id === mesasGrupoSelecionadas[0]);
-            
-            // Largura proporcional ao número total de lugares
             const novaLargura = Math.max(120, Math.min(somaPax * 22, 320));
 
             const mesaUnificada = {
-                id: nomeGrupo,
-                nome: nomeGrupo,
-                capacidade: somaPax,
-                classe: "retangular mesa-fusa",
-                x: primeira.x,
-                y: primeira.y,
-                largura: novaLargura,
-                altura: 65,
-                estadoCor: "livre"
+                id: nomeGrupo, nome: nomeGrupo, capacidade: somaPax, classe: "retangular mesa-fusa",
+                x: primeira.x, y: primeira.y, largura: novaLargura, altura: 60, estadoCor: "livre"
             };
 
             mesas = mesas.filter(m => !mesasGrupoSelecionadas.includes(m.id));
             mesas.push(mesaUnificada);
-
             guardarDados();
             renderizarTudo();
-            mostrarToast("Mesas unidas com sucesso!");
         }
 
-        // GESTÃO DE CLIENTES HABITUAIS
         function renderizarTabelaHabituais() {
             const tbody = document.getElementById("tbody-habituais");
             if (!tbody) return;
-
-            if (habituais.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:var(--text-muted);">Nenhum cliente habitual registado.</td></tr>`;
-                return;
-            }
-
-            tbody.innerHTML = habituais.map(h => `
-                <tr>
-                    <td><strong>⭐ ${h.nome}</strong></td>
-                    <td>${h.telefone}</td>
-                    <td>${h.mesa ? `<strong>Mesa ${h.mesa}</strong> <button class="btn btn-outline" style="padding:2px 6px; font-size:0.7rem; margin-left:6px;" onclick="removerMesaHabitual('${h.id}')">Desassociar</button>` : '<span style="color:var(--text-muted)">Nenhuma</span>'}</td>
-                    <td>${h.obs || '-'}</td>
-                    <td>
-                        <button class="btn btn-outline" style="padding:4px 8px;" onclick="abrirModalClienteHabitual('${h.id}')">✏️ Edit</button>
-                        <button class="btn btn-danger" style="padding:4px 8px;" onclick="apagarHabitual('${h.id}')">🗑️</button>
-                    </td>
-                </tr>
-            `).join("");
+            tbody.innerHTML = habituais.length === 0 ? `<tr><td colspan="5" style="text-align:center; color:var(--text-muted);">Sem clientes habituais.</td></tr>` :
+                habituais.map(h => `
+                    <tr>
+                        <td><strong>⭐ ${h.nome}</strong></td>
+                        <td>${h.telefone}</td>
+                        <td>${h.mesa ? `<strong>Mesa ${h.mesa}</strong> <button class="btn btn-outline" style="padding:2px 6px; font-size:0.7rem;" onclick="removerMesaHabitual('${h.id}')">Desassociar</button>` : 'Nenhuma'}</td>
+                        <td>${h.obs || '-'}</td>
+                        <td>
+                            <button class="btn btn-outline" style="padding:2px 6px;" onclick="abrirModalClienteHabitual('${h.id}')">✏️</button>
+                            <button class="btn btn-danger" style="padding:2px 6px;" onclick="apagarHabitual('${h.id}')">🗑️</button>
+                        </td>
+                    </tr>
+                `).join("");
         }
 
         function abrirModalClienteHabitual(id = null) {
             document.getElementById("hab-id").value = id || "";
             if (id) {
                 const h = habituais.find(x => x.id === id);
-                document.getElementById("modalHabitualTitulo").textContent = "Editar Cliente Habitual";
                 document.getElementById("hab-nome").value = h.nome;
                 document.getElementById("hab-telefone").value = h.telefone;
                 document.getElementById("hab-mesa").value = h.mesa || "";
                 document.getElementById("hab-obs").value = h.obs || "";
             } else {
-                document.getElementById("modalHabitualTitulo").textContent = "Adicionar Cliente Habitual";
                 document.getElementById("hab-nome").value = "";
                 document.getElementById("hab-telefone").value = "";
                 document.getElementById("hab-mesa").value = "";
@@ -798,28 +756,17 @@
             guardarDados();
             fecharModal("modalHabitual");
             renderizarTudo();
-            mostrarToast("Cliente habitual guardado!");
         }
 
         function removerMesaHabitual(id) {
             const h = habituais.find(x => x.id === id);
-            if (h) {
-                h.mesa = "";
-                guardarDados();
-                renderizarTudo();
-                mostrarToast("Associação de mesa removida.");
-            }
+            if (h) { h.mesa = ""; guardarDados(); renderizarTudo(); }
         }
 
         function apagarHabitual(id) {
-            if (confirm("Remover este cliente habitual?")) {
-                habituais = habituais.filter(x => x.id !== id);
-                guardarDados();
-                renderizarTudo();
-            }
+            if (confirm("Remover cliente habitual?")) { habituais = habituais.filter(x => x.id !== id); guardarDados(); renderizarTudo(); }
         }
 
-        // MODAIS DE MESA E ESTADOS DE COR
         function abrirModalInfoMesa(id) {
             mesaSelecionadaId = id;
             const m = mesas.find(x => x.id === id);
@@ -832,8 +779,8 @@
 
             const hab = habituais.find(h => h.mesa === m.id);
             document.getElementById("infoTexto").innerHTML = `
-                <p>Capacidade: <strong>${m.capacidade} Lugares</strong></p>
-                ${hab ? `<p style="margin-top:6px; color:var(--accent-gold);">⭐ <strong>Cliente Habitual desta Mesa:</strong> ${hab.nome}</p>` : ''}
+                <p>Capacidade: <strong>${m.capacidade} Pax</strong></p>
+                ${hab ? `<p style="margin-top:4px; color:var(--accent-gold);">⭐ Habitual: ${hab.nome}</p>` : ''}
             `;
 
             document.getElementById("infoBtnReservar").onclick = () => { fecharModal("modalInfo"); abrirNovaReservaModal(m.id); };
@@ -844,18 +791,13 @@
             const m = mesas.find(x => x.id === mesaSelecionadaId);
             if (!m) return;
 
-            const novoNome = document.getElementById("edit-mesa-nome").value.trim();
-            const novaCap = parseInt(document.getElementById("edit-mesa-capacidade").value);
-            const novoEstado = document.getElementById("edit-mesa-estado").value;
-
-            if (novoNome) m.id = novoNome;
-            if (novaCap) m.capacidade = novaCap;
-            m.estadoCor = novoEstado;
+            m.id = document.getElementById("edit-mesa-nome").value.trim() || m.id;
+            m.capacidade = parseInt(document.getElementById("edit-mesa-capacidade").value) || m.capacidade;
+            m.estadoCor = document.getElementById("edit-mesa-estado").value;
 
             guardarDados();
             fecharModal("modalInfo");
             renderizarTudo();
-            mostrarToast("Mesa atualizada!");
         }
 
         function removerMesaAtual() {
@@ -890,14 +832,13 @@
             const btn = document.getElementById("btn-musica-ao-vivo");
             const dj = document.getElementById("dj-booth-element");
 
-            btn.textContent = modoMusica ? "🎷 Música ao Vivo (ON)" : "🎵 Música ao Vivo (OFF)";
+            btn.textContent = modoMusica ? "🎷 Música (ON)" : "🎵 Música (OFF)";
             btn.classList.toggle("ativo", modoMusica);
             dj.style.display = modoMusica ? "flex" : "none";
 
             renderizarMapa();
         }
 
-        // RESERVAS
         function abrirNovaReservaModal(mesaId = null) {
             document.getElementById("res-data").value = getHojeISO();
             if (mesaId) document.getElementById("res-mesa").value = mesaId;
@@ -926,19 +867,26 @@
             const resHoje = reservas.filter(r => r.data === hoje);
             const c = document.getElementById("reservas-hoje-sidebar");
 
-            c.innerHTML = resHoje.length === 0 ? `<p style="color:var(--text-muted);">Sem reservas hoje.</p>` :
+            c.innerHTML = resHoje.length === 0 ? `<p style="color:var(--text-muted); font-size:0.8rem;">Sem reservas hoje.</p>` :
                 resHoje.map(r => `
-                    <div class="reserva-card-side">
+                    <div class="reserva-card-side" onclick="destacarMesa('${r.mesa}')">
                         <strong>${r.hora} - ${r.nome}</strong>
-                        <p>Mesa ${r.mesa} · 👥 ${r.pessoas} pax</p>
+                        <p style="font-size:0.75rem;">Mesa ${r.mesa} · 👥 ${r.pessoas} pax</p>
                     </div>
                 `).join("");
+        }
+
+        function destacarMesa(mesaId) {
+            const el = document.querySelector(`[data-id="${mesaId}"]`);
+            if (el) {
+                el.style.transform = "scale(1.25)";
+                setTimeout(() => el.style.transform = "", 1000);
+            }
         }
 
         function renderizarTabelaReservas() {
             const tbody = document.getElementById("tbody-reservas");
             if (!tbody) return;
-
             tbody.innerHTML = reservas.map(r => `
                 <tr>
                     <td>${r.data}</td>
@@ -947,7 +895,7 @@
                     <td>${r.telefone}</td>
                     <td>👥 ${r.pessoas}</td>
                     <td>Mesa ${r.mesa}</td>
-                    <td><button class="btn btn-danger" style="padding:4px 8px;" onclick="apagarReserva('${r.id}')">🗑️</button></td>
+                    <td><button class="btn btn-danger" style="padding:2px 6px;" onclick="apagarReserva('${r.id}')">🗑️</button></td>
                 </tr>
             `).join("");
         }
@@ -973,6 +921,7 @@
                     document.querySelectorAll(".tab-page").forEach(x => x.classList.remove("active"));
                     b.classList.add("active");
                     document.getElementById(`tab-${b.dataset.tab}`).classList.add("active");
+                    if (b.dataset.tab === "mapa") setTimeout(ajustarEscalaMapa, 50);
                 };
             });
         }
@@ -985,7 +934,7 @@
             const t = document.createElement("div");
             t.className = "toast"; t.textContent = m;
             c.appendChild(t);
-            setTimeout(() => t.remove(), 3000);
+            setTimeout(() => t.remove(), 2500);
         }
     </script>
 </body>
