@@ -162,11 +162,12 @@
             transition: all 0.2s ease;
         }
 
-        .btn-gold {
-            background: var(--accent-gold);
-            color: #17120a;
-        }
+        .btn-gold { background: var(--accent-gold); color: #17120a; }
         .btn-gold:hover { background: var(--accent-gold-hover); }
+
+        .btn-music { background: #8b5cf6; color: #fff; }
+        .btn-music:hover { background: #7c3aed; }
+        .btn-music.ativo { background: #ec4899; box-shadow: 0 0 12px #ec4899; }
 
         .btn-secondary { background: #334155; color: #fff; }
         .btn-secondary:hover { background: #475569; }
@@ -190,14 +191,8 @@
             flex: 1;
         }
 
-        .tab-page {
-            display: none;
-        }
-
-        .tab-page.active {
-            display: block;
-            animation: fadeIn 0.2s ease;
-        }
+        .tab-page { display: none; }
+        .tab-page.active { display: block; animation: fadeIn 0.2s ease; }
 
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(4px); }
@@ -254,8 +249,8 @@
         }
 
         .salinha-titulo { left: 25px; top: 28px; color: var(--accent-gold); }
-        .entrada-label { left: 20px; bottom: 15px; color: var(--accent-gold); }
-        .porta-icon { position: absolute; top: 10px; left: 630px; font-size: 1.2rem; }
+        .entrada-label { top: 15px; left: 580px; color: var(--accent-gold); font-size: 0.75rem; }
+        .porta-icon { position: absolute; top: 0px; left: 630px; font-size: 1.4rem; pointer-events: none; }
 
         .balcao-obj {
             position: absolute;
@@ -276,6 +271,33 @@
             pointer-events: none;
         }
 
+        /* CABINE DE DJ / PISTA DE DANÇA */
+        .dj-booth {
+            position: absolute;
+            left: 520px;
+            top: 220px;
+            width: 240px;
+            height: 180px;
+            background: radial-gradient(circle, rgba(139,92,246,0.3) 0%, rgba(236,72,153,0.1) 70%);
+            border: 2px dashed #ec4899;
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #f472b6;
+            font-weight: 800;
+            font-size: 1rem;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(236,72,153,0.3);
+            animation: djPulse 2s infinite alternate;
+        }
+
+        @keyframes djPulse {
+            0% { border-color: #ec4899; box-shadow: 0 0 15px rgba(236,72,153,0.3); }
+            100% { border-color: #8b5cf6; box-shadow: 0 0 25px rgba(139,92,246,0.5); }
+        }
+
         /* MESAS NO MAPA */
         .mesa {
             position: absolute;
@@ -287,7 +309,7 @@
             border: 2px solid var(--wood-border);
             color: #fff;
             font-weight: 800;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             box-shadow: 0 4px 10px rgba(0,0,0,0.5);
             cursor: pointer;
             user-select: none;
@@ -295,7 +317,7 @@
         }
 
         .mesa:hover {
-            transform: scale(1.06);
+            transform: scale(1.08);
             z-index: 20;
             box-shadow: 0 8px 18px rgba(0,0,0,0.7);
         }
@@ -312,7 +334,7 @@
         }
 
         .mesa small {
-            font-size: 10px;
+            font-size: 9px;
             font-weight: 500;
             color: #f2e4c6;
             margin-top: -1px;
@@ -320,10 +342,10 @@
 
         .mesa .estado-dot {
             position: absolute;
-            right: 6px;
-            top: 6px;
-            width: 11px;
-            height: 11px;
+            right: 4px;
+            top: 4px;
+            width: 10px;
+            height: 10px;
             border-radius: 50%;
             background: var(--st-livre);
             box-shadow: 0 0 4px rgba(0,0,0,0.8);
@@ -344,7 +366,7 @@
 
         /* FORMATOS DAS MESAS */
         .retangular { width: 105px; height: 58px; border-radius: 7px; }
-        .quadrada { width: 60px; height: 60px; border-radius: 7px; }
+        .quadrada { width: 55px; height: 55px; border-radius: 7px; }
         .redonda { width: 76px; height: 76px; border-radius: 50%; }
         .grande { width: 210px; height: 65px; border-radius: 32px; }
 
@@ -370,18 +392,8 @@
             font-weight: 600;
         }
 
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .dot-lg {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            display: inline-block;
-        }
+        .legend-item { display: flex; align-items: center; gap: 6px; }
+        .dot-lg { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
 
         /* SIDEBAR DIREITA */
         .painel-lateral {
@@ -408,16 +420,8 @@
             margin-bottom: 10px;
         }
 
-        .reserva-card-side strong {
-            color: var(--accent-gold);
-            font-size: 0.95rem;
-        }
-
-        .reserva-card-side p {
-            font-size: 0.83rem;
-            color: #cbd5e1;
-            margin-top: 4px;
-        }
+        .reserva-card-side strong { color: var(--accent-gold); font-size: 0.95rem; }
+        .reserva-card-side p { font-size: 0.83rem; color: #cbd5e1; margin-top: 4px; }
 
         /* DASHBOARD METRICAS */
         .stats-grid {
@@ -444,18 +448,8 @@
             border-radius: 8px;
         }
 
-        .stat-val {
-            font-size: 1.6rem;
-            font-weight: 800;
-            line-height: 1;
-            color: var(--accent-gold);
-        }
-
-        .stat-lbl {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            margin-top: 4px;
-        }
+        .stat-val { font-size: 1.6rem; font-weight: 800; line-height: 1; color: var(--accent-gold); }
+        .stat-lbl { font-size: 0.8rem; color: var(--text-muted); margin-top: 4px; }
 
         /* TABELA DE RESERVAS */
         .table-controls {
@@ -480,10 +474,7 @@
             font-family: inherit;
         }
 
-        input:focus, select:focus, textarea:focus {
-            outline: none;
-            border-color: var(--accent-gold);
-        }
+        input:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent-gold); }
 
         .table-responsive {
             background: var(--panel-bg);
@@ -492,32 +483,11 @@
             overflow-x: auto;
         }
 
-        .data-table {
-            width: 100%;
-            border-collapse: collapse;
-            text-align: left;
-            font-size: 0.88rem;
-        }
+        .data-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.88rem; }
+        .data-table th, .data-table td { padding: 12px 14px; border-bottom: 1px solid var(--panel-border); }
+        .data-table th { background: rgba(0,0,0,0.3); color: var(--accent-gold); font-weight: 700; }
 
-        .data-table th, .data-table td {
-            padding: 12px 14px;
-            border-bottom: 1px solid var(--panel-border);
-        }
-
-        .data-table th {
-            background: rgba(0,0,0,0.3);
-            color: var(--accent-gold);
-            font-weight: 700;
-        }
-
-        .badge-status {
-            padding: 3px 8px;
-            border-radius: 12px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            display: inline-block;
-        }
-
+        .badge-status { padding: 3px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: 700; display: inline-block; }
         .st-tag-Confirmada { background: #1e3a8a; color: #93c5fd; }
         .st-tag-Aguardar { background: #78350f; color: #fde047; }
         .st-tag-Ocupada { background: #1e40af; color: #bfdbfe; }
@@ -536,9 +506,7 @@
             z-index: 1000;
         }
 
-        .modal.aberto {
-            display: flex;
-        }
+        .modal.aberto { display: flex; }
 
         .caixa-modal {
             background: var(--panel-bg);
@@ -559,75 +527,22 @@
             padding-bottom: 8px;
         }
 
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-
-        .form-group-full {
-            grid-column: span 2;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: var(--text-muted);
-            margin-bottom: 4px;
-        }
-
-        .acoes-modal {
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-            margin-top: 16px;
-        }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .form-group-full { grid-column: span 2; }
+        .form-group label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--text-muted); margin-bottom: 4px; }
+        .acoes-modal { display: flex; justify-content: flex-end; gap: 10px; margin-top: 16px; }
 
         /* TOAST NOTIFICAÇÕES */
-        #toast-container {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 2000;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
+        #toast-container { position: fixed; bottom: 20px; right: 20px; z-index: 2000; display: flex; flex-direction: column; gap: 8px; }
         .toast {
-            background: #1e293b;
-            color: #fff;
-            padding: 12px 18px;
-            border-radius: 6px;
-            border-left: 4px solid var(--accent-gold);
-            box-shadow: var(--shadow-md);
-            font-size: 0.88rem;
-            animation: slideIn 0.2s ease;
+            background: #1e293b; color: #fff; padding: 12px 18px; border-radius: 6px;
+            border-left: 4px solid var(--accent-gold); box-shadow: var(--shadow-md); font-size: 0.88rem; animation: slideIn 0.2s ease;
         }
 
-        @keyframes slideIn {
-            from { transform: translateX(100%); }
-            to { transform: translateX(0); }
-        }
+        @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
 
-        /* RESPONSIVO */
-        @media (max-width: 1000px) {
-            .layout-mapa {
-                grid-template-columns: 1fr;
-            }
-            .table-controls {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-
-        @media (max-width: 600px) {
-            .header-container { flex-direction: column; align-items: stretch; }
-            .header-center { overflow-x: auto; padding-bottom: 6px; }
-            .form-grid { grid-template-columns: 1fr; }
-            .form-group-full { grid-column: span 1; }
-            .table-controls { grid-template-columns: 1fr; }
-        }
+        @media (max-width: 1000px) { .layout-mapa { grid-template-columns: 1fr; } .table-controls { grid-template-columns: 1fr 1fr; } }
+        @media (max-width: 600px) { .header-container { flex-direction: column; align-items: stretch; } .header-center { overflow-x: auto; padding-bottom: 6px; } .form-grid { grid-template-columns: 1fr; } .form-group-full { grid-column: span 1; } .table-controls { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -651,6 +566,7 @@
             </nav>
 
             <div class="header-right">
+                <button id="btn-musica-ao-vivo" class="btn btn-music" onclick="toggleModoMusica()">🎵 Música ao Vivo (OFF)</button>
                 <div class="live-clock">
                     <span id="clock-date">--/--/----</span>
                     <span id="clock-time">--:--:--</span>
@@ -676,8 +592,9 @@
                     <span class="legend-item"><span class="dot-lg" style="background:var(--st-aguardar);"></span> 🟠 A Aguardar</span>
                     <span class="legend-item"><span class="dot-lg" style="background:var(--st-indisponivel);"></span> ⚫ Indisponível</span>
                 </div>
-                <div>
-                    <button id="btn-edit-layout" class="btn btn-secondary" onclick="toggleEditLayout()">✏️ Editar Posições (Drag & Drop)</button>
+                <div style="display:flex; gap:8px;">
+                    <button class="btn btn-outline" onclick="abrirModalCriarMesa()">➕ Criar / Adicionar Mesa</button>
+                    <button id="btn-edit-layout" class="btn btn-secondary" onclick="toggleEditLayout()">✏️ Editar Posições</button>
                     <button id="btn-save-layout" class="btn btn-gold" style="display:none;" onclick="salvarPosicoesLayout()">💾 Guardar Planta</button>
                 </div>
             </div>
@@ -688,11 +605,18 @@
                         <!-- Paredes e Sinalização Fixo -->
                         <div class="parede"></div>
                         <div class="texto-decorativo salinha-titulo">ZONA SALINHA</div>
-                        <div class="texto-decorativo entrada-label">ENTRADA PRINCIPAL</div>
                         <div class="porta-icon">🚪</div>
+                        <div class="texto-decorativo entrada-label">ENTRADA PRINCIPAL</div>
                         <div class="balcao-obj">BALCÃO</div>
 
-                        <!-- As Mesas serão geradas via JS exatamente nas posições corretas -->
+                        <!-- Elemento Dinâmico para Cabine de DJ -->
+                        <div id="dj-booth-element" class="dj-booth" style="display:none;">
+                            <div style="font-size:1.8rem;">🎧 🎷</div>
+                            <div>PISTA DE DANÇA</div>
+                            <div style="font-size:0.75rem; font-weight:600; color:#fbcfe8;">Música ao Vivo / DJ</div>
+                        </div>
+
+                        <!-- As Mesas serão geradas via JS -->
                     </div>
                 </div>
 
@@ -817,19 +741,61 @@
 
     </div>
 
-    <!-- MODAL 1: INFORMAÇÕES E DETALHES DA MESA -->
+    <!-- MODAL 1: INFORMAÇÕES, EDITAR Nº PESSOAS E REMOVER MESA -->
     <div class="modal" id="modalInfo">
         <div class="caixa-modal">
             <h2 id="infoTitulo">Mesa --</h2>
             <div id="infoTexto" style="margin-bottom: 16px;"></div>
-            <div class="acoes-modal">
-                <button class="btn btn-gold" id="infoBtnReservar">Fazer Reserva Nesta Mesa</button>
-                <button class="btn btn-outline" onclick="fecharModal('modalInfo')">Fechar</button>
+
+            <div style="margin: 14px 0; padding:12px; background:rgba(0,0,0,0.3); border-radius:8px;">
+                <label style="font-size:0.8rem; color:var(--text-muted); font-weight:600;">Alterar Nº de Pessoas / Capacidade desta Mesa:</label>
+                <div style="display:flex; gap:8px; margin-top:6px;">
+                    <input type="number" id="edit-mesa-capacidade" min="1" max="100" style="width:100px;">
+                    <button class="btn btn-secondary" onclick="guardarCapacidadeMesa()">Alterar</button>
+                </div>
+            </div>
+
+            <div class="acoes-modal" style="flex-wrap:wrap; justify-content:space-between;">
+                <button class="btn btn-danger" onclick="removerMesaAtual()">🗑️ Remover Mesa</button>
+                <div style="display:flex; gap:8px;">
+                    <button class="btn btn-gold" id="infoBtnReservar">Fazer Reserva</button>
+                    <button class="btn btn-outline" onclick="fecharModal('modalInfo')">Fechar</button>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- MODAL 2: FORMULÁRIO DE NOVA / EDITAR RESERVA -->
+    <!-- MODAL 2: CRIAR / ADICIONAR NOVA MESA -->
+    <div class="modal" id="modalCriarMesa">
+        <div class="caixa-modal">
+            <h2>➕ Adicionar Nova Mesa</h2>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Nome / Número da Mesa *</label>
+                    <input type="text" id="nova-mesa-nome" placeholder="Ex: 41 ou Salinha 5">
+                </div>
+                <div class="form-group">
+                    <label>Capacidade (Nº Pessoas) *</label>
+                    <input type="number" id="nova-mesa-cap" min="1" value="4">
+                </div>
+                <div class="form-group form-group-full">
+                    <label>Formato da Mesa *</label>
+                    <select id="nova-mesa-formato">
+                        <option value="quadrada">Quadrada (Pequena)</option>
+                        <option value="retangular">Retangular</option>
+                        <option value="redonda">Redonda</option>
+                        <option value="grande">Grande / Osso</option>
+                    </select>
+                </div>
+            </div>
+            <div class="acoes-modal">
+                <button type="button" class="btn btn-outline" onclick="fecharModal('modalCriarMesa')">Cancelar</button>
+                <button type="button" class="btn btn-gold" onclick="confirmarCriarMesa()">Adicionar ao Mapa</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 3: FORMULÁRIO DE NOVA / EDITAR RESERVA -->
     <div class="modal" id="modalReserva">
         <div class="caixa-modal">
             <h2 id="modalReservaTitulo">Nova Reserva</h2>
@@ -858,9 +824,7 @@
                     </div>
                     <div class="form-group">
                         <label>Mesa Atribuída *</label>
-                        <select id="res-mesa" required>
-                            <!-- Opções preenchidas dinamicamente -->
-                        </select>
+                        <select id="res-mesa" required></select>
                     </div>
                     <div class="form-group form-group-full">
                         <label>Estado da Reserva</label>
@@ -886,9 +850,9 @@
         </div>
     </div>
 
-    <!-- SCRIPT DE FUNCIONAMENTO INTEGRADO -->
+    <!-- SCRIPT COMPLETO E INTEGRADO -->
     <script>
-        // CONFIGURAÇÃO COMPLETA DAS MESAS BASEADA EXATAMENTE NA TUA PLANTA
+        // LISTA DE MESAS COM TODAS AS MESAS DA IMAGEM CORRIGIDAS E MAPEADAS
         const CONFIG_MESAS_PADRAO = [
             // Salinhas (Lado Esquerdo - 4 retangulares de 20 lugares)
             { id: "Salinha 1", nome: "Salinha 1", capacidade: 20, classe: "retangular s1", tipo: "retangular", x: 30, y: 70 },
@@ -899,26 +863,46 @@
             // Redondo (Topo - grande osso, 25 lugares)
             { id: "Redondo", nome: "Redondo", capacidade: 25, classe: "grande redondo", tipo: "grande", x: 220, y: 35 },
 
-            // Grupo Topo Esquerdo (Round, 8 lugares)
+            // Grupo Topo Esquerdo (Redondas, 8 lugares)
             { id: "39", nome: "Mesa 39", capacidade: 8, classe: "redonda m39", tipo: "redonda", x: 285, y: 135 },
             { id: "36", nome: "Mesa 36", capacidade: 8, classe: "redonda m36", tipo: "redonda", x: 400, y: 135 },
             { id: "40", nome: "Mesa 40", capacidade: 8, classe: "redonda m40", tipo: "redonda", x: 285, y: 270 },
             { id: "35", nome: "Mesa 35", capacidade: 8, classe: "redonda m35", tipo: "redonda", x: 400, y: 270 },
 
             // Mesa 29 (10 lugares)
-            { id: "29", nome: "Mesa 29", capacidade: 10, classe: "redonda m29", tipo: "redonda", x: 345, y: 500 },
+            { id: "29", nome: "Mesa 29", capacidade: 10, classe: "redonda m29", tipo: "redonda", x: 265, y: 560 },
 
-            // Bloco Central (Quadradas 2/4 lugares)
-            { id: "19", nome: "Mesa 19", capacidade: 2, classe: "quadrada m19", tipo: "quadrada", x: 530, y: 230 },
-            { id: "18", nome: "Mesa 18", capacidade: 2, classe: "quadrada m18", tipo: "quadrada", x: 605, y: 230 },
-            { id: "17", nome: "Mesa 17", capacidade: 4, classe: "quadrada m17", tipo: "quadrada", x: 680, y: 230 },
-            { id: "16", nome: "Mesa 16", capacidade: 2, classe: "quadrada m16", tipo: "quadrada", x: 530, y: 305 },
-            { id: "14", nome: "Mesa 14", capacidade: 4, classe: "quadrada m14", tipo: "quadrada", x: 680, y: 305 },
-            { id: "12", nome: "Mesa 12", capacidade: 2, classe: "quadrada m12", tipo: "quadrada", x: 530, y: 380 },
-            { id: "11", nome: "Mesa 11", capacidade: 2, classe: "quadrada m11", tipo: "quadrada", x: 605, y: 380 },
-            { id: "10", nome: "Mesa 10", capacidade: 4, classe: "quadrada m10", tipo: "quadrada", x: 680, y: 380 },
+            // Bloco Central Superior (Removido no Modo Música ao Vivo: 10, 11, 12, 14, 15, 16, 17, 18, 19)
+            { id: "19", nome: "Mesa 19", capacidade: 2, classe: "quadrada m19", tipo: "quadrada", x: 530, y: 210 },
+            { id: "18", nome: "Mesa 18", capacidade: 2, classe: "quadrada m18", tipo: "quadrada", x: 600, y: 210 },
+            { id: "17", nome: "Mesa 17", capacidade: 4, classe: "quadrada m17", tipo: "quadrada", x: 670, y: 210 },
+            { id: "16", nome: "Mesa 16", capacidade: 2, classe: "quadrada m16", tipo: "quadrada", x: 530, y: 280 },
+            { id: "15", nome: "Mesa 15", capacidade: 2, classe: "quadrada m15", tipo: "quadrada", x: 600, y: 280 },
+            { id: "14", nome: "Mesa 14", capacidade: 4, classe: "quadrada m14", tipo: "quadrada", x: 670, y: 280 },
+            { id: "12", nome: "Mesa 12", capacidade: 2, classe: "quadrada m12", tipo: "quadrada", x: 530, y: 350 },
+            { id: "11", nome: "Mesa 11", capacidade: 2, classe: "quadrada m11", tipo: "quadrada", x: 600, y: 350 },
+            { id: "10", nome: "Mesa 10", capacidade: 4, classe: "quadrada m10", tipo: "quadrada", x: 670, y: 350 },
 
-            // Lado Direito (Round, 8 lugares)
+            // Bloco Central Inferior (Quadradas 2 pessoas: 21 a 28, 31 a 34)
+            { id: "24", nome: "Mesa 24", capacidade: 2, classe: "quadrada", tipo: "quadrada", x: 370, y: 490 },
+            { id: "23", nome: "Mesa 23", capacidade: 2, classe: "quadrada", tipo: "quadrada", x: 435, y: 490 },
+            { id: "22", nome: "Mesa 22", capacidade: 2, classe: "quadrada", tipo: "quadrada", x: 500, y: 490 },
+            { id: "21", nome: "Mesa 21", capacidade: 2, classe: "quadrada", tipo: "quadrada", x: 565, y: 490 },
+
+            { id: "34", nome: "Mesa 34", capacidade: 2, classe: "quadrada", tipo: "quadrada", x: 370, y: 560 },
+            { id: "33", nome: "Mesa 33", capacidade: 2, classe: "quadrada", tipo: "quadrada", x: 435, y: 560 },
+            { id: "32", nome: "Mesa 32", capacidade: 2, classe: "quadrada", tipo: "quadrada", x: 500, y: 560 },
+            { id: "31", nome: "Mesa 31", capacidade: 2, classe: "quadrada", tipo: "quadrada", x: 565, y: 560 },
+
+            { id: "28", nome: "Mesa 28", capacidade: 2, classe: "quadrada", tipo: "quadrada", x: 370, y: 630 },
+            { id: "27", nome: "Mesa 27", capacidade: 2, classe: "quadrada", tipo: "quadrada", x: 435, y: 630 },
+            { id: "26", nome: "Mesa 26", capacidade: 2, classe: "quadrada", tipo: "quadrada", x: 500, y: 630 },
+            { id: "25", nome: "Mesa 25", capacidade: 2, classe: "quadrada", tipo: "quadrada", x: 565, y: 630 },
+
+            // Mesa 5
+            { id: "5", nome: "Mesa 5", capacidade: 2, classe: "quadrada m5", tipo: "quadrada", x: 790, y: 20 },
+
+            // Lado Direito (Redondas, 8 lugares)
             { id: "4", nome: "Mesa 4", capacidade: 8, classe: "redonda m4", tipo: "redonda", x: 960, y: 55 },
             { id: "6", nome: "Mesa 6", capacidade: 8, classe: "redonda m6", tipo: "redonda", x: 865, y: 140 },
             { id: "3", nome: "Mesa 3", capacidade: 8, classe: "redonda m3", tipo: "redonda", x: 960, y: 220 },
@@ -929,19 +913,18 @@
             { id: "9", nome: "Mesa 9", capacidade: 8, classe: "redonda m9", tipo: "redonda", x: 865, y: 540 }
         ];
 
-        // ESTADO DA APLICAÇÃO
-        let appConfig = {
-            nomeRestaurante: "Restaurante Gourmet",
-            duracaoMin: 120
-        };
+        // MESAS QUE SÃO REMOVIDAS NO MODO MÚSICA AO VIVO
+        const MESAS_PISTA_DANCA = ["10", "11", "12", "14", "15", "16", "17", "18", "19"];
 
+        let appConfig = { nomeRestaurante: "Restaurante Gourmet", duracaoMin: 120 };
         let mesas = [];
         let reservas = [];
         let modoEdicaoAtivo = false;
+        let modoMusicaAoVivo = false;
         let mesaArrasteId = null;
+        let mesaSelecionadaId = null;
         let dragOffset = { x: 0, y: 0 };
 
-        // INICIALIZAÇÃO DA APLICAÇÃO
         document.addEventListener("DOMContentLoaded", () => {
             carregarDadosStorage();
             iniciarRelogio();
@@ -950,12 +933,10 @@
         });
 
         function carregarDadosStorage() {
-            const cfgStorage = localStorage.getItem("cfg_restaurante_v2");
-            if (cfgStorage) {
-                try { appConfig = JSON.parse(cfgStorage); } catch(e){}
-            }
+            const cfgStorage = localStorage.getItem("cfg_restaurante_v3");
+            if (cfgStorage) { try { appConfig = JSON.parse(cfgStorage); } catch(e){} }
 
-            const mesasStorage = localStorage.getItem("mesas_restaurante_v2");
+            const mesasStorage = localStorage.getItem("mesas_restaurante_v3");
             if (mesasStorage) {
                 try { mesas = JSON.parse(mesasStorage); } catch(e){ mesas = JSON.parse(JSON.stringify(CONFIG_MESAS_PADRAO)); }
             } else {
@@ -966,11 +947,9 @@
             if (resStorage) {
                 try { reservas = JSON.parse(resStorage); } catch(e){ reservas = []; }
             } else {
-                // Reservas iniciais de exemplo se estiver vazio
                 const hojeISO = getHojeISO();
                 reservas = [
-                    { id: "res_1", nome: "Manuel Silva", telefone: "912345678", pessoas: 4, hora: "13:00", data: hojeISO, mesa: "17", estado: "Confirmada", observacoes: "Mesa perto da janela" },
-                    { id: "res_2", nome: "Carla Oliveira", telefone: "934567890", pessoas: 8, hora: "20:00", data: hojeISO, mesa: "6", estado: "A aguardar", observacoes: "Aniversário" }
+                    { id: "res_1", nome: "Manuel Silva", telefone: "912345678", pessoas: 4, hora: "13:00", data: hojeISO, mesa: "17", estado: "Confirmada", observacoes: "Mesa perto da janela" }
                 ];
             }
 
@@ -980,8 +959,8 @@
         }
 
         function guardarDadosStorage() {
-            localStorage.setItem("cfg_restaurante_v2", JSON.stringify(appConfig));
-            localStorage.setItem("mesas_restaurante_v2", JSON.stringify(mesas));
+            localStorage.setItem("cfg_restaurante_v3", JSON.stringify(appConfig));
+            localStorage.setItem("mesas_restaurante_v3", JSON.stringify(mesas));
             localStorage.setItem("reservas_restaurante", JSON.stringify(reservas));
         }
 
@@ -993,29 +972,49 @@
             atualizarSelectMesas();
         }
 
-        // RENDERIZAR PLANTA DAS MESAS
+        // ALTERAR MODO MÚSICA AO VIVO / PISTA DE DANÇA
+        function toggleModoMusica() {
+            modoMusicaAoVivo = !modoMusicaAoVivo;
+            const btn = document.getElementById("btn-musica-ao-vivo");
+            const djBooth = document.getElementById("dj-booth-element");
+
+            if (modoMusicaAoVivo) {
+                btn.textContent = "🎷 Música ao Vivo (ON)";
+                btn.classList.add("ativo");
+                djBooth.style.display = "flex";
+                mostrarToast("Modo Música ao Vivo ativo! Pista de dança criada.");
+            } else {
+                btn.textContent = "🎵 Música ao Vivo (OFF)";
+                btn.classList.remove("ativo");
+                djBooth.style.display = "none";
+                mostrarToast("Modo Música ao Vivo desativado. Layout normal reposto.");
+            }
+            renderizarMapa();
+        }
+
+        // RENDERIZAR MAPA
         function renderizarMapa() {
             const canvas = document.getElementById("restaurant-map-canvas");
             if (!canvas) return;
 
-            // Remover elementos de mesas anteriores sem apagar paredes/balcão
             canvas.querySelectorAll(".mesa").forEach(el => el.remove());
 
             const hojeISO = getHojeISO();
 
             mesas.forEach(m => {
+                // Se o Modo Música estiver ATIVO, esconde as mesas da pista
+                if (modoMusicaAoVivo && MESAS_PISTA_DANCA.includes(m.id)) {
+                    return;
+                }
+
                 const el = document.createElement("div");
                 el.className = `mesa ${m.classe}`;
-                
-                if (modoEdicaoAtivo) {
-                    el.classList.add("draggable");
-                }
+                if (modoEdicaoAtivo) el.classList.add("draggable");
 
                 el.style.left = `${m.x}px`;
                 el.style.top = `${m.y}px`;
                 el.dataset.id = m.id;
 
-                // Determinar estado da mesa
                 const resAtiva = reservas.find(r => r.mesa === m.id && r.data === hojeISO && r.estado !== "Cancelada" && r.estado !== "Concluída");
                 if (resAtiva) {
                     if (resAtiva.estado === "Sentado/Ocupada") el.classList.add("st-ocupada");
@@ -1029,12 +1028,10 @@
                     <i class="estado-dot"></i>
                 `;
 
-                // Evento de Clique
                 el.addEventListener("click", () => {
                     if (!modoEdicaoAtivo) abrirModalInfoMesa(m.id);
                 });
 
-                // Drag & Drop
                 el.addEventListener("mousedown", iniciarDragMesa);
                 el.addEventListener("touchstart", iniciarDragMesa, { passive: false });
 
@@ -1042,7 +1039,7 @@
             });
         }
 
-        // DRAG & DROP FUNCIONALIDADE
+        // DRAG AND DROP
         function toggleEditLayout() {
             modoEdicaoAtivo = !modoEdicaoAtivo;
             const btnEdit = document.getElementById("btn-edit-layout");
@@ -1051,9 +1048,9 @@
             if (modoEdicaoAtivo) {
                 btnEdit.textContent = "❌ Cancelar Edição";
                 btnSave.style.display = "inline-block";
-                mostrarToast("Modo de edição ativo! Arraste as mesas para reposicionar.");
+                mostrarToast("Arraste as mesas para reposicionar.");
             } else {
-                btnEdit.textContent = "✏️ Editar Posições (Drag & Drop)";
+                btnEdit.textContent = "✏️ Editar Posições";
                 btnSave.style.display = "none";
                 carregarDadosStorage();
             }
@@ -1062,11 +1059,11 @@
 
         function salvarPosicoesLayout() {
             modoEdicaoAtivo = false;
-            document.getElementById("btn-edit-layout").textContent = "✏️ Editar Posições (Drag & Drop)";
+            document.getElementById("btn-edit-layout").textContent = "✏️ Editar Posições";
             document.getElementById("btn-save-layout").style.display = "none";
             guardarDadosStorage();
             renderizarMapa();
-            mostrarToast("Nova disposição das mesas guardada com sucesso!");
+            mostrarToast("Disposição das mesas guardada!");
         }
 
         function iniciarDragMesa(e) {
@@ -1101,8 +1098,8 @@
             let novoX = clientX - canvasRect.left - dragOffset.x;
             let novoY = clientY - canvasRect.top - dragOffset.y;
 
-            novoX = Math.max(10, Math.min(novoX, canvasRect.width - 60));
-            novoY = Math.max(10, Math.min(novoY, canvasRect.height - 60));
+            novoX = Math.max(10, Math.min(novoX, canvasRect.width - 50));
+            novoY = Math.max(10, Math.min(novoY, canvasRect.height - 50));
 
             const mObj = mesas.find(m => m.id === mesaArrasteId);
             if (mObj) {
@@ -1125,7 +1122,106 @@
             document.removeEventListener("touchend", pararMesaDrag);
         }
 
-        // RENDERIZAR SIDEBAR DE RESERVAS
+        // CRIAR / REMOVER E EDITAR CAPACIDADE DE MESAS
+        function abrirModalCriarMesa() {
+            document.getElementById("nova-mesa-nome").value = "";
+            document.getElementById("nova-mesa-cap").value = 4;
+            abrirModal("modalCriarMesa");
+        }
+
+        function confirmarCriarMesa() {
+            const nome = document.getElementById("nova-mesa-nome").value.trim();
+            const cap = parseInt(document.getElementById("nova-mesa-cap").value);
+            const formato = document.getElementById("nova-mesa-formato").value;
+
+            if (!nome) { alert("Indica um nome/número para a mesa."); return; }
+
+            if (mesas.some(m => m.id.toLowerCase() === nome.toLowerCase())) {
+                alert("Já existe uma mesa com esse nome.");
+                return;
+            }
+
+            const novaMesa = {
+                id: nome,
+                nome: nome.startsWith("Mesa") ? nome : "Mesa " + nome,
+                capacidade: cap,
+                classe: `${formato}`,
+                tipo: formato,
+                x: 480,
+                y: 300
+            };
+
+            mesas.push(novaMesa);
+            guardarDadosStorage();
+            fecharModal("modalCriarMesa");
+            renderizarTudo();
+            mostrarToast(`Mesa ${nome} criada com sucesso!`);
+        }
+
+        function guardarCapacidadeMesa() {
+            if (!mesaSelecionadaId) return;
+            const mObj = mesas.find(m => m.id === mesaSelecionadaId);
+            const novaCap = parseInt(document.getElementById("edit-mesa-capacidade").value);
+
+            if (mObj && novaCap > 0) {
+                mObj.capacidade = novaCap;
+                guardarDadosStorage();
+                fecharModal("modalInfo");
+                renderizarTudo();
+                mostrarToast(`Capacidade da ${mObj.nome} alterada para ${novaCap} pessoas.`);
+            }
+        }
+
+        function removerMesaAtual() {
+            if (!mesaSelecionadaId) return;
+            if (confirm(`Tem a certeza que pretende eliminar a ${mesaSelecionadaId} do mapa?`)) {
+                mesas = mesas.filter(m => m.id !== mesaSelecionadaId);
+                guardarDadosStorage();
+                fecharModal("modalInfo");
+                renderizarTudo();
+                mostrarToast("Mesa removida do restaurante.");
+            }
+        }
+
+        // DETALHES DA MESA
+        function abrirModalInfoMesa(mesaId) {
+            mesaSelecionadaId = mesaId;
+            const mObj = mesas.find(m => m.id === mesaId);
+            if (!mObj) return;
+
+            const hojeISO = getHojeISO();
+            const resAtiva = reservas.find(r => r.mesa === mesaId && r.data === hojeISO && r.estado !== "Cancelada");
+
+            document.getElementById("infoTitulo").textContent = `${mObj.nome}`;
+            document.getElementById("edit-mesa-capacidade").value = mObj.capacidade;
+
+            const infoTexto = document.getElementById("infoTexto");
+            if (resAtiva) {
+                infoTexto.innerHTML = `
+                    <p>Capacidade: <strong>${mObj.capacidade} pessoas</strong></p>
+                    <p>Estado: <strong style="color:var(--st-reservada);">🔴 Reservada</strong></p>
+                    <hr style="margin:10px 0; border-color:var(--panel-border);">
+                    <p><strong>Cliente:</strong> ${escapeHtml(resAtiva.nome)}</p>
+                    <p><strong>Hora:</strong> ${resAtiva.hora} · 👥 ${resAtiva.pessoas} Pessoas</p>
+                    <p><strong>Contacto:</strong> ${escapeHtml(resAtiva.telefone || '-')}</p>
+                `;
+            } else {
+                infoTexto.innerHTML = `
+                    <p>Capacidade: <strong>${mObj.capacidade} pessoas</strong></p>
+                    <p>Estado: <strong style="color:var(--st-livre);">🟢 Livre</strong></p>
+                `;
+            }
+
+            const btnReservar = document.getElementById("infoBtnReservar");
+            btnReservar.onclick = () => {
+                fecharModal("modalInfo");
+                abrirNovaReservaModal(mesaId);
+            };
+
+            abrirModal("modalInfo");
+        }
+
+        // RENDERIZAÇÃO DE SIDEBAR, DASHBOARD E RESERVAS
         function renderizarSidebarHoje() {
             const container = document.getElementById("reservas-hoje-sidebar");
             const hojeISO = getHojeISO();
@@ -1151,14 +1247,11 @@
             `).join("");
         }
 
-        // RENDERIZAR DASHBOARD
         function renderizarDashboard() {
             const hojeISO = getHojeISO();
             const resHoje = reservas.filter(r => r.data === hojeISO && r.estado !== "Cancelada");
 
-            let ocupadas = 0;
-            let reservadas = 0;
-
+            let ocupadas = 0, reservadas = 0;
             mesas.forEach(m => {
                 const r = reservas.find(res => res.mesa === m.id && res.data === hojeISO && res.estado !== "Cancelada");
                 if (r) {
@@ -1176,7 +1269,6 @@
             document.getElementById("dash-total-clientes").textContent = totalPax;
         }
 
-        // RENDERIZAR TABELA DE RESERVAS
         function renderizarTabelaReservas() {
             const tbody = document.getElementById("tbody-reservas");
             if (!tbody) return;
@@ -1233,43 +1325,6 @@
             }
         }
 
-        // GESTÃO DE MODAIS E RESERVAS
-        function abrirModalInfoMesa(mesaId) {
-            const mObj = mesas.find(m => m.id === mesaId);
-            if (!mObj) return;
-
-            const hojeISO = getHojeISO();
-            const resAtiva = reservas.find(r => r.mesa === mesaId && r.data === hojeISO && r.estado !== "Cancelada");
-
-            document.getElementById("infoTitulo").textContent = `Mesa ${mObj.nome}`;
-
-            const infoTexto = document.getElementById("infoTexto");
-            if (resAtiva) {
-                infoTexto.innerHTML = `
-                    <p>Capacidade: <strong>${mObj.capacidade} pessoas</strong></p>
-                    <p>Estado: <strong style="color:var(--st-reservada);">🔴 Reservada</strong></p>
-                    <hr style="margin:10px 0; border-color:var(--panel-border);">
-                    <p><strong>Cliente:</strong> ${escapeHtml(resAtiva.nome)}</p>
-                    <p><strong>Hora:</strong> ${resAtiva.hora} · 👥 ${resAtiva.pessoas} Pessoas</p>
-                    <p><strong>Contacto:</strong> ${escapeHtml(resAtiva.telefone || '-')}</p>
-                    ${resAtiva.observacoes ? `<p><strong>Obs:</strong> ${escapeHtml(resAtiva.observacoes)}</p>` : ''}
-                `;
-            } else {
-                infoTexto.innerHTML = `
-                    <p>Capacidade: <strong>${mObj.capacidade} pessoas</strong></p>
-                    <p>Estado: <strong style="color:var(--st-livre);">🟢 Livre</strong></p>
-                `;
-            }
-
-            const btnReservar = document.getElementById("infoBtnReservar");
-            btnReservar.onclick = () => {
-                fecharModal("modalInfo");
-                abrirNovaReservaModal(mesaId);
-            };
-
-            abrirModal("modalInfo");
-        }
-
         function abrirNovaReservaModal(mesaIdPreferida = null) {
             document.getElementById("modalReservaTitulo").textContent = "Nova Reserva";
             document.getElementById("res-id").value = "";
@@ -1280,10 +1335,7 @@
             document.getElementById("res-pessoas").value = 2;
             document.getElementById("res-estado").value = "Confirmada";
 
-            if (mesaIdPreferida) {
-                document.getElementById("res-mesa").value = mesaIdPreferida;
-            }
-
+            if (mesaIdPreferida) document.getElementById("res-mesa").value = mesaIdPreferida;
             abrirModal("modalReserva");
         }
 
@@ -1320,28 +1372,26 @@
 
             const mObj = mesas.find(m => m.id === mesa);
 
-            // Validação de Capacidade
             if (pessoas > mObj.capacidade) {
                 alert(`Esta mesa (${mObj.nome}) tem capacidade para apenas ${mObj.capacidade} pessoas.`);
                 return;
             }
 
-            // Validação de Conflito de Horário
             const conflito = reservas.find(r => r.id !== id && r.mesa === mesa && r.data === data && r.hora === hora && r.estado !== "Cancelada");
             if (conflito) {
-                alert(`A mesa ${mObj.nome} já possui uma reserva ativa para esse mesmo horário.`);
+                alert(`A mesa ${mObj.nome} já possui uma reserva ativa para esse horário.`);
                 return;
             }
 
             const novaRes = { id, nome, telefone, data, hora, pessoas, mesa, estado, observacoes };
-
             const index = reservas.findIndex(r => r.id === id);
+
             if (index !== -1) {
                 reservas[index] = novaRes;
-                mostrarToast("Reserva atualizada com sucesso!");
+                mostrarToast("Reserva atualizada!");
             } else {
                 reservas.push(novaRes);
-                mostrarToast("Nova reserva registada com sucesso!");
+                mostrarToast("Nova reserva guardada!");
             }
 
             guardarDadosStorage();
@@ -1358,7 +1408,6 @@
             }
         }
 
-        // CONFIGURAÇÕES & BACKUP
         function guardarConfiguracoes() {
             appConfig.nomeRestaurante = document.getElementById("cfg-name").value.trim();
             appConfig.duracaoMin = parseInt(document.getElementById("cfg-duration").value) || 120;
@@ -1394,7 +1443,7 @@
                         mostrarToast("Dados importados com sucesso!");
                     }
                 } catch(err) {
-                    alert("Erro ao importar o ficheiro de dados.");
+                    alert("Erro ao importar o ficheiro.");
                 }
             };
             reader.readAsText(file);
@@ -1405,11 +1454,10 @@
                 localStorage.clear();
                 carregarDadosStorage();
                 renderizarTudo();
-                mostrarToast("Aplicação reposta para os valores de fábrica.");
+                mostrarToast("Aplicação reposta.");
             }
         }
 
-        // NAVEGAÇÃO E UTILITÁRIOS
         function iniciarNavegacao() {
             document.querySelectorAll(".nav-btn").forEach(btn => {
                 btn.addEventListener("click", () => {
@@ -1433,13 +1481,8 @@
             setInterval(update, 1000);
         }
 
-        function abrirModal(id) {
-            document.getElementById(id).classList.add("aberto");
-        }
-
-        function fecharModal(id) {
-            document.getElementById(id).classList.remove("aberto");
-        }
+        function abrirModal(id) { document.getElementById(id).classList.add("aberto"); }
+        function fecharModal(id) { document.getElementById(id).classList.remove("aberto"); }
 
         function mostrarToast(msg) {
             const container = document.getElementById("toast-container");
