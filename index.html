@@ -1,769 +1,282 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt-PT">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Reservas Restaurante</title>
-
-<style>
-*{box-sizing:border-box}
-
-body{
-    margin:0;
-    background:#0b141b;
-    color:#fff;
-    font-family:Arial,sans-serif;
-}
-
-header{
-    background:#14232e;
-    padding:15px;
-    text-align:center;
-    border-bottom:1px solid #394b57;
-}
-
-h1{
-    margin:0;
-    font-size:22px;
-}
-
-.subtitulo{
-    color:#d9ad57;
-    margin:5px 0 12px;
-}
-
-button{
-    border:0;
-    border-radius:8px;
-    padding:11px 15px;
-    font-weight:bold;
-    cursor:pointer;
-}
-
-.btn{
-    background:#d9ad57;
-    color:#17120a;
-}
-
-.conteudo{
-    padding:10px;
-}
-
-.layout{
-    display:grid;
-    grid-template-columns:minmax(650px,1fr) 330px;
-    gap:10px;
-}
-
-/* MAPA */
-
-.mapa{
-    position:relative;
-    width:100%;
-    min-width:650px;
-    height:700px;
-    background:#172126;
-    border:2px solid #596872;
-    border-radius:10px;
-    overflow:auto;
-}
-
-.parede{
-    position:absolute;
-    left:10px;
-    top:10px;
-    right:10px;
-    bottom:10px;
-    border:3px solid #080b0d;
-}
-
-.texto{
-    position:absolute;
-    color:#bfc9cf;
-    font-weight:bold;
-}
-
-.salinha-titulo{
-    left:25px;
-    top:28px;
-}
-
-.entrada{
-    left:20px;
-    bottom:5px;
-    color:#d9ad57;
-}
-
-.balcao{
-    position:absolute;
-    left:37%;
-    bottom:20px;
-    width:30%;
-    height:65px;
-    background:#68431e;
-    border:2px solid #a07031;
-    border-radius:8px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-weight:bold;
-}
-
-/* MESAS */
-
-.mesa{
-    position:absolute;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    background:#76552b;
-    border:2px solid #9a7a43;
-    color:#fff;
-    font-weight:bold;
-    box-shadow:0 4px 10px #0008;
-    cursor:pointer;
-}
-
-.mesa small{
-    font-size:10px;
-    font-weight:normal;
-    color:#f2e4c6;
-}
-
-.mesa .estado{
-    position:absolute;
-    right:5px;
-    top:5px;
-    width:11px;
-    height:11px;
-    border-radius:50%;
-    background:#26b957;
-}
-
-.mesa.reservada{
-    border-color:#ef5350;
-}
-
-.mesa.reservada .estado{
-    background:#ef5350;
-}
-
-.mesa.ocupada{
-    border-color:#42a5f5;
-}
-
-.mesa.ocupada .estado{
-    background:#42a5f5;
-}
-
-.retangular{
-    width:105px;
-    height:58px;
-    border-radius:7px;
-}
-
-.quadrada{
-    width:62px;
-    height:62px;
-    border-radius:7px;
-}
-
-.redonda{
-    width:78px;
-    height:78px;
-    border-radius:50%;
-}
-
-.grande{
-    width:210px;
-    height:65px;
-    border-radius:32px;
-}
-
-/* POSIÇÕES */
-
-.s1{left:30px;top:70px}
-.s2{left:30px;top:155px}
-.s3{left:30px;top:240px}
-.s4{left:30px;top:325px}
-
-.redondo{left:220px;top:35px}
-
-.m39{left:285px;top:135px}
-.m36{left:400px;top:135px}
-.m40{left:285px;top:270px}
-.m35{left:400px;top:270px}
-.m29{left:345px;top:500px}
-
-.m19{left:530px;top:230px}
-.m18{left:605px;top:230px}
-.m17{left:680px;top:230px}
-
-.m16{left:530px;top:305px}
-.m14{left:680px;top:305px}
-
-.m12{left:530px;top:380px}
-.m11{left:605px;top:380px}
-.m10{left:680px;top:380px}
-
-.m4{right:30px;top:55px}
-.m6{right:125px;top:140px}
-.m3{right:30px;top:220px}
-.m7{right:125px;top:300px}
-.m2{right:30px;top:380px}
-.m8{right:125px;top:460px}
-.m1{right:30px;top:540px}
-.m9{right:125px;top:540px}
-
-/* RESERVAS */
-
-.painel{
-    background:#14232e;
-    border:1px solid #394b57;
-    border-radius:10px;
-    padding:14px;
-}
-
-.reserva{
-    border-bottom:1px solid #394b57;
-    padding:10px 2px;
-}
-
-.reserva button{
-    margin-top:7px;
-    background:#a82d2d;
-    color:white;
-}
-
-/* JANELA */
-
-.modal{
-    display:none;
-    position:fixed;
-    inset:0;
-    background:#000b;
-    align-items:center;
-    justify-content:center;
-    z-index:10;
-}
-
-.modal.aberto{
-    display:flex;
-}
-
-.caixa{
-    background:#14232e;
-    border:1px solid #d9ad57;
-    border-radius:12px;
-    padding:20px;
-    width:min(430px,92vw);
-}
-
-input,select{
-    width:100%;
-    padding:11px;
-    margin:6px 0 12px;
-    background:#0b141b;
-    color:white;
-    border:1px solid #40515d;
-    border-radius:6px;
-}
-
-.acoes{
-    display:flex;
-    justify-content:flex-end;
-    gap:8px;
-}
-
-.info{
-    text-align:center;
-    line-height:1.6;
-}
-
-.info button{
-    margin-top:10px;
-}
-
-@media(max-width:1000px){
-    .layout{
-        grid-template-columns:1fr;
-    }
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão de Mesas & Reservas</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-
 <body>
 
-<header>
-    <h1>🍽️ Restaurante</h1>
-    <div class="subtitulo">Gestão de Reservas</div>
-    <button class="btn" onclick="novaReserva()">+ Nova reserva</button>
-</header>
-
-<div class="conteudo">
-
-<div class="layout">
-
-<section class="mapa">
-
-<div class="parede"></div>
-
-<div class="texto salinha-titulo">SALINHA</div>
-<div class="texto entrada">ENTRADA</div>
-
-<div class="balcao">BALCÃO</div>
-
-<!-- SALINHAS -->
-
-<div class="mesa retangular s1" data-mesa="Salinha 1" data-capacidade="15">
-Salinha 1
-<small>15 lugares</small>
-<i class="estado"></i>
-</div>
-
-<div class="mesa retangular s2" data-mesa="Salinha 2" data-capacidade="15">
-Salinha 2
-<small>15 lugares</small>
-<i class="estado"></i>
-</div>
-
-<div class="mesa retangular s3" data-mesa="Salinha 3" data-capacidade="15">
-Salinha 3
-<small>15 lugares</small>
-<i class="estado"></i>
-</div>
-
-<div class="mesa retangular s4" data-mesa="Salinha 4" data-capacidade="15">
-Salinha 4
-<small>15 lugares</small>
-<i class="estado"></i>
-</div>
-
-<!-- REDONDO -->
-
-<div class="mesa grande redondo" data-mesa="Redondo" data-capacidade="25">
-REDONDO
-<small>25 lugares</small>
-<i class="estado"></i>
-</div>
-
-<!-- MESAS 8 LUGARES -->
-
-<div class="mesa redonda m39" data-mesa="39" data-capacidade="8">39<small>8</small><i class="estado"></i></div>
-<div class="mesa redonda m36" data-mesa="36" data-capacidade="8">36<small>8</small><i class="estado"></i></div>
-<div class="mesa redonda m40" data-mesa="40" data-capacidade="8">40<small>8</small><i class="estado"></i></div>
-<div class="mesa redonda m35" data-mesa="35" data-capacidade="8">35<small>8</small><i class="estado"></i></div>
-
-<!-- MESA 29 -->
-
-<div class="mesa redonda m29" data-mesa="29" data-capacidade="10">
-29
-<small>10</small>
-<i class="estado"></i>
-</div>
-
-<!-- MESAS PEQUENAS -->
-
-<div class="mesa quadrada m19" data-mesa="19" data-capacidade="2">19<small>2</small><i class="estado"></i></div>
-
-<div class="mesa quadrada m18" data-mesa="18" data-capacidade="2">18<small>2</small><i class="estado"></i></div>
-
-<div class="mesa quadrada m17" data-mesa="17" data-capacidade="4">17<small>4</small><i class="estado"></i></div>
-
-<div class="mesa quadrada m16" data-mesa="16" data-capacidade="2">16<small>2</small><i class="estado"></i></div>
-
-<div class="mesa quadrada m14" data-mesa="14" data-capacidade="4">14<small>4</small><i class="estado"></i></div>
-
-<div class="mesa quadrada m12" data-mesa="12" data-capacidade="2">12<small>2</small><i class="estado"></i></div>
-
-<div class="mesa quadrada m11" data-mesa="11" data-capacidade="2">11<small>2</small><i class="estado"></i></div>
-
-<div class="mesa quadrada m10" data-mesa="10" data-capacidade="4">10<small>4</small><i class="estado"></i></div>
-
-<!-- MESAS 8 LUGARES -->
-
-<div class="mesa redonda m4" data-mesa="4" data-capacidade="8">4<small>8</small><i class="estado"></i></div>
-<div class="mesa redonda m6" data-mesa="6" data-capacidade="8">6<small>8</small><i class="estado"></i></div>
-<div class="mesa redonda m3" data-mesa="3" data-capacidade="8">3<small>8</small><i class="estado"></i></div>
-<div class="mesa redonda m7" data-mesa="7" data-capacidade="8">7<small>8</small><i class="estado"></i></div>
-<div class="mesa redonda m2" data-mesa="2" data-capacidade="8">2<small>8</small><i class="estado"></i></div>
-<div class="mesa redonda m8" data-mesa="8" data-capacidade="8">8<small>8</small><i class="estado"></i></div>
-<div class="mesa redonda m1" data-mesa="1" data-capacidade="8">1<small>8</small><i class="estado"></i></div>
-<div class="mesa redonda m9" data-mesa="9" data-capacidade="8">9<small>8</small><i class="estado"></i></div>
-
-</section>
-
-<aside class="painel">
-
-<h2>📋 Reservas de hoje</h2>
-
-<div id="reservas">
-Nenhuma reserva.
-</div>
-
-</aside>
-
-</div>
-</div>
-
-<!-- MODAL INFORMAÇÃO DA MESA -->
-
-<div class="modal" id="modalInfo">
-
-<div class="caixa info">
-
-<h2 id="infoTitulo"></h2>
-
-<div id="infoTexto"></div>
-
-<button class="btn" id="infoReservar">Fazer reserva</button>
-
-<br><br>
-
-<button onclick="fecharInfo()" style="background:#555;color:white">
-Fechar
-</button>
-
-</div>
-</div>
-
-<!-- MODAL NOVA RESERVA -->
-
-<div class="modal" id="modalReserva">
-
-<div class="caixa">
-
-<h2>Nova reserva</h2>
-
-<label>Nome</label>
-<input id="nome" placeholder="Nome do cliente">
-
-<label>Telefone</label>
-<input id="telefone" placeholder="Telefone">
-
-<label>Número de pessoas</label>
-<input id="pessoas" type="number" min="1" value="2">
-
-<label>Hora</label>
-<input id="hora" type="time" value="20:00">
-
-<label>Mesa</label>
-<select id="mesa"></select>
-
-<label>Observações</label>
-<input id="observacoes" placeholder="Ex.: aniversário">
-
-<div class="acoes">
-
-<button onclick="fecharReserva()" style="background:#555;color:white">
-Cancelar
-</button>
-
-<button class="btn" onclick="guardarReserva()">
-Guardar
-</button>
-
-</div>
-
-</div>
-</div>
-
-<script>
-
-let reservas =
-JSON.parse(localStorage.getItem("reservas_restaurante") || "[]");
-
-
-/* MOSTRAR RESERVAS */
-
-function atualizar(){
-
-document.querySelectorAll(".mesa").forEach(mesa => {
-
-let nome = mesa.dataset.mesa;
-
-let reserva =
-reservas.find(r => r.mesa === nome);
-
-mesa.classList.toggle("reservada",!!reserva);
-
-});
-
-
-let lista = document.getElementById("reservas");
-
-if(reservas.length === 0){
-
-lista.innerHTML = "Nenhuma reserva.";
-
-return;
-
-}
-
-lista.innerHTML = reservas.map((r,i)=>`
-
-<div class="reserva">
-
-<strong>${r.hora} — ${r.nome}</strong>
-
-<br>
-
-Mesa ${r.mesa} · ${r.pessoas} pessoas
-
-${r.telefone ? `<br>📞 ${r.telefone}` : ""}
-
-${r.observacoes ? `<br>📝 ${r.observacoes}` : ""}
-
-<br>
-
-<button onclick="apagarReserva(${i})">
-Apagar
-</button>
-
-</div>
-
-`).join("");
-
-}
-
-
-/* CLICAR NUMA MESA */
-
-document.querySelectorAll(".mesa").forEach(mesa => {
-
-mesa.addEventListener("click",()=>{
-
-let nome = mesa.dataset.mesa;
-let capacidade = Number(mesa.dataset.capacidade);
-
-let reserva =
-reservas.find(r => r.mesa === nome);
-
-document.getElementById("infoTitulo").innerText =
-"Mesa " + nome;
-
-if(reserva){
-
-document.getElementById("infoTexto").innerHTML =
-
-`Capacidade: <strong>${capacidade} pessoas</strong><br>
-Estado: 🔴 Reservada<br><br>
-<strong>${reserva.nome}</strong><br>
-${reserva.hora} · ${reserva.pessoas} pessoas`;
-
-document.getElementById("infoReservar").style.display="none";
-
-}else{
-
-document.getElementById("infoTexto").innerHTML =
-
-`Capacidade: <strong>${capacidade} pessoas</strong><br>
-Estado: 🟢 Livre`;
-
-document.getElementById("infoReservar").style.display="inline-block";
-
-document.getElementById("infoReservar").onclick=()=>{
-
-fecharInfo();
-
-novaReserva(nome);
-
-};
-
-}
-
-document.getElementById("modalInfo")
-.classList.add("aberto");
-
-});
-
-});
-
-
-/* NOVA RESERVA */
-
-function novaReserva(mesaEscolhida=""){
-
-let select=document.getElementById("mesa");
-
-select.innerHTML="";
-
-document.querySelectorAll(".mesa").forEach(mesa=>{
-
-let nome=mesa.dataset.mesa;
-let capacidade=mesa.dataset.capacidade;
-
-let reservada=
-reservas.some(r=>r.mesa===nome);
-
-if(!reservada){
-
-let option=document.createElement("option");
-
-option.value=nome;
-
-option.textContent=
-nome+" — "+capacidade+" lugares";
-
-select.appendChild(option);
-
-}
-
-});
-
-if(mesaEscolhida)
-select.value=mesaEscolhida;
-
-document.getElementById("modalReserva")
-.classList.add("aberto");
-
-}
-
-
-/* GUARDAR */
-
-function guardarReserva(){
-
-let nome=
-document.getElementById("nome").value.trim();
-
-let telefone=
-document.getElementById("telefone").value.trim();
-
-let pessoas=
-Number(document.getElementById("pessoas").value);
-
-let hora=
-document.getElementById("hora").value;
-
-let mesa=
-document.getElementById("mesa").value;
-
-let observacoes=
-document.getElementById("observacoes").value.trim();
-
-
-if(!nome){
-
-alert("Indica o nome do cliente.");
-
-return;
-
-}
-
-
-if(!mesa){
-
-alert("Escolhe uma mesa.");
-
-return;
-
-}
-
-
-let elemento=
-document.querySelector(
-`.mesa[data-mesa="${mesa}"]`
-);
-
-let capacidade=
-Number(elemento.dataset.capacidade);
-
-
-if(pessoas > capacidade){
-
-alert(
-"Esta mesa tem capacidade para apenas "+
-capacidade+
-" pessoas."
-);
-
-return;
-
-}
-
-
-if(reservas.some(r=>r.mesa===mesa)){
-
-alert("Esta mesa já está reservada.");
-
-return;
-
-}
-
-
-reservas.push({
-
-nome,
-telefone,
-pessoas,
-hora,
-mesa,
-observacoes
-
-});
-
-
-localStorage.setItem(
-"reservas_restaurante",
-JSON.stringify(reservas)
-);
-
-
-document.getElementById("nome").value="";
-document.getElementById("telefone").value="";
-document.getElementById("pessoas").value=2;
-document.getElementById("observacoes").value="";
-
-
-fecharReserva();
-
-atualizar();
-
-}
-
-
-/* APAGAR */
-
-function apagarReserva(i){
-
-if(confirm("Apagar esta reserva?")){
-
-reservas.splice(i,1);
-
-localStorage.setItem(
-"reservas_restaurante",
-JSON.stringify(reservas)
-);
-
-atualizar();
-
-}
-
-}
-
-
-/* FECHAR */
-
-function fecharInfo(){
-
-document.getElementById("modalInfo")
-.classList.remove("aberto");
-
-}
-
-function fecharReserva(){
-
-document.getElementById("modalReserva")
-.classList.remove("aberto");
-
-}
-
-
-atualizar();
-
-</script>
-
+    <header class="main-header">
+        <div class="logo-area">
+            <h1 id="restaurant-title-header">Restaurante</h1>
+            <span class="subtitle">Gestão de Mesas & Reservas</span>
+        </div>
+        <div class="clock-area" id="live-clock">--:--:--</div>
+        <button class="mobile-menu-btn" id="mobile-menu-btn">
+            <i class="fas fa-bars"></i>
+        </button>
+        <nav class="main-nav" id="main-nav">
+            <button class="nav-btn active" data-tab="dashboard"><i class="fas fa-chart-line"></i> Dashboard</button>
+            <button class="nav-btn" data-tab="mapa"><i class="fas fa-map-marked-alt"></i> Planta/Mesas</button>
+            <button class="nav-btn" data-tab="reservas"><i class="fas fa-calendar-alt"></i> Reservas</button>
+            <button class="nav-btn" data-tab="hoje"><i class="fas fa-clock"></i> Reservas de Hoje</button>
+            <button class="nav-btn" data-tab="configuracoes"><i class="fas fa-cog"></i> Configurações</button>
+        </nav>
+    </header>
+
+    <main class="container">
+
+        <!-- DASHBOARD -->
+        <section id="tab-dashboard" class="tab-content active">
+            <div class="dashboard-cards">
+                <div class="card card-total">
+                    <i class="fas fa-utensils"></i>
+                    <div>
+                        <h3 id="dash-total-mesas">0</h3>
+                        <p>Total de Mesas</p>
+                    </div>
+                </div>
+                <div class="card card-livres">
+                    <i class="fas fa-check-circle"></i>
+                    <div>
+                        <h3 id="dash-mesas-livres">0</h3>
+                        <p>Mesas Livres</p>
+                    </div>
+                </div>
+                <div class="card card-reservadas">
+                    <i class="fas fa-bookmark"></i>
+                    <div>
+                        <h3 id="dash-mesas-reservadas">0</h3>
+                        <p>Mesas Reservadas</p>
+                    </div>
+                </div>
+                <div class="card card-ocupadas">
+                    <i class="fas fa-user-friends"></i>
+                    <div>
+                        <h3 id="dash-mesas-ocupadas">0</h3>
+                        <p>Mesas Ocupadas</p>
+                    </div>
+                </div>
+                <div class="card card-res-hoje">
+                    <i class="fas fa-calendar-day"></i>
+                    <div>
+                        <h3 id="dash-res-hoje">0</h3>
+                        <p>Reservas Hoje</p>
+                    </div>
+                </div>
+                <div class="card card-clientes">
+                    <i class="fas fa-users"></i>
+                    <div>
+                        <h3 id="dash-total-clientes">0</h3>
+                        <p>Clientes Previstos (Hoje)</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-sections">
+                <div class="panel">
+                    <h2><i class="fas fa-star"></i> Próxima Reserva</h2>
+                    <div id="next-reservation-content" class="next-res-box">
+                        <p>Nenhuma reserva próxima para hoje.</p>
+                    </div>
+                </div>
+                <div class="panel">
+                    <h2><i class="fas fa-bolt"></i> Ações Rápidas</h2>
+                    <div class="quick-actions">
+                        <button class="btn btn-primary" id="btn-quick-new-res"><i class="fas fa-plus"></i> Nova Reserva</button>
+                        <button class="btn btn-secondary" id="btn-quick-go-map"><i class="fas fa-map"></i> Ver Planta</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MAPA DE MESAS -->
+        <section id="tab-mapa" class="tab-content">
+            <div class="map-controls">
+                <div class="legend">
+                    <span class="legend-item"><span class="dot livre"></span> Livre</span>
+                    <span class="legend-item"><span class="dot reservada"></span> Reservada</span>
+                    <span class="legend-item"><span class="dot ocupada"></span> Ocupada</span>
+                    <span class="legend-item"><span class="dot aguardar"></span> A Aguardar</span>
+                    <span class="legend-item"><span class="dot indisponivel"></span> Indisponível</span>
+                </div>
+                <div class="map-actions">
+                    <button id="btn-toggle-edit-map" class="btn btn-secondary"><i class="fas fa-edit"></i> Editar Planta</button>
+                    <button id="btn-save-map" class="btn btn-success hidden"><i class="fas fa-save"></i> Guardar Planta</button>
+                </div>
+            </div>
+
+            <div class="map-container-wrapper">
+                <div id="restaurant-map" class="restaurant-map">
+                    <!-- Balcão e Elementos Visuais Fixos -->
+                    <div class="static-object balcao">Balcão</div>
+                    <div class="static-object porta"><i class="fas fa-door-open"></i></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TODAS AS RESERVAS -->
+        <section id="tab-reservas" class="tab-content">
+            <div class="table-header-actions">
+                <h2>Gestão de Reservas</h2>
+                <button class="btn btn-primary open-res-modal"><i class="fas fa-plus"></i> + NOVA RESERVA</button>
+            </div>
+
+            <div class="filters-bar">
+                <input type="text" id="filter-search" placeholder="Pesquisar cliente ou telefone...">
+                <input type="date" id="filter-date">
+                <select id="filter-status">
+                    <option value="">Todos os Estados</option>
+                    <option value="Confirmada">Confirmada</option>
+                    <option value="A aguardar">A aguardar</option>
+                    <option value="Sentado/Ocupada">Sentado/Ocupada</option>
+                    <option value="Concluída">Concluída</option>
+                    <option value="Cancelada">Cancelada</option>
+                    <option value="No-show">No-show</option>
+                </select>
+                <button id="btn-reset-filters" class="btn btn-light"><i class="fas fa-undo"></i> Limpar</button>
+            </div>
+
+            <div class="table-responsive">
+                <table class="data-table" id="table-reservas">
+                    <thead>
+                        <tr>
+                            <th>Data</th>
+                            <th>Hora</th>
+                            <th>Cliente</th>
+                            <th>Telefone</th>
+                            <th>Pessoas</th>
+                            <th>Mesa</th>
+                            <th>Estado</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody-reservas">
+                        <!-- Preenchido via JS -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- RESERVAS DE HOJE -->
+        <section id="tab-hoje" class="tab-content">
+            <h2>Reservas para Hoje (<span id="today-date-display">--/--/----</span>)</h2>
+            <div class="timeline-container" id="timeline-hoje">
+                <!-- Preenchido via JS -->
+            </div>
+        </section>
+
+        <!-- CONFIGURAÇÕES -->
+        <section id="tab-configuracoes" class="tab-content">
+            <h2>Configurações do Restaurante</h2>
+            <form id="form-config" class="config-form">
+                <div class="form-group">
+                    <label>Nome do Restaurante</label>
+                    <input type="text" id="cfg-rest-name" required>
+                </div>
+                <div class="form-group">
+                    <label>Duração Padrão da Reserva (Minutos)</label>
+                    <input type="number" id="cfg-duration" min="30" step="15" required>
+                </div>
+                <div class="form-group">
+                    <label>Intervalo Mínimo entre Reservas (Minutos)</label>
+                    <input type="number" id="cfg-interval" min="0" step="5" required>
+                </div>
+                <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Guardar Configurações</button>
+            </form>
+
+            <hr class="divider">
+
+            <h3>Backup e Dados</h3>
+            <div class="backup-actions">
+                <button id="btn-export-backup" class="btn btn-secondary"><i class="fas fa-download"></i> Exportar Dados (JSON)</button>
+                <label for="import-file" class="btn btn-warning"><i class="fas fa-upload"></i> Importar Dados (JSON)</label>
+                <input type="file" id="import-file" accept=".json" style="display:none;">
+                <button id="btn-reset-all" class="btn btn-danger"><i class="fas fa-trash-alt"></i> Repor Dados de Fábrica</button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- MODAL FORMULÁRIO RESERVA -->
+    <div class="modal" id="modal-reserva">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 id="modal-reserva-title">Nova Reserva</h2>
+            <form id="form-reserva">
+                <input type="hidden" id="res-id">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Nome do Cliente *</label>
+                        <input type="text" id="res-nome" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Telefone *</label>
+                        <input type="tel" id="res-telefone" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Data *</label>
+                        <input type="date" id="res-data" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Hora *</label>
+                        <input type="time" id="res-hora" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Nº de Pessoas *</label>
+                        <input type="number" id="res-pessoas" min="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Mesa *</label>
+                        <select id="res-mesa" required>
+                            <!-- Opções dinâmicas -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Estado da Reserva</label>
+                        <select id="res-estado">
+                            <option value="Confirmada">Confirmada</option>
+                            <option value="A aguardar">A aguardar</option>
+                            <option value="Sentado/Ocupada">Sentado/Ocupada</option>
+                            <option value="Concluída">Concluída</option>
+                            <option value="Cancelada">Cancelada</option>
+                            <option value="No-show">No-show</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Observações</label>
+                    <textarea id="res-obs" rows="3"></textarea>
+                </div>
+                <div id="availability-warning" class="warning-box hidden"></div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-light close-modal-btn">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar Reserva</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL DETALHES DA MESA -->
+    <div class="modal" id="modal-mesa-info">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 id="mesa-info-titulo">Mesa X</h2>
+            <div id="mesa-info-body">
+                <!-- Informações via JS -->
+            </div>
+            <div class="modal-actions-stack" id="mesa-info-actions">
+                <!-- Botões dinâmicos -->
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATIONS -->
+    <div id="toast-container"></div>
+
+    <script src="script.js"></script>
 </body>
 </html>
