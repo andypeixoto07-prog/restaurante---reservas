@@ -3,28 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestão Profissional de Mesas & Planta Interativa</title>
+    <title>Gestão Profissional de Mesas & Clientes Habituais</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-dark: #0b141b;
-            --panel-bg: #14232e;
-            --panel-border: #394b57;
+            --bg-dark: #090d12;
+            --panel-bg: #111a22;
+            --panel-border: #2a3844;
             --accent-gold: #d9ad57;
             --accent-gold-hover: #c49944;
             --text-main: #ffffff;
             --text-muted: #94a3b8;
-            --st-livre: #26b957;
-            --st-reservada: #ef5350;
-            --st-ocupada: #42a5f5;
-            --st-aguardar: #f59e0b;
-            --st-indisponivel: #64748b;
-            --wood-table: #76552b;
-            --wood-border: #9a7a43;
+            
+            /* Cores de Estado das Mesas */
+            --st-livre: #22c55e;
+            --st-reservada: #ef4444;
+            --st-indisponivel: #18181b;
+            --st-azul: #3b82f6;
+
             --radius-md: 10px;
-            --shadow-md: 0 4px 12px rgba(0,0,0,0.4);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.5);
         }
 
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -42,14 +42,14 @@
         header {
             background: var(--panel-bg);
             border-bottom: 1px solid var(--panel-border);
-            padding: 12px 20px;
+            padding: 10px 20px;
             position: sticky;
             top: 0;
             z-index: 100;
         }
 
         .header-container {
-            max-width: 1700px;
+            max-width: 100%;
             margin: 0 auto;
             display: flex;
             justify-content: space-between;
@@ -59,9 +59,9 @@
         }
 
         .brand-area { display: flex; align-items: center; gap: 12px; }
-        .brand-icon { font-size: 28px; background: rgba(217, 173, 87, 0.15); padding: 6px 10px; border-radius: var(--radius-md); border: 1px solid var(--accent-gold); }
-        .brand-area h1 { font-size: 1.2rem; font-weight: 800; }
-        .brand-area .subtitulo { font-size: 0.75rem; color: var(--accent-gold); font-weight: 600; text-transform: uppercase; }
+        .brand-icon { font-size: 26px; background: rgba(217, 173, 87, 0.15); padding: 4px 8px; border-radius: var(--radius-md); border: 1px solid var(--accent-gold); }
+        .brand-area h1 { font-size: 1.15rem; font-weight: 800; }
+        .brand-area .subtitulo { font-size: 0.72rem; color: var(--accent-gold); font-weight: 600; text-transform: uppercase; }
 
         .header-center { display: flex; align-items: center; gap: 6px; }
         .nav-btn {
@@ -85,87 +85,90 @@
         .btn-outline { background: transparent; border: 1px solid var(--panel-border); color: var(--text-main); }
         .btn-outline:hover { background: rgba(255,255,255,0.05); }
 
-        .conteudo { max-width: 1700px; margin: 0 auto; padding: 16px; width: 100%; flex: 1; }
+        .conteudo { max-width: 100%; margin: 0 auto; padding: 12px; width: 100%; flex: 1; }
         .tab-page { display: none; }
         .tab-page.active { display: block; }
 
-        /* MODO ECRÃ COMPLETO */
-        .mapa-viewport-fullscreen {
-            position: fixed !important; inset: 0 !important; z-index: 9999 !important;
-            width: 100vw !important; height: 100vh !important; max-height: 100vh !important;
-            background: #0d161d !important; border: 0 !important; border-radius: 0 !important;
-            padding: 20px; display: flex; justify-content: center; align-items: center;
-        }
-
-        .layout-mapa { display: grid; grid-template-columns: minmax(750px, 1fr) 320px; gap: 16px; }
+        /* MAPA OTIMIZADO PARA OCUPAR A TELA COMPLETA */
+        .layout-mapa { display: grid; grid-template-columns: 1fr 310px; gap: 14px; height: calc(100vh - 90px); }
 
         .mapa-viewport {
-            background: #172126; border: 2px solid #596872; border-radius: var(--radius-md);
-            overflow: auto; position: relative; max-height: 800px;
+            background: #0f171e; border: 2px solid #2a3844; border-radius: var(--radius-md);
+            overflow: auto; position: relative; width: 100%; height: 100%;
         }
 
         .mapa-canvas {
-            position: relative; width: 1050px; height: 750px; background-color: #121c22;
-            background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 0);
+            position: relative; width: 1100px; height: 760px; background-color: #0b1217;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 0);
             background-size: 20px 20px; margin: 0 auto;
         }
 
-        .parede { position: absolute; inset: 10px; border: 3px solid #080b0d; pointer-events: none; }
+        .parede { position: absolute; inset: 10px; border: 3px solid #000; pointer-events: none; }
         .porta-icon { position: absolute; top: 0; left: 620px; font-size: 1.5rem; pointer-events: none; }
         .balcao-obj {
             position: absolute; left: 680px; bottom: 25px; width: 170px; height: 60px;
-            background: #68431e; border: 2px solid #a07031; border-radius: 6px;
+            background: #523417; border: 2px solid #855523; border-radius: 6px;
             display: flex; align-items: center; justify-content: center; font-weight: 800; color: #fff;
         }
 
         /* PISTA DE DANÇA / DJ AMOVÍVEL */
         .dj-booth {
             position: absolute; left: 520px; top: 200px; width: 250px; height: 210px;
-            background: radial-gradient(circle, rgba(139,92,246,0.35) 0%, rgba(236,72,153,0.15) 70%);
+            background: radial-gradient(circle, rgba(139,92,246,0.4) 0%, rgba(236,72,153,0.2) 70%);
             border: 2px dashed #ec4899; border-radius: 12px; display: flex; flex-direction: column;
             align-items: center; justify-content: center; color: #f472b6; font-weight: 800;
             box-shadow: 0 0 20px rgba(236,72,153,0.3); z-index: 10; user-select: none;
         }
-        .dj-booth.draggable { cursor: move; border-color: #facc15; }
+        .dj-booth.draggable { cursor: move; border-color: #facc15; box-shadow: 0 0 25px #facc15; }
 
-        /* MESAS */
+        /* MESAS COM PREENCHIMENTO COMPLETO DE COR */
         .mesa {
             position: absolute; display: flex; flex-direction: column; justify-content: center;
-            align-items: center; background: var(--wood-table); border: 2px solid var(--wood-border);
-            color: #fff; font-weight: 800; font-size: 0.82rem; box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-            cursor: pointer; user-select: none; transition: transform 0.15s ease;
+            align-items: center; color: #fff; font-weight: 800; font-size: 0.82rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.6); cursor: pointer; user-select: none;
+            transition: transform 0.15s ease, background-color 0.2s ease; border: 2px solid rgba(255,255,255,0.2);
+            text-shadow: 0 1px 3px rgba(0,0,0,0.8);
         }
         .mesa:hover { transform: scale(1.05); z-index: 30; }
         .mesa.draggable { cursor: move; outline: 2px dashed var(--accent-gold); }
-        .mesa.selecionada-grupo { outline: 3px solid #38bdf8 !important; }
+        .mesa.selecionada-grupo { outline: 4px solid #38bdf8 !important; }
 
-        .mesa small { font-size: 9px; font-weight: 500; color: #f2e4c6; }
-        .mesa .estado-dot { position: absolute; right: 4px; top: 4px; width: 8px; height: 8px; border-radius: 50%; background: var(--st-livre); }
+        /* ESTADOS DE COR COMPLETA */
+        .mesa.st-livre { background-color: var(--st-livre) !important; color: #ffffff; }
+        .mesa.st-reservada { background-color: var(--st-reservada) !important; color: #ffffff; }
+        .mesa.st-indisponivel { background-color: var(--st-indisponivel) !important; color: #a1a1aa; border-color: #3f3f46; }
+        .mesa.st-azul { background-color: var(--st-azul) !important; color: #ffffff; }
 
-        .mesa.st-reservada .estado-dot { background: var(--st-reservada); }
-        .mesa.st-ocupada .estado-dot { background: var(--st-ocupada); }
-        .mesa.st-aguardar .estado-dot { background: var(--st-aguardar); }
+        .mesa small { font-size: 9px; font-weight: 600; opacity: 0.9; }
+        .mesa .badge-habitual { position: absolute; bottom: -8px; background: var(--accent-gold); color: #000; font-size: 8px; font-weight: 800; padding: 1px 4px; border-radius: 4px; border: 1px solid #000; }
 
         /* FORMATOS DE MESA */
         .retangular { width: 100px; height: 55px; border-radius: 6px; }
         .quadrada { width: 52px; height: 52px; border-radius: 6px; }
         .redonda { width: 72px; height: 72px; border-radius: 50%; }
         .grande { width: 210px; height: 60px; border-radius: 30px; }
+        .mesa-fusa { border-radius: 8px; border: 2px dashed #f59e0b; }
 
         .mapa-header-bar {
             background: var(--panel-bg); border: 1px solid var(--panel-border); border-radius: var(--radius-md);
-            padding: 10px 16px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
+            padding: 8px 14px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
         }
 
-        .painel-lateral { background: var(--panel-bg); border: 1px solid var(--panel-border); border-radius: var(--radius-md); padding: 16px; }
-        .painel-lateral h2 { font-size: 1.1rem; color: var(--accent-gold); margin-bottom: 12px; border-bottom: 1px solid var(--panel-border); padding-bottom: 6px; }
+        .painel-lateral { background: var(--panel-bg); border: 1px solid var(--panel-border); border-radius: var(--radius-md); padding: 14px; overflow-y: auto; }
+        .painel-lateral h2 { font-size: 1.05rem; color: var(--accent-gold); margin-bottom: 10px; border-bottom: 1px solid var(--panel-border); padding-bottom: 6px; }
 
-        .reserva-card-side { background: rgba(0,0,0,0.25); border: 1px solid var(--panel-border); border-radius: 6px; padding: 10px; margin-bottom: 8px; }
+        .reserva-card-side { background: rgba(0,0,0,0.3); border: 1px solid var(--panel-border); border-radius: 6px; padding: 10px; margin-bottom: 8px; }
+
+        /* TABELAS E FORMULÁRIOS */
+        .table-responsive { background: var(--panel-bg); border: 1px solid var(--panel-border); border-radius: var(--radius-md); overflow-x: auto; margin-top: 12px; }
+        .data-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.88rem; }
+        .data-table th, .data-table td { padding: 12px 14px; border-bottom: 1px solid var(--panel-border); }
+        .data-table th { background: rgba(0,0,0,0.4); color: var(--accent-gold); }
 
         /* MODAIS */
         .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(4px); align-items: center; justify-content: center; z-index: 1000; }
         .modal.aberto { display: flex; }
-        .caixa-modal { background: var(--panel-bg); border: 1px solid var(--accent-gold); border-radius: 12px; padding: 22px; width: min(520px, 94vw); max-height: 90vh; overflow-y: auto; }
+        .caixa-modal { background: var(--panel-bg); border: 1px solid var(--accent-gold); border-radius: 12px; padding: 22px; width: min(540px, 94vw); max-height: 90vh; overflow-y: auto; }
         .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         .form-group-full { grid-column: span 2; }
 
@@ -184,17 +187,17 @@
                 <span class="brand-icon">🍽️</span>
                 <div>
                     <h1 id="rest-title-display">Restaurante Gourmet</h1>
-                    <div class="subtitulo">Planta Interativa & Reservas</div>
+                    <div class="subtitulo">Gestão de Mesas & Clientes Habituais</div>
                 </div>
             </div>
 
             <nav class="header-center">
-                <button class="nav-btn active" data-tab="mapa">🗺️ Planta do Restaurante</button>
+                <button class="nav-btn active" data-tab="mapa">🗺️ Planta da Sala</button>
+                <button class="nav-btn" data-tab="habituais">⭐ Clientes Habituais</button>
                 <button class="nav-btn" data-tab="reservas">📋 Reservas</button>
             </nav>
 
             <div class="header-right">
-                <button id="btn-fullscreen" class="btn btn-outline" onclick="toggleFullscreen()">🖥️ Ecrã Completo</button>
                 <button id="btn-musica-ao-vivo" class="btn btn-music" onclick="toggleModoMusica()">🎵 Música ao Vivo (OFF)</button>
                 <button class="btn btn-gold" onclick="abrirNovaReservaModal()">+ Nova Reserva</button>
             </div>
@@ -204,19 +207,20 @@
     <div class="conteudo">
         <div id="toast-container"></div>
 
-        <!-- PLANTA DO RESTAURANTE -->
+        <!-- TAB 1: MAPA DA SALA -->
         <section id="tab-mapa" class="tab-page active">
             <div class="mapa-header-bar">
-                <div style="display:flex; gap:12px; font-size:0.85rem; align-items:center; flex-wrap:wrap;">
-                    <span>🟢 Livre</span>
-                    <span>🔴 Reservada</span>
-                    <span>🔵 Ocupada</span>
+                <div style="display:flex; gap:14px; font-size:0.85rem; align-items:center; font-weight:600;">
+                    <span style="color:var(--st-livre);">🟢 Livre</span>
+                    <span style="color:var(--st-reservada);">🔴 Reservada</span>
+                    <span style="color:#a1a1aa;">⬛ Indisponível</span>
+                    <span style="color:var(--st-azul);">🔵 Especial / VIP</span>
                 </div>
                 <div style="display:flex; gap:8px; flex-wrap:wrap;">
                     <button class="btn btn-outline" onclick="abrirModalCriarMesa()">➕ Criar Mesa</button>
-                    <button id="btn-modo-grupo" class="btn btn-outline" onclick="toggleModoGrupo()">🔗 Juntar Mesas</button>
-                    <button id="btn-edit-layout" class="btn btn-secondary" onclick="toggleEditLayout()">✏️ Mover / Configurar Mapa</button>
-                    <button id="btn-save-layout" class="btn btn-gold" style="display:none;" onclick="salvarPosicoesLayout()">💾 Guardar Alterações</button>
+                    <button id="btn-modo-grupo" class="btn btn-outline" onclick="toggleModoGrupo()">🔗 Unir Mesas</button>
+                    <button id="btn-edit-layout" class="btn btn-secondary" onclick="toggleEditLayout()">✏️ Mover Mesas e Pista</button>
+                    <button id="btn-save-layout" class="btn btn-gold" style="display:none;" onclick="salvarPosicoesLayout()">💾 Guardar Planta</button>
                 </div>
             </div>
 
@@ -227,7 +231,7 @@
                         <div class="porta-icon">🚪</div>
                         <div class="balcao-obj">BALCÃO</div>
 
-                        <!-- PISTA DE DANÇA / DJ -->
+                        <!-- PISTA DE DANÇA / DJ ARRASTÁVEL -->
                         <div id="dj-booth-element" class="dj-booth" style="display:none;">
                             <div style="font-size:1.6rem;">🎧 🎷</div>
                             <div>PISTA DE DANÇA</div>
@@ -243,36 +247,75 @@
             </div>
         </section>
 
-        <!-- LISTA DE RESERVAS -->
+        <!-- TAB 2: CLIENTES HABITUAIS -->
+        <section id="tab-habituais" class="tab-page">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                <h2>⭐ Lista de Clientes Habituais</h2>
+                <button class="btn btn-gold" onclick="abrirModalClienteHabitual()">+ Adicionar Cliente Habitual</button>
+            </div>
+
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Nome do Cliente</th>
+                            <th>Contacto</th>
+                            <th>Mesa Habitual Associada</th>
+                            <th>Observações / Preferências</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody-habituais">
+                        <!-- Gerado por JS -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- TAB 3: RESERVAS -->
         <section id="tab-reservas" class="tab-page">
-            <div style="background:var(--panel-bg); padding:16px; border-radius:var(--radius-md); border:1px solid var(--panel-border);">
-                <h2>Todas as Reservas</h2>
-                <div id="lista-reservas-completa" style="margin-top:12px;"></div>
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Data</th>
+                            <th>Hora</th>
+                            <th>Cliente</th>
+                            <th>Contacto</th>
+                            <th>Pessoas</th>
+                            <th>Mesa</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody-reservas">
+                        <!-- Gerado por JS -->
+                    </tbody>
+                </table>
             </div>
         </section>
     </div>
 
-    <!-- MODAL 1: EDITAR MESA (Nº, CAPACIDADE, ROTAÇÃO E REMOVER) -->
+    <!-- MODAL EDITAR MESA & ESTADO -->
     <div class="modal" id="modalInfo">
         <div class="caixa-modal">
             <h2 id="infoTitulo">Mesa --</h2>
             
             <div class="form-grid" style="margin-bottom:12px;">
                 <div class="form-group">
-                    <label>Número / Nome da Mesa:</label>
+                    <label>Número / Nome:</label>
                     <input type="text" id="edit-mesa-nome">
                 </div>
                 <div class="form-group">
-                    <label>Nº de Pessoas (Sem Limite):</label>
+                    <label>Capacidade (Lugares):</label>
                     <input type="number" id="edit-mesa-capacidade" min="1">
                 </div>
                 <div class="form-group form-group-full">
-                    <label>Rotação da Mesa (Retangulares):</label>
-                    <select id="edit-mesa-rotacao">
-                        <option value="0">0° (Horizontal)</option>
-                        <option value="90">90° (Vertical)</option>
-                        <option value="180">180°</option>
-                        <option value="270">270°</option>
+                    <label>Cor / Estado Visual da Mesa:</label>
+                    <select id="edit-mesa-estado">
+                        <option value="livre">🟢 Verde (Livre)</option>
+                        <option value="reservada">🔴 Vermelho (Reservada)</option>
+                        <option value="indisponivel">⬛ Preto (Indisponível)</option>
+                        <option value="azul">🔵 Azul (Especial / VIP)</option>
                     </select>
                 </div>
             </div>
@@ -283,7 +326,6 @@
             </div>
 
             <hr style="margin:16px 0; border-color:var(--panel-border);">
-
             <div id="infoTexto"></div>
 
             <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:12px;">
@@ -293,47 +335,59 @@
         </div>
     </div>
 
-    <!-- MODAL 2: CONFIGURAR PISTA DE DANÇA -->
-    <div class="modal" id="modalPista">
+    <!-- MODAL CLIENTE HABITUAL -->
+    <div class="modal" id="modalHabitual">
         <div class="caixa-modal">
-            <h2>⚙️ Configurar Pista de Dança / DJ</h2>
-            <div class="form-grid">
-                <div class="form-group">
-                    <label>Largura (px):</label>
-                    <input type="number" id="pista-largura" value="250">
+            <h2 id="modalHabitualTitulo">Adicionar Cliente Habitual</h2>
+            <form onsubmit="guardarClienteHabitual(event)">
+                <input type="hidden" id="hab-id">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Nome do Cliente *</label>
+                        <input type="text" id="hab-nome" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Contacto / Telefone *</label>
+                        <input type="tel" id="hab-telefone" required>
+                    </div>
+                    <div class="form-group form-group-full">
+                        <label>Associar a Mesa Habitual Specific</label>
+                        <select id="hab-mesa">
+                            <option value="">Nenhuma Mesa Fixa</option>
+                        </select>
+                    </div>
+                    <div class="form-group form-group-full">
+                        <label>Observações / Preferências</label>
+                        <textarea id="hab-obs" rows="2" placeholder="Ex: Prefere mesa no canto, vinho verde..."></textarea>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label>Altura (px):</label>
-                    <input type="number" id="pista-altura" value="210">
+                <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:16px;">
+                    <button type="button" class="btn btn-outline" onclick="fecharModal('modalHabitual')">Cancelar</button>
+                    <button type="submit" class="btn btn-gold">Guardar Cliente</button>
                 </div>
-            </div>
-            <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:16px;">
-                <button class="btn btn-gold" onclick="aplicarDimensoesPista()">Aplicar Dimensões</button>
-                <button class="btn btn-outline" onclick="fecharModal('modalPista')">Fechar</button>
-            </div>
+            </form>
         </div>
     </div>
 
-    <!-- MODAL 3: CRIAR MESA -->
+    <!-- MODAL CRIAR MESA -->
     <div class="modal" id="modalCriarMesa">
         <div class="caixa-modal">
             <h2>➕ Adicionar Nova Mesa</h2>
             <div class="form-grid">
                 <div class="form-group">
                     <label>Número / Nome *</label>
-                    <input type="text" id="nova-mesa-nome" placeholder="Ex: 41">
+                    <input type="text" id="nova-mesa-nome">
                 </div>
                 <div class="form-group">
-                    <label>Capacidade (Nº Pessoas) *</label>
+                    <label>Capacidade *</label>
                     <input type="number" id="nova-mesa-cap" value="4">
                 </div>
                 <div class="form-group form-group-full">
-                    <label>Formato da Mesa *</label>
+                    <label>Formato *</label>
                     <select id="nova-mesa-formato">
                         <option value="quadrada">Quadrada</option>
                         <option value="retangular">Retangular</option>
                         <option value="redonda">Redonda</option>
-                        <option value="grande">Grande / Osso</option>
                     </select>
                 </div>
             </div>
@@ -344,14 +398,14 @@
         </div>
     </div>
 
-    <!-- MODAL 4: CRIAR RESERVA -->
+    <!-- MODAL NOVA RESERVA -->
     <div class="modal" id="modalReserva">
         <div class="caixa-modal">
             <h2>Nova Reserva</h2>
             <form onsubmit="guardarReserva(event)">
                 <div class="form-grid">
                     <div class="form-group">
-                        <label>Nome do Cliente *</label>
+                        <label>Cliente *</label>
                         <input type="text" id="res-nome" required>
                     </div>
                     <div class="form-group">
@@ -367,7 +421,7 @@
                         <input type="time" id="res-hora" value="20:00" required>
                     </div>
                     <div class="form-group">
-                        <label>Nº de Pessoas *</label>
+                        <label>Nº Pessoas *</label>
                         <input type="number" id="res-pessoas" min="1" value="2" required>
                     </div>
                     <div class="form-group">
@@ -386,68 +440,67 @@
     <script>
         const MESAS_PADRAO = [
             // Salinhas
-            { id: "Salinha 1", nome: "Salinha 1", capacidade: 20, classe: "retangular", tipo: "retangular", x: 30, y: 70, rotacao: 0 },
-            { id: "Salinha 2", nome: "Salinha 2", capacidade: 20, classe: "retangular", tipo: "retangular", x: 30, y: 155, rotacao: 0 },
-            { id: "Salinha 3", nome: "Salinha 3", capacidade: 20, classe: "retangular", tipo: "retangular", x: 30, y: 240, rotacao: 0 },
-            { id: "Salinha 4", nome: "Salinha 4", capacidade: 20, classe: "retangular", tipo: "retangular", x: 30, y: 325, rotacao: 0 },
+            { id: "Salinha 1", nome: "Salinha 1", capacidade: 20, classe: "retangular", x: 30, y: 70, estadoCor: "livre" },
+            { id: "Salinha 2", nome: "Salinha 2", capacidade: 20, classe: "retangular", x: 30, y: 155, estadoCor: "livre" },
+            { id: "Salinha 3", nome: "Salinha 3", capacidade: 20, classe: "retangular", x: 30, y: 240, estadoCor: "livre" },
+            { id: "Salinha 4", nome: "Salinha 4", capacidade: 20, classe: "retangular", x: 30, y: 325, estadoCor: "livre" },
 
             // Topo Esquerdo
-            { id: "Redondo", nome: "Redondo", capacidade: 25, classe: "grande", tipo: "grande", x: 220, y: 35, rotacao: 0 },
-            { id: "39", nome: "Mesa 39", capacidade: 8, classe: "redonda", tipo: "redonda", x: 285, y: 135, rotacao: 0 },
-            { id: "36", nome: "Mesa 36", capacidade: 8, classe: "redonda", tipo: "redonda", x: 400, y: 135, rotacao: 0 },
-            { id: "40", nome: "Mesa 40", capacidade: 8, classe: "redonda", tipo: "redonda", x: 285, y: 270, rotacao: 0 },
-            { id: "35", nome: "Mesa 35", capacidade: 8, classe: "redonda", tipo: "redonda", x: 400, y: 270, rotacao: 0 },
-            { id: "29", nome: "Mesa 29", capacidade: 10, classe: "redonda", tipo: "redonda", x: 265, y: 560, rotacao: 0 },
+            { id: "Redondo", nome: "Redondo", capacidade: 25, classe: "grande", x: 220, y: 35, estadoCor: "livre" },
+            { id: "39", nome: "Mesa 39", capacidade: 8, classe: "redonda", x: 285, y: 135, estadoCor: "livre" },
+            { id: "36", nome: "Mesa 36", capacidade: 8, classe: "redonda", x: 400, y: 135, estadoCor: "livre" },
+            { id: "40", nome: "Mesa 40", capacidade: 8, classe: "redonda", x: 285, y: 270, estadoCor: "livre" },
+            { id: "35", nome: "Mesa 35", capacidade: 8, classe: "redonda", x: 400, y: 270, estadoCor: "livre" },
+            { id: "29", nome: "Mesa 29", capacidade: 10, classe: "redonda", x: 265, y: 560, estadoCor: "livre" },
 
-            // Bloco Central Superior (Pista de dança)
-            { id: "19", nome: "Mesa 19", capacidade: 2, classe: "quadrada", tipo: "quadrada", x: 530, y: 210, rotacao: 0 },
-            { id: "18", nome: "Mesa 18", capacidade: 2, classe: "quadrada", tipo: "quadrada", x: 600, y: 210, rotacao: 0 },
-            { id: "17", nome: "Mesa 17", capacidade: 4, classe: "retangular", tipo: "retangular", x: 670, y: 210, rotacao: 0 },
-            { id: "16", nome: "Mesa 16", capacidade: 2, classe: "quadrada", tipo: "quadrada", x: 530, y: 280, rotacao: 0 },
-            { id: "15", nome: "Mesa 15", capacidade: 2, classe: "quadrada", tipo: "quadrada", x: 600, y: 280, rotacao: 0 },
-            { id: "14", nome: "Mesa 14", capacidade: 4, classe: "retangular", tipo: "retangular", x: 670, y: 280, rotacao: 0 },
-            { id: "12", nome: "Mesa 12", capacidade: 2, classe: "quadrada", tipo: "quadrada", x: 530, y: 350, rotacao: 0 },
-            { id: "11", nome: "Mesa 11", capacidade: 2, classe: "quadrada", tipo: "quadrada", x: 600, y: 350, rotacao: 0 },
-            { id: "10", nome: "Mesa 10", capacidade: 4, classe: "retangular", tipo: "retangular", x: 670, y: 350, rotacao: 0 },
+            // Bloco Central Superior (Removido na Música ao Vivo)
+            { id: "19", nome: "Mesa 19", capacidade: 2, classe: "quadrada", x: 530, y: 210, estadoCor: "livre" },
+            { id: "18", nome: "Mesa 18", capacidade: 2, classe: "quadrada", x: 600, y: 210, estadoCor: "livre" },
+            { id: "17", nome: "Mesa 17", capacidade: 4, classe: "retangular", x: 670, y: 210, estadoCor: "livre" },
+            { id: "16", nome: "Mesa 16", capacidade: 2, classe: "quadrada", x: 530, y: 280, estadoCor: "livre" },
+            { id: "15", nome: "Mesa 15", capacidade: 2, classe: "quadrada", x: 600, y: 280, estadoCor: "livre" },
+            { id: "14", nome: "Mesa 14", capacidade: 4, classe: "retangular", x: 670, y: 280, estadoCor: "livre" },
+            { id: "12", nome: "Mesa 12", capacidade: 2, classe: "quadrada", x: 530, y: 350, estadoCor: "livre" },
+            { id: "11", nome: "Mesa 11", capacidade: 2, classe: "quadrada", x: 600, y: 350, estadoCor: "livre" },
+            { id: "10", nome: "Mesa 10", capacidade: 4, classe: "retangular", x: 670, y: 350, estadoCor: "livre" },
 
-            // Bloco Central Inferior (21 a 34)
-            { id: "24", nome: "Mesa 24", capacidade: 2, classe: "quadrada", tipo: "quadrada", x: 370, y: 490, rotacao: 0 },
-            { id: "23", nome: "Mesa 23", capacidade: 2, classe: "quadrada", tipo: "quadrada", x: 435, y: 490, rotacao: 0 },
-            { id: "22", nome: "Mesa 22", capacidade: 2, classe: "quadrada", tipo: "quadrada", x: 500, y: 490, rotacao: 0 },
-            { id: "21", nome: "Mesa 21", capacidade: 2, classe: "quadrada", tipo: "quadrada", x: 565, y: 490, rotacao: 0 },
+            // Bloco Central Inferior
+            { id: "24", nome: "Mesa 24", capacidade: 2, classe: "quadrada", x: 370, y: 490, estadoCor: "livre" },
+            { id: "23", nome: "Mesa 23", capacidade: 2, classe: "quadrada", x: 435, y: 490, estadoCor: "livre" },
+            { id: "22", nome: "Mesa 22", capacidade: 2, classe: "quadrada", x: 500, y: 490, estadoCor: "livre" },
+            { id: "21", nome: "Mesa 21", capacidade: 2, classe: "quadrada", x: 565, y: 490, estadoCor: "livre" },
+            { id: "34", nome: "Mesa 34", capacidade: 2, classe: "quadrada", x: 370, y: 560, estadoCor: "livre" },
+            { id: "33", nome: "Mesa 33", capacidade: 2, classe: "quadrada", x: 435, y: 560, estadoCor: "livre" },
+            { id: "32", nome: "Mesa 32", capacidade: 2, classe: "quadrada", x: 500, y: 560, estadoCor: "livre" },
+            { id: "31", nome: "Mesa 31", capacidade: 2, classe: "quadrada", x: 565, y: 560, estadoCor: "livre" },
+            { id: "28", nome: "Mesa 28", capacidade: 2, classe: "quadrada", x: 370, y: 630, estadoCor: "livre" },
+            { id: "27", nome: "Mesa 27", capacidade: 2, classe: "quadrada", x: 435, y: 630, estadoCor: "livre" },
+            { id: "26", nome: "Mesa 26", capacidade: 2, classe: "quadrada", x: 500, y: 630, estadoCor: "livre" },
+            { id: "25", nome: "Mesa 25", capacidade: 2, classe: "quadrada", x: 565, y: 630, estadoCor: "livre" },
 
-            { id: "34", nome: "Mesa 34", capacidade: 2, classe: "quadrada", tipo: "quadrada", x: 370, y: 560, rotacao: 0 },
-            { id: "33", nome: "Mesa 33", capacidade: 2, classe: "quadrada", tipo: "quadrada", x: 435, y: 560, rotacao: 0 },
-            { id: "32", nome: "Mesa 32", capacidade: 2, classe: "quadrada", tipo: "quadrada", x: 500, y: 560, rotacao: 0 },
-            { id: "31", nome: "Mesa 31", capacidade: 2, classe: "quadrada", tipo: "quadrada", x: 565, y: 560, rotacao: 0 },
-
-            { id: "28", nome: "Mesa 28", capacidade: 2, classe: "quadrada", tipo: "quadrada", x: 370, y: 630, rotacao: 0 },
-            { id: "27", nome: "Mesa 27", capacidade: 2, classe: "quadrada", tipo: "quadrada", x: 435, y: 630, rotacao: 0 },
-            { id: "26", nome: "Mesa 26", capacidade: 2, classe: "quadrada", tipo: "quadrada", x: 500, y: 630, rotacao: 0 },
-            { id: "25", nome: "Mesa 25", capacidade: 2, classe: "quadrada", tipo: "quadrada", x: 565, y: 630, rotacao: 0 },
-
-            // Topo / Lado Direito
-            { id: "5", nome: "Mesa 5", capacidade: 2, classe: "quadrada", tipo: "quadrada", x: 790, y: 20, rotacao: 0 },
-            { id: "4", nome: "Mesa 4", capacidade: 8, classe: "redonda", tipo: "redonda", x: 960, y: 55, rotacao: 0 },
-            { id: "6", nome: "Mesa 6", capacidade: 8, classe: "redonda", tipo: "redonda", x: 865, y: 140, rotacao: 0 },
-            { id: "3", nome: "Mesa 3", capacidade: 8, classe: "redonda", tipo: "redonda", x: 960, y: 220, rotacao: 0 },
-            { id: "7", nome: "Mesa 7", capacidade: 8, classe: "redonda", tipo: "redonda", x: 865, y: 300, rotacao: 0 },
-            { id: "2", nome: "Mesa 2", capacidade: 8, classe: "redonda", tipo: "redonda", x: 960, y: 380, rotacao: 0 },
-            { id: "8", nome: "Mesa 8", capacidade: 8, classe: "redonda", tipo: "redonda", x: 865, y: 460, rotacao: 0 },
-            { id: "1", nome: "Mesa 1", capacidade: 8, classe: "redonda", tipo: "redonda", x: 960, y: 540, rotacao: 0 },
-            { id: "9", nome: "Mesa 9", capacidade: 8, classe: "redonda", tipo: "redonda", x: 865, y: 540, rotacao: 0 }
+            // Direita
+            { id: "5", nome: "Mesa 5", capacidade: 2, classe: "quadrada", x: 790, y: 20, estadoCor: "livre" },
+            { id: "4", nome: "Mesa 4", capacidade: 8, classe: "redonda", x: 960, y: 55, estadoCor: "livre" },
+            { id: "6", nome: "Mesa 6", capacidade: 8, classe: "redonda", x: 865, y: 140, estadoCor: "livre" },
+            { id: "3", nome: "Mesa 3", capacidade: 8, classe: "redonda", x: 960, y: 220, estadoCor: "livre" },
+            { id: "7", nome: "Mesa 7", capacidade: 8, classe: "redonda", x: 865, y: 300, estadoCor: "livre" },
+            { id: "2", nome: "Mesa 2", capacidade: 8, classe: "redonda", x: 960, y: 380, estadoCor: "livre" },
+            { id: "8", nome: "Mesa 8", capacidade: 8, classe: "redonda", x: 865, y: 460, estadoCor: "livre" },
+            { id: "1", nome: "Mesa 1", capacidade: 8, classe: "redonda", x: 960, y: 540, estadoCor: "livre" },
+            { id: "9", nome: "Mesa 9", capacidade: 8, classe: "redonda", x: 865, y: 540, estadoCor: "livre" }
         ];
 
         const MESAS_PISTA = ["10", "11", "12", "14", "15", "16", "17", "18", "19"];
 
         let mesas = [];
         let reservas = [];
+        let habituais = [];
         let modoEdicao = false;
         let modoMusica = false;
         let modoGrupo = false;
         let mesasGrupoSelecionadas = [];
         let mesaSelecionadaId = null;
-        let pistaConfig = { x: 520, y: 200, width: 250, height: 210 };
+        let pistaPos = { x: 520, y: 200 };
 
         document.addEventListener("DOMContentLoaded", () => {
             carregarDados();
@@ -457,26 +510,32 @@
         });
 
         function carregarDados() {
-            const m = localStorage.getItem("mesas_v4");
+            const m = localStorage.getItem("mesas_v5");
             mesas = m ? JSON.parse(m) : JSON.parse(JSON.stringify(MESAS_PADRAO));
 
-            const r = localStorage.getItem("reservas_v4");
+            const r = localStorage.getItem("reservas_v5");
             reservas = r ? JSON.parse(r) : [];
 
-            const p = localStorage.getItem("pista_v4");
-            if (p) pistaConfig = JSON.parse(p);
+            const h = localStorage.getItem("habituais_v5");
+            habituais = h ? JSON.parse(h) : [];
+
+            const p = localStorage.getItem("pista_v5");
+            if (p) pistaPos = JSON.parse(p);
         }
 
         function guardarDados() {
-            localStorage.setItem("mesas_v4", JSON.stringify(mesas));
-            localStorage.setItem("reservas_v4", JSON.stringify(reservas));
-            localStorage.setItem("pista_v4", JSON.stringify(pistaConfig));
+            localStorage.setItem("mesas_v5", JSON.stringify(mesas));
+            localStorage.setItem("reservas_v5", JSON.stringify(reservas));
+            localStorage.setItem("habituais_v5", JSON.stringify(habituais));
+            localStorage.setItem("pista_v5", JSON.stringify(pistaPos));
         }
 
         function renderizarTudo() {
             renderizarMapa();
             renderizarSidebar();
-            atualizarSelectMesas();
+            renderizarTabelaHabituais();
+            renderizarTabelaReservas();
+            atualizarSelectsMesas();
         }
 
         function renderizarMapa() {
@@ -493,18 +552,26 @@
                 if (modoEdicao) el.classList.add("draggable");
                 if (mesasGrupoSelecionadas.includes(m.id)) el.classList.add("selecionada-grupo");
 
+                // Cálculo do estado de cor
+                const res = reservas.find(r => r.mesa === m.id && r.data === hoje);
+                let estadoClass = `st-${m.estadoCor || 'livre'}`;
+                if (res) estadoClass = "st-reservada";
+                el.classList.add(estadoClass);
+
                 el.style.left = `${m.x}px`;
                 el.style.top = `${m.y}px`;
-                el.style.transform = `rotate(${m.rotacao || 0}deg)`;
+                if (m.largura) el.style.width = `${m.largura}px`;
+                if (m.altura) el.style.height = `${m.altura}px`;
                 el.dataset.id = m.id;
 
-                const res = reservas.find(r => r.mesa === m.id && r.data === hoje);
-                if (res) el.classList.add("st-reservada");
+                // Verificação de Cliente Habitual
+                const hab = habituais.find(h => h.mesa === m.id);
+                const badgeHabitual = hab ? `<span class="badge-habitual">⭐ ${hab.nome}</span>` : '';
 
                 el.innerHTML = `
                     ${m.id}
                     <small>${m.capacidade} pax</small>
-                    <i class="estado-dot"></i>
+                    ${badgeHabitual}
                 `;
 
                 el.addEventListener("click", () => {
@@ -516,32 +583,26 @@
                 });
 
                 el.addEventListener("mousedown", iniciarDragMesa);
-
                 canvas.appendChild(el);
             });
 
-            // Atualiza Pista de Dança
             const dj = document.getElementById("dj-booth-element");
-            dj.style.left = `${pistaConfig.x}px`;
-            dj.style.top = `${pistaConfig.y}px`;
-            dj.style.width = `${pistaConfig.width}px`;
-            dj.style.height = `${pistaConfig.height}px`;
+            dj.style.left = `${pistaPos.x}px`;
+            dj.style.top = `${pistaPos.y}px`;
         }
 
-        // EDICÃO & MOVER MESAS
+        // MOVER MESAS E PISTA
         function toggleEditLayout() {
             modoEdicao = !modoEdicao;
             const dj = document.getElementById("dj-booth-element");
-            document.getElementById("btn-edit-layout").textContent = modoEdicao ? "❌ Cancelar" : "✏️ Mover / Configurar Mapa";
+            document.getElementById("btn-edit-layout").textContent = modoEdicao ? "❌ Cancelar" : "✏️ Mover Mesas e Pista";
             document.getElementById("btn-save-layout").style.display = modoEdicao ? "inline-block" : "none";
 
             if (modoEdicao) {
                 dj.classList.add("draggable");
-                dj.onclick = () => abrirModal("modalPista");
-                mostrarToast("Modo de edição ativo. Arraste mesas ou a pista de dança.");
+                mostrarToast("Arraste mesas ou a pista de dança livremente.");
             } else {
                 dj.classList.remove("draggable");
-                dj.onclick = null;
                 carregarDados();
             }
             renderizarMapa();
@@ -549,11 +610,11 @@
 
         function salvarPosicoesLayout() {
             modoEdicao = false;
-            document.getElementById("btn-edit-layout").textContent = "✏️ Mover / Configurar Mapa";
+            document.getElementById("btn-edit-layout").textContent = "✏️ Mover Mesas e Pista";
             document.getElementById("btn-save-layout").style.display = "none";
             guardarDados();
             renderizarMapa();
-            mostrarToast("Alterações no mapa salvas!");
+            mostrarToast("Disposição da sala guardada!");
         }
 
         let arrasteId = null, offset = {x:0, y:0};
@@ -586,28 +647,27 @@
             document.removeEventListener("mouseup", pararDrag);
         }
 
-        // PISTA DE DANÇA DRAG & RESIZE
         function configurarDragPista() {
             const dj = document.getElementById("dj-booth-element");
-            let arrastandoPista = false, pOffset = {x:0, y:0};
+            let arrastando = false, pOffset = {x:0, y:0};
 
             dj.addEventListener("mousedown", (e) => {
                 if (!modoEdicao) return;
-                arrastandoPista = true;
+                arrastando = true;
                 const rect = dj.getBoundingClientRect();
                 pOffset = { x: e.clientX - rect.left, y: e.clientY - rect.top };
 
                 const moveP = (ev) => {
-                    if (!arrastandoPista) return;
+                    if (!arrastando) return;
                     const canvas = document.getElementById("restaurant-map-canvas").getBoundingClientRect();
-                    pistaConfig.x = Math.max(10, Math.min(ev.clientX - canvas.left - pOffset.x, canvas.width - pistaConfig.width));
-                    pistaConfig.y = Math.max(10, Math.min(ev.clientY - canvas.top - pOffset.y, canvas.height - pistaConfig.height));
-                    dj.style.left = `${pistaConfig.x}px`;
-                    dj.style.top = `${pistaConfig.y}px`;
+                    pistaPos.x = Math.max(10, Math.min(ev.clientX - canvas.left - pOffset.x, canvas.width - 250));
+                    pistaPos.y = Math.max(10, Math.min(ev.clientY - canvas.top - pOffset.y, canvas.height - 210));
+                    dj.style.left = `${pistaPos.x}px`;
+                    dj.style.top = `${pistaPos.y}px`;
                 };
 
                 const stopP = () => {
-                    arrastandoPista = false;
+                    arrastando = false;
                     document.removeEventListener("mousemove", moveP);
                     document.removeEventListener("mouseup", stopP);
                 };
@@ -617,29 +677,21 @@
             });
         }
 
-        function aplicarDimensoesPista() {
-            pistaConfig.width = parseInt(document.getElementById("pista-largura").value) || 250;
-            pistaConfig.height = parseInt(document.getElementById("pista-altura").value) || 210;
-            fecharModal("modalPista");
-            renderizarMapa();
-            mostrarToast("Tamanho da pista atualizado!");
-        }
-
-        // JUNTAR MESAS PARA GRUPOS
+        // UNIR MESAS NUMA ÚNICA MESA MAIOR
         function toggleModoGrupo() {
             modoGrupo = !modoGrupo;
             mesasGrupoSelecionadas = [];
             const btn = document.getElementById("btn-modo-grupo");
 
             if (modoGrupo) {
-                btn.textContent = "✅ Confirmar Junção";
+                btn.textContent = "✅ Unir Selecionadas";
                 btn.classList.add("btn-gold");
-                mostrarToast("Clica nas mesas que queres juntar em grupo.");
+                mostrarToast("Selecione 2 ou mais mesas para as unir numa só.");
             } else {
                 if (mesasGrupoSelecionadas.length > 1) {
-                    juntarMesasSelecionadas();
+                    unirMesasNumaSo();
                 }
-                btn.textContent = "🔗 Juntar Mesas";
+                btn.textContent = "🔗 Unir Mesas";
                 btn.classList.remove("btn-gold");
             }
             renderizarMapa();
@@ -652,8 +704,8 @@
             renderizarMapa();
         }
 
-        function juntarMesasSelecionadas() {
-            const nomeGrupo = prompt("Nome do Grupo de Mesas:", `Grupo ${mesasGrupoSelecionadas.join("+")}`);
+        function unirMesasNumaSo() {
+            const nomeGrupo = prompt("Nome da Mesa Unida:", `Mesa Unida ${mesasGrupoSelecionadas.join("+")}`);
             if (!nomeGrupo) return;
 
             const somaPax = mesasGrupoSelecionadas.reduce((acc, id) => {
@@ -662,27 +714,112 @@
             }, 0);
 
             const primeira = mesas.find(x => x.id === mesasGrupoSelecionadas[0]);
+            
+            // Largura proporcional ao número total de lugares
+            const novaLargura = Math.max(120, Math.min(somaPax * 22, 320));
 
-            const novaMesaGrupo = {
+            const mesaUnificada = {
                 id: nomeGrupo,
                 nome: nomeGrupo,
                 capacidade: somaPax,
-                classe: "grande",
-                tipo: "grande",
+                classe: "retangular mesa-fusa",
                 x: primeira.x,
                 y: primeira.y,
-                rotacao: 0
+                largura: novaLargura,
+                altura: 65,
+                estadoCor: "livre"
             };
 
             mesas = mesas.filter(m => !mesasGrupoSelecionadas.includes(m.id));
-            mesas.push(novaMesaGrupo);
+            mesas.push(mesaUnificada);
 
             guardarDados();
             renderizarTudo();
-            mostrarToast(`Mesas unidas em ${nomeGrupo}!`);
+            mostrarToast("Mesas unidas com sucesso!");
         }
 
-        // MODAIS E EDITAR MESAS
+        // GESTÃO DE CLIENTES HABITUAIS
+        function renderizarTabelaHabituais() {
+            const tbody = document.getElementById("tbody-habituais");
+            if (!tbody) return;
+
+            if (habituais.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:var(--text-muted);">Nenhum cliente habitual registado.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = habituais.map(h => `
+                <tr>
+                    <td><strong>⭐ ${h.nome}</strong></td>
+                    <td>${h.telefone}</td>
+                    <td>${h.mesa ? `<strong>Mesa ${h.mesa}</strong> <button class="btn btn-outline" style="padding:2px 6px; font-size:0.7rem; margin-left:6px;" onclick="removerMesaHabitual('${h.id}')">Desassociar</button>` : '<span style="color:var(--text-muted)">Nenhuma</span>'}</td>
+                    <td>${h.obs || '-'}</td>
+                    <td>
+                        <button class="btn btn-outline" style="padding:4px 8px;" onclick="abrirModalClienteHabitual('${h.id}')">✏️ Edit</button>
+                        <button class="btn btn-danger" style="padding:4px 8px;" onclick="apagarHabitual('${h.id}')">🗑️</button>
+                    </td>
+                </tr>
+            `).join("");
+        }
+
+        function abrirModalClienteHabitual(id = null) {
+            document.getElementById("hab-id").value = id || "";
+            if (id) {
+                const h = habituais.find(x => x.id === id);
+                document.getElementById("modalHabitualTitulo").textContent = "Editar Cliente Habitual";
+                document.getElementById("hab-nome").value = h.nome;
+                document.getElementById("hab-telefone").value = h.telefone;
+                document.getElementById("hab-mesa").value = h.mesa || "";
+                document.getElementById("hab-obs").value = h.obs || "";
+            } else {
+                document.getElementById("modalHabitualTitulo").textContent = "Adicionar Cliente Habitual";
+                document.getElementById("hab-nome").value = "";
+                document.getElementById("hab-telefone").value = "";
+                document.getElementById("hab-mesa").value = "";
+                document.getElementById("hab-obs").value = "";
+            }
+            abrirModal("modalHabitual");
+        }
+
+        function guardarClienteHabitual(e) {
+            e.preventDefault();
+            const id = document.getElementById("hab-id").value || "hab_" + Date.now();
+            const nome = document.getElementById("hab-nome").value.trim();
+            const telefone = document.getElementById("hab-telefone").value.trim();
+            const mesa = document.getElementById("hab-mesa").value;
+            const obs = document.getElementById("hab-obs").value.trim();
+
+            const idx = habituais.findIndex(x => x.id === id);
+            const item = { id, nome, telefone, mesa, obs };
+
+            if (idx !== -1) habituais[idx] = item;
+            else habituais.push(item);
+
+            guardarDados();
+            fecharModal("modalHabitual");
+            renderizarTudo();
+            mostrarToast("Cliente habitual guardado!");
+        }
+
+        function removerMesaHabitual(id) {
+            const h = habituais.find(x => x.id === id);
+            if (h) {
+                h.mesa = "";
+                guardarDados();
+                renderizarTudo();
+                mostrarToast("Associação de mesa removida.");
+            }
+        }
+
+        function apagarHabitual(id) {
+            if (confirm("Remover este cliente habitual?")) {
+                habituais = habituais.filter(x => x.id !== id);
+                guardarDados();
+                renderizarTudo();
+            }
+        }
+
+        // MODAIS DE MESA E ESTADOS DE COR
         function abrirModalInfoMesa(id) {
             mesaSelecionadaId = id;
             const m = mesas.find(x => x.id === id);
@@ -691,11 +828,15 @@
             document.getElementById("infoTitulo").textContent = m.nome;
             document.getElementById("edit-mesa-nome").value = m.id;
             document.getElementById("edit-mesa-capacidade").value = m.capacidade;
-            document.getElementById("edit-mesa-rotacao").value = m.rotacao || 0;
+            document.getElementById("edit-mesa-estado").value = m.estadoCor || "livre";
 
-            document.getElementById("infoTexto").innerHTML = `<p>Capacidade: <strong>${m.capacidade} Pessoas</strong></p>`;
+            const hab = habituais.find(h => h.mesa === m.id);
+            document.getElementById("infoTexto").innerHTML = `
+                <p>Capacidade: <strong>${m.capacidade} Lugares</strong></p>
+                ${hab ? `<p style="margin-top:6px; color:var(--accent-gold);">⭐ <strong>Cliente Habitual desta Mesa:</strong> ${hab.nome}</p>` : ''}
+            `;
+
             document.getElementById("infoBtnReservar").onclick = () => { fecharModal("modalInfo"); abrirNovaReservaModal(m.id); };
-
             abrirModal("modalInfo");
         }
 
@@ -705,11 +846,11 @@
 
             const novoNome = document.getElementById("edit-mesa-nome").value.trim();
             const novaCap = parseInt(document.getElementById("edit-mesa-capacidade").value);
-            const novaRot = parseInt(document.getElementById("edit-mesa-rotacao").value);
+            const novoEstado = document.getElementById("edit-mesa-estado").value;
 
             if (novoNome) m.id = novoNome;
             if (novaCap) m.capacidade = novaCap;
-            m.rotacao = novaRot;
+            m.estadoCor = novoEstado;
 
             guardarDados();
             fecharModal("modalInfo");
@@ -738,10 +879,7 @@
 
             if (!nome) return;
 
-            mesas.push({
-                id: nome, nome: "Mesa " + nome, capacidade: cap, classe: fmt, tipo: fmt, x: 450, y: 300, rotacao: 0
-            });
-
+            mesas.push({ id: nome, nome: "Mesa " + nome, capacidade: cap, classe: fmt, x: 450, y: 300, estadoCor: "livre" });
             guardarDados();
             fecharModal("modalCriarMesa");
             renderizarTudo();
@@ -757,11 +895,6 @@
             dj.style.display = modoMusica ? "flex" : "none";
 
             renderizarMapa();
-        }
-
-        function toggleFullscreen() {
-            const vp = document.getElementById("mapa-viewport-element");
-            vp.classList.toggle("mapa-viewport-fullscreen");
         }
 
         // RESERVAS
@@ -802,9 +935,35 @@
                 `).join("");
         }
 
-        function atualizarSelectMesas() {
-            const s = document.getElementById("res-mesa");
-            s.innerHTML = mesas.map(m => `<option value="${m.id}">${m.id} (${m.capacidade} pax)</option>`).join("");
+        function renderizarTabelaReservas() {
+            const tbody = document.getElementById("tbody-reservas");
+            if (!tbody) return;
+
+            tbody.innerHTML = reservas.map(r => `
+                <tr>
+                    <td>${r.data}</td>
+                    <td>${r.hora}</td>
+                    <td><strong>${r.nome}</strong></td>
+                    <td>${r.telefone}</td>
+                    <td>👥 ${r.pessoas}</td>
+                    <td>Mesa ${r.mesa}</td>
+                    <td><button class="btn btn-danger" style="padding:4px 8px;" onclick="apagarReserva('${r.id}')">🗑️</button></td>
+                </tr>
+            `).join("");
+        }
+
+        function apagarReserva(id) {
+            if (confirm("Apagar reserva?")) {
+                reservas = reservas.filter(r => r.id !== id);
+                guardarDados();
+                renderizarTudo();
+            }
+        }
+
+        function atualizarSelectsMesas() {
+            const opts = mesas.map(m => `<option value="${m.id}">${m.id} (${m.capacidade} pax)</option>`).join("");
+            document.getElementById("res-mesa").innerHTML = opts;
+            document.getElementById("hab-mesa").innerHTML = `<option value="">Nenhuma Mesa Fixa</option>` + opts;
         }
 
         function iniciarNavegacao() {
