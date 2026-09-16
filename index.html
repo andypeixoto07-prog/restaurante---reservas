@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>App Gestão de Sala - Planta Perfeita</title>
+    <title>App Gestão de Sala - Completa</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -16,12 +16,10 @@
             --accent-gold-hover: #c49944;
             --text-main: #ffffff;
             --text-muted: #94a3b8;
-            
             --st-livre: #22c55e;
             --st-reservada: #ef4444;
             --st-indisponivel: #18181b;
             --st-azul: #3b82f6;
-
             --radius-md: 8px;
         }
 
@@ -36,7 +34,6 @@
 
         body { display: flex; flex-direction: column; }
 
-        /* HEADER E BARRA SUPERIOR DE AÇÕES */
         header {
             background: var(--panel-bg);
             border-bottom: 1px solid var(--panel-border);
@@ -46,18 +43,9 @@
         }
 
         .header-container {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
-            overflow-x: auto;
-            white-space: nowrap;
-            -webkit-overflow-scrolling: touch;
-            padding-bottom: 2px;
+            display: flex; align-items: center; justify-content: space-between; gap: 10px;
+            overflow-x: auto; white-space: nowrap; padding-bottom: 2px;
         }
-
-        .header-container::-webkit-scrollbar { height: 3px; }
-        .header-container::-webkit-scrollbar-thumb { background: var(--panel-border); }
 
         .brand-area { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
         .brand-icon { font-size: 18px; background: rgba(217, 173, 87, 0.15); padding: 2px 6px; border-radius: var(--radius-md); border: 1px solid var(--accent-gold); }
@@ -82,7 +70,6 @@
         .btn-danger { background: #ef5350; color: #fff; }
         .btn-outline { background: transparent; border: 1px solid var(--panel-border); color: var(--text-main); }
 
-        /* ÁREA DE CONTEÚDO */
         .conteudo { flex: 1; padding: 6px; display: flex; flex-direction: column; overflow: hidden; }
         .tab-page { display: none; width: 100%; height: 100%; }
         .tab-page.active { display: flex; flex-direction: column; }
@@ -93,29 +80,24 @@
             overflow-x: auto; flex-shrink: 0; gap: 8px;
         }
 
-        .layout-mapa {
-            display: flex; flex-direction: row; gap: 8px; flex: 1; height: calc(100% - 38px); overflow: hidden;
-        }
+        .layout-mapa { display: flex; flex-direction: row; gap: 8px; flex: 1; height: calc(100% - 38px); overflow: hidden; }
 
-        /* ORIENTAÇÃO AUTOMÁTICA EM TABLETS */
         @media (max-aspect-ratio: 1/1) or (max-width: 768px) {
             .layout-mapa { flex-direction: column; }
             .painel-lateral { width: 100% !important; height: 160px !important; }
         }
 
-        /* VIEWPORT DO MAPA */
         .mapa-viewport {
             background: #0f171e; border: 2px solid #2a3844; border-radius: var(--radius-md);
             flex: 1; width: 100%; height: 100%; position: relative; overflow: hidden;
-            display: flex; align-items: center; justify-content: center; padding: 6px;
+            display: flex; align-items: center; justify-content: center; padding: 6px; touch-action: none;
         }
 
-        /* CANVAS DA SALA COM AUTO-ESCALA INTEGRADA */
         .mapa-canvas {
             position: relative; width: 1100px; height: 700px; background-color: #0b1217;
             background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 0);
             background-size: 20px 20px; transform-origin: center center; flex-shrink: 0;
-            border: 4px solid var(--accent-gold); border-radius: 6px;
+            border: 4px solid var(--accent-gold); border-radius: 6px; transition: transform 0.05s linear;
         }
 
         .porta-icon { position: absolute; top: -14px; left: 550px; font-size: 1.2rem; pointer-events: none; background: #0b1217; padding: 0 6px; color: #fff; font-weight: bold; border: 1px solid var(--panel-border); border-radius: 4px; }
@@ -127,7 +109,6 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.5);
         }
 
-        /* PISTA DE DANÇA */
         .dj-booth {
             position: absolute; left: 530px; top: 180px; width: 260px; height: 210px;
             background: radial-gradient(circle, rgba(139,92,246,0.4) 0%, rgba(236,72,153,0.2) 70%);
@@ -136,16 +117,13 @@
             box-shadow: 0 0 20px rgba(236,72,153,0.3); z-index: 10; user-select: none; touch-action: none;
         }
 
-        .dj-booth.draggable {
-            cursor: move; border-color: #facc15; box-shadow: 0 0 25px #facc15; outline: 2px dashed #facc15;
-        }
+        .dj-booth.draggable { cursor: move; border-color: #facc15; box-shadow: 0 0 25px #facc15; }
 
-        /* MESAS */
         .mesa {
             position: absolute; display: flex; flex-direction: column; justify-content: center;
             align-items: center; color: #fff; font-weight: 800; font-size: 0.78rem;
             box-shadow: 0 4px 10px rgba(0,0,0,0.6); cursor: pointer; user-select: none; touch-action: none;
-            transition: transform 0.15s ease, background-color 0.2s ease; border: 2px solid rgba(255,255,255,0.2);
+            transition: background-color 0.2s ease, transform 0.15s ease; border: 2px solid rgba(255,255,255,0.2);
             text-shadow: 0 1px 3px rgba(0,0,0,0.8);
         }
 
@@ -174,10 +152,7 @@
         .painel-lateral h2 { font-size: 0.85rem; color: var(--accent-gold); margin-bottom: 6px; border-bottom: 1px solid var(--panel-border); padding-bottom: 4px; }
         .lista-reservas-scroll { flex: 1; overflow-y: auto; }
 
-        .reserva-card-side {
-            background: rgba(0,0,0,0.3); border: 1px solid var(--panel-border); border-radius: 6px;
-            padding: 6px 8px; margin-bottom: 6px; cursor: pointer;
-        }
+        .reserva-card-side { background: rgba(0,0,0,0.3); border: 1px solid var(--panel-border); border-radius: 6px; padding: 6px 8px; margin-bottom: 6px; cursor: pointer; }
 
         .table-responsive { background: var(--panel-bg); border: 1px solid var(--panel-border); border-radius: var(--radius-md); overflow: auto; flex: 1; }
         .data-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.82rem; }
@@ -223,7 +198,6 @@
     <div class="conteudo">
         <div id="toast-container"></div>
 
-        <!-- TAB 1: PLANTA DA SALA -->
         <section id="tab-mapa" class="tab-page active">
             <div class="mapa-header-bar">
                 <div style="display:flex; gap:8px; font-size:0.75rem; align-items:center; font-weight:600;">
@@ -233,6 +207,7 @@
                     <span style="color:var(--st-azul);">🔵 VIP</span>
                 </div>
                 <div style="display:flex; gap:4px;">
+                    <button class="btn btn-outline" onclick="resetZoom()">🔍 Reset Zoom</button>
                     <button class="btn btn-outline" onclick="abrirModalCriarMesa()">➕ Mesa</button>
                     <button id="btn-modo-grupo" class="btn btn-outline" onclick="toggleModoGrupo()">🔗 Unir</button>
                     <button id="btn-edit-layout" class="btn btn-secondary" onclick="toggleEditLayout()">✏️ Mover / Editar Sala</button>
@@ -261,7 +236,6 @@
             </div>
         </section>
 
-        <!-- TAB 2: CLIENTES HABITUAIS -->
         <section id="tab-habituais" class="tab-page">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
                 <h2>⭐ Clientes Habituais</h2>
@@ -283,7 +257,6 @@
             </div>
         </section>
 
-        <!-- TAB 3: LISTA DE RESERVAS -->
         <section id="tab-reservas" class="tab-page">
             <div class="table-responsive">
                 <table class="data-table">
@@ -304,7 +277,7 @@
         </section>
     </div>
 
-    <!-- MODAL EDITAR MESA -->
+    <!-- MODAL EDITAR MESA COM ROTAÇÃO E CAPACIDADE -->
     <div class="modal" id="modalInfo">
         <div class="caixa-modal">
             <h2 id="infoTitulo">Mesa --</h2>
@@ -314,10 +287,19 @@
                     <input type="text" id="edit-mesa-nome">
                 </div>
                 <div class="form-group">
-                    <label>Capacidade:</label>
+                    <label>Capacidade (Pessoas):</label>
                     <input type="number" id="edit-mesa-capacidade" min="1">
                 </div>
-                <div class="form-group form-group-full">
+                <div class="form-group">
+                    <label>Rotação:</label>
+                    <select id="edit-mesa-rotacao">
+                        <option value="0">0° (Horizontal)</option>
+                        <option value="90">90° (Vertical)</option>
+                        <option value="180">180°</option>
+                        <option value="270">270°</option>
+                    </select>
+                </div>
+                <div class="form-group">
                     <label>Cor / Estado:</label>
                     <select id="edit-mesa-estado">
                         <option value="livre">🟢 Verde (Livre)</option>
@@ -340,7 +322,6 @@
         </div>
     </div>
 
-    <!-- MODAL CLIENTE HABITUAL -->
     <div class="modal" id="modalHabitual">
         <div class="caixa-modal">
             <h2 id="modalHabitualTitulo">Cliente Habitual</h2>
@@ -372,7 +353,6 @@
         </div>
     </div>
 
-    <!-- MODAL CRIAR MESA -->
     <div class="modal" id="modalCriarMesa">
         <div class="caixa-modal">
             <h2>➕ Nova Mesa</h2>
@@ -401,7 +381,6 @@
         </div>
     </div>
 
-    <!-- MODAL RESERVA -->
     <div class="modal" id="modalReserva">
         <div class="caixa-modal">
             <h2>Nova Reserva</h2>
@@ -442,46 +421,46 @@
 
     <script>
         const MESAS_PADRAO = [
-            { id: "Salinha 1", nome: "Salinha 1", capacidade: 20, classe: "retangular", x: 25, y: 70, estadoCor: "livre" },
-            { id: "Salinha 2", nome: "Salinha 2", capacidade: 20, classe: "retangular", x: 25, y: 150, estadoCor: "livre" },
-            { id: "Salinha 3", nome: "Salinha 3", capacidade: 20, classe: "retangular", x: 25, y: 230, estadoCor: "livre" },
-            { id: "Salinha 4", nome: "Salinha 4", capacidade: 20, classe: "retangular", x: 25, y: 310, estadoCor: "livre" },
-            { id: "Redondo", nome: "Redondo", capacidade: 25, classe: "grande", x: 220, y: 30, estadoCor: "livre" },
-            { id: "39", nome: "Mesa 39", capacidade: 8, classe: "redonda", x: 280, y: 130, estadoCor: "livre" },
-            { id: "36", nome: "Mesa 36", capacidade: 8, classe: "redonda", x: 390, y: 130, estadoCor: "livre" },
-            { id: "40", nome: "Mesa 40", capacidade: 8, classe: "redonda", x: 280, y: 260, estadoCor: "livre" },
-            { id: "35", nome: "Mesa 35", capacidade: 8, classe: "redonda", x: 390, y: 260, estadoCor: "livre" },
-            { id: "29", nome: "Mesa 29", capacidade: 10, classe: "redonda", x: 260, y: 530, estadoCor: "livre" },
-            { id: "19", nome: "Mesa 19", capacidade: 2, classe: "quadrada", x: 530, y: 200, estadoCor: "livre" },
-            { id: "18", nome: "Mesa 18", capacidade: 2, classe: "quadrada", x: 595, y: 200, estadoCor: "livre" },
-            { id: "17", nome: "Mesa 17", capacidade: 4, classe: "retangular", x: 660, y: 200, estadoCor: "livre" },
-            { id: "16", nome: "Mesa 16", capacidade: 2, classe: "quadrada", x: 530, y: 270, estadoCor: "livre" },
-            { id: "15", nome: "Mesa 15", capacidade: 2, classe: "quadrada", x: 595, y: 270, estadoCor: "livre" },
-            { id: "14", nome: "Mesa 14", capacidade: 4, classe: "retangular", x: 660, y: 270, estadoCor: "livre" },
-            { id: "12", nome: "Mesa 12", capacidade: 2, classe: "quadrada", x: 530, y: 340, estadoCor: "livre" },
-            { id: "11", nome: "Mesa 11", capacidade: 2, classe: "quadrada", x: 595, y: 340, estadoCor: "livre" },
-            { id: "10", nome: "Mesa 10", capacidade: 4, classe: "retangular", x: 660, y: 340, estadoCor: "livre" },
-            { id: "24", nome: "Mesa 24", capacidade: 2, classe: "quadrada", x: 360, y: 460, estadoCor: "livre" },
-            { id: "23", nome: "Mesa 23", capacidade: 2, classe: "quadrada", x: 425, y: 460, estadoCor: "livre" },
-            { id: "22", nome: "Mesa 22", capacidade: 2, classe: "quadrada", x: 490, y: 460, estadoCor: "livre" },
-            { id: "21", nome: "Mesa 21", capacidade: 2, classe: "quadrada", x: 555, y: 460, estadoCor: "livre" },
-            { id: "34", nome: "Mesa 34", capacidade: 2, classe: "quadrada", x: 360, y: 530, estadoCor: "livre" },
-            { id: "33", nome: "Mesa 33", capacidade: 2, classe: "quadrada", x: 425, y: 530, estadoCor: "livre" },
-            { id: "32", nome: "Mesa 32", capacidade: 2, classe: "quadrada", x: 490, y: 530, estadoCor: "livre" },
-            { id: "31", nome: "Mesa 31", capacidade: 2, classe: "quadrada", x: 555, y: 530, estadoCor: "livre" },
-            { id: "28", nome: "Mesa 28", capacidade: 2, classe: "quadrada", x: 360, y: 600, estadoCor: "livre" },
-            { id: "27", nome: "Mesa 27", capacidade: 2, classe: "quadrada", x: 425, y: 600, estadoCor: "livre" },
-            { id: "26", nome: "Mesa 26", capacidade: 2, classe: "quadrada", x: 490, y: 600, estadoCor: "livre" },
-            { id: "25", nome: "Mesa 25", capacidade: 2, classe: "quadrada", x: 555, y: 600, estadoCor: "livre" },
-            { id: "5", nome: "Mesa 5", capacidade: 2, classe: "quadrada", x: 920, y: 25, estadoCor: "livre" },
-            { id: "4", nome: "Mesa 4", capacidade: 8, classe: "redonda", x: 970, y: 80, estadoCor: "livre" },
-            { id: "6", nome: "Mesa 6", capacidade: 8, classe: "redonda", x: 870, y: 150, estadoCor: "livre" },
-            { id: "3", nome: "Mesa 3", capacidade: 8, classe: "redonda", x: 970, y: 230, estadoCor: "livre" },
-            { id: "7", nome: "Mesa 7", capacidade: 8, classe: "redonda", x: 870, y: 310, estadoCor: "livre" },
-            { id: "2", nome: "Mesa 2", capacidade: 8, classe: "redonda", x: 970, y: 390, estadoCor: "livre" },
-            { id: "8", nome: "Mesa 8", capacidade: 8, classe: "redonda", x: 870, y: 470, estadoCor: "livre" },
-            { id: "1", nome: "Mesa 1", capacidade: 8, classe: "redonda", x: 970, y: 550, estadoCor: "livre" },
-            { id: "9", nome: "Mesa 9", capacidade: 8, classe: "redonda", x: 870, y: 550, estadoCor: "livre" }
+            { id: "Salinha 1", nome: "Salinha 1", capacidade: 20, classe: "retangular", x: 25, y: 70, estadoCor: "livre", rotacao: 0 },
+            { id: "Salinha 2", nome: "Salinha 2", capacidade: 20, classe: "retangular", x: 25, y: 150, estadoCor: "livre", rotacao: 0 },
+            { id: "Salinha 3", nome: "Salinha 3", capacidade: 20, classe: "retangular", x: 25, y: 230, estadoCor: "livre", rotacao: 0 },
+            { id: "Salinha 4", nome: "Salinha 4", capacidade: 20, classe: "retangular", x: 25, y: 310, estadoCor: "livre", rotacao: 0 },
+            { id: "Redondo", nome: "Redondo", capacidade: 25, classe: "grande", x: 220, y: 30, estadoCor: "livre", rotacao: 0 },
+            { id: "39", nome: "Mesa 39", capacidade: 8, classe: "redonda", x: 280, y: 130, estadoCor: "livre", rotacao: 0 },
+            { id: "36", nome: "Mesa 36", capacidade: 8, classe: "redonda", x: 390, y: 130, estadoCor: "livre", rotacao: 0 },
+            { id: "40", nome: "Mesa 40", capacidade: 8, classe: "redonda", x: 280, y: 260, estadoCor: "livre", rotacao: 0 },
+            { id: "35", nome: "Mesa 35", capacidade: 8, classe: "redonda", x: 390, y: 260, estadoCor: "livre", rotacao: 0 },
+            { id: "29", nome: "Mesa 29", capacidade: 10, classe: "redonda", x: 260, y: 530, estadoCor: "livre", rotacao: 0 },
+            { id: "19", nome: "Mesa 19", capacidade: 2, classe: "quadrada", x: 530, y: 200, estadoCor: "livre", rotacao: 0 },
+            { id: "18", nome: "Mesa 18", capacidade: 2, classe: "quadrada", x: 595, y: 200, estadoCor: "livre", rotacao: 0 },
+            { id: "17", nome: "Mesa 17", capacidade: 4, classe: "retangular", x: 660, y: 200, estadoCor: "livre", rotacao: 0 },
+            { id: "16", nome: "Mesa 16", capacidade: 2, classe: "quadrada", x: 530, y: 270, estadoCor: "livre", rotacao: 0 },
+            { id: "15", nome: "Mesa 15", capacidade: 2, classe: "quadrada", x: 595, y: 270, estadoCor: "livre", rotacao: 0 },
+            { id: "14", nome: "Mesa 14", capacidade: 4, classe: "retangular", x: 660, y: 270, estadoCor: "livre", rotacao: 0 },
+            { id: "12", nome: "Mesa 12", capacidade: 2, classe: "quadrada", x: 530, y: 340, estadoCor: "livre", rotacao: 0 },
+            { id: "11", nome: "Mesa 11", capacidade: 2, classe: "quadrada", x: 595, y: 340, estadoCor: "livre", rotacao: 0 },
+            { id: "10", nome: "Mesa 10", capacidade: 4, classe: "retangular", x: 660, y: 340, estadoCor: "livre", rotacao: 0 },
+            { id: "24", nome: "Mesa 24", capacidade: 2, classe: "quadrada", x: 360, y: 460, estadoCor: "livre", rotacao: 0 },
+            { id: "23", nome: "Mesa 23", capacidade: 2, classe: "quadrada", x: 425, y: 460, estadoCor: "livre", rotacao: 0 },
+            { id: "22", nome: "Mesa 22", capacidade: 2, classe: "quadrada", x: 490, y: 460, estadoCor: "livre", rotacao: 0 },
+            { id: "21", nome: "Mesa 21", capacidade: 2, classe: "quadrada", x: 555, y: 460, estadoCor: "livre", rotacao: 0 },
+            { id: "34", nome: "Mesa 34", capacidade: 2, classe: "quadrada", x: 360, y: 530, estadoCor: "livre", rotacao: 0 },
+            { id: "33", nome: "Mesa 33", capacidade: 2, classe: "quadrada", x: 425, y: 530, estadoCor: "livre", rotacao: 0 },
+            { id: "32", nome: "Mesa 32", capacidade: 2, classe: "quadrada", x: 490, y: 530, estadoCor: "livre", rotacao: 0 },
+            { id: "31", nome: "Mesa 31", capacidade: 2, classe: "quadrada", x: 555, y: 530, estadoCor: "livre", rotacao: 0 },
+            { id: "28", nome: "Mesa 28", capacidade: 2, classe: "quadrada", x: 360, y: 600, estadoCor: "livre", rotacao: 0 },
+            { id: "27", nome: "Mesa 27", capacidade: 2, classe: "quadrada", x: 425, y: 600, estadoCor: "livre", rotacao: 0 },
+            { id: "26", nome: "Mesa 26", capacidade: 2, classe: "quadrada", x: 490, y: 600, estadoCor: "livre", rotacao: 0 },
+            { id: "25", nome: "Mesa 25", capacidade: 2, classe: "quadrada", x: 555, y: 600, estadoCor: "livre", rotacao: 0 },
+            { id: "5", nome: "Mesa 5", capacidade: 2, classe: "quadrada", x: 920, y: 25, estadoCor: "livre", rotacao: 0 },
+            { id: "4", nome: "Mesa 4", capacidade: 8, classe: "redonda", x: 970, y: 80, estadoCor: "livre", rotacao: 0 },
+            { id: "6", nome: "Mesa 6", capacidade: 8, classe: "redonda", x: 870, y: 150, estadoCor: "livre", rotacao: 0 },
+            { id: "3", nome: "Mesa 3", capacidade: 8, classe: "redonda", x: 970, y: 230, estadoCor: "livre", rotacao: 0 },
+            { id: "7", nome: "Mesa 7", capacidade: 8, classe: "redonda", x: 870, y: 310, estadoCor: "livre", rotacao: 0 },
+            { id: "2", nome: "Mesa 2", capacidade: 8, classe: "redonda", x: 970, y: 390, estadoCor: "livre", rotacao: 0 },
+            { id: "8", nome: "Mesa 8", capacidade: 8, classe: "redonda", x: 870, y: 470, estadoCor: "livre", rotacao: 0 },
+            { id: "1", nome: "Mesa 1", capacidade: 8, classe: "redonda", x: 970, y: 550, estadoCor: "livre", rotacao: 0 },
+            { id: "9", nome: "Mesa 9", capacidade: 8, classe: "redonda", x: 870, y: 550, estadoCor: "livre", rotacao: 0 }
         ];
 
         const MESAS_PISTA = ["10", "11", "12", "14", "15", "16", "17", "18", "19"];
@@ -495,46 +474,95 @@
         let mesasGrupoSelecionadas = [];
         let mesaSelecionadaId = null;
         let pistaPos = { x: 530, y: 180 };
+        let baseScale = 1;
+        let zoomScale = 1;
 
         document.addEventListener("DOMContentLoaded", () => {
             carregarDados();
             iniciarNavegacao();
             renderizarTudo();
             configurarDragPistaEElementos();
+            configurarPinchZoom();
             ajustarEscalaMapa();
             window.addEventListener("resize", ajustarEscalaMapa);
             window.addEventListener("orientationchange", () => setTimeout(ajustarEscalaMapa, 250));
         });
 
         function carregarDados() {
-            const m = localStorage.getItem("mesas_v9");
+            const m = localStorage.getItem("mesas_v10");
             mesas = m ? JSON.parse(m) : JSON.parse(JSON.stringify(MESAS_PADRAO));
-            const r = localStorage.getItem("reservas_v9");
+            const r = localStorage.getItem("reservas_v10");
             reservas = r ? JSON.parse(r) : [];
-            const h = localStorage.getItem("habituais_v9");
+            const h = localStorage.getItem("habituais_v10");
             habituais = h ? JSON.parse(h) : [];
-            const p = localStorage.getItem("pista_v9");
+            const p = localStorage.getItem("pista_v10");
             if (p) pistaPos = JSON.parse(p);
         }
 
         function guardarDados() {
-            localStorage.setItem("mesas_v9", JSON.stringify(mesas));
-            localStorage.setItem("reservas_v9", JSON.stringify(reservas));
-            localStorage.setItem("habituais_v9", JSON.stringify(habituais));
-            localStorage.setItem("pista_v9", JSON.stringify(pistaPos));
+            localStorage.setItem("mesas_v10", JSON.stringify(mesas));
+            localStorage.setItem("reservas_v10", JSON.stringify(reservas));
+            localStorage.setItem("habituais_v10", JSON.stringify(habituais));
+            localStorage.setItem("pista_v10", JSON.stringify(pistaPos));
         }
 
-        /* AUTO-AJUSTE DINÂMICO DA SALA PARA DENTRO DO ECRÃ */
+        function aplicarTransformMapa() {
+            const canvas = document.getElementById("restaurant-map-canvas");
+            if (canvas) {
+                canvas.style.transform = `scale(${baseScale * zoomScale})`;
+            }
+        }
+
         function ajustarEscalaMapa() {
             const vp = document.getElementById("mapa-viewport-element");
-            const canvas = document.getElementById("restaurant-map-canvas");
-            if (!vp || !canvas) return;
-
+            if (!vp) return;
             const scaleX = (vp.clientWidth - 12) / 1100;
             const scaleY = (vp.clientHeight - 12) / 700;
-            const fitScale = Math.min(scaleX, scaleY);
+            baseScale = Math.min(scaleX, scaleY);
+            aplicarTransformMapa();
+        }
 
-            canvas.style.transform = `scale(${fitScale})`;
+        function resetZoom() {
+            zoomScale = 1;
+            ajustarEscalaMapa();
+        }
+
+        /* PINCH TO ZOOM COM 2 DEDOS E WHEEL DO RATO */
+        function configurarPinchZoom() {
+            const vp = document.getElementById("mapa-viewport-element");
+            let initialDist = 0;
+            let initialZoom = 1;
+
+            vp.addEventListener("touchstart", (e) => {
+                if (e.touches.length === 2) {
+                    initialDist = Math.hypot(
+                        e.touches[0].clientX - e.touches[1].clientX,
+                        e.touches[0].clientY - e.touches[1].clientY
+                    );
+                    initialZoom = zoomScale;
+                }
+            }, { passive: true });
+
+            vp.addEventListener("touchmove", (e) => {
+                if (e.touches.length === 2) {
+                    e.preventDefault();
+                    const currentDist = Math.hypot(
+                        e.touches[0].clientX - e.touches[1].clientX,
+                        e.touches[0].clientY - e.touches[1].clientY
+                    );
+                    if (initialDist > 0) {
+                        const factor = currentDist / initialDist;
+                        zoomScale = Math.max(0.6, Math.min(initialZoom * factor, 3.0));
+                        aplicarTransformMapa();
+                    }
+                }
+            }, { passive: false });
+
+            vp.addEventListener("wheel", (e) => {
+                e.preventDefault();
+                zoomScale = Math.max(0.6, Math.min(zoomScale + (e.deltaY < 0 ? 0.1 : -0.1), 3.0));
+                aplicarTransformMapa();
+            }, { passive: false });
         }
 
         function toggleSidebarReservas() {
@@ -573,7 +601,18 @@
 
                 el.style.left = `${m.x}px`;
                 el.style.top = `${m.y}px`;
-                if (m.largura) el.style.width = `${m.largura}px`;
+                
+                // Rotação individual
+                const rot = m.rotacao || 0;
+                el.style.transform = `rotate(${rot}deg)`;
+
+                // Tamanho dinâmico para aumento de capacidade (ex: 2 para 4 pax)
+                if (m.largura) {
+                    el.style.width = `${m.largura}px`;
+                } else if (m.capacidade > 2 && m.classe.includes("quadrada")) {
+                    el.style.width = `${Math.min(100, 48 + (m.capacidade - 2) * 15)}px`;
+                }
+
                 if (m.altura) el.style.height = `${m.altura}px`;
                 el.dataset.id = m.id;
 
@@ -620,7 +659,6 @@
             mostrarToast("Planta guardada!");
         }
 
-        /* SUPORTE COMPLETO DE ARRASTO TOUCH / RATO */
         function configurarDragPistaEElementos() {
             const canvas = document.getElementById("restaurant-map-canvas");
             let elementoAtivo = null;
@@ -635,7 +673,7 @@
             }
 
             function iniciarArrasto(e) {
-                if (!modoEdicao) return;
+                if (!modoEdicao || (e.touches && e.touches.length > 1)) return;
 
                 const targetMesa = e.target.closest(".mesa");
                 const targetDJ = e.target.closest(".dj-booth");
@@ -669,11 +707,10 @@
                 e.preventDefault();
 
                 const pos = getClientPos(e);
-                const transform = canvas.style.transform;
-                const scale = parseFloat(transform.replace("scale(", "").replace(")", "")) || 1;
+                const currentScale = baseScale * zoomScale;
 
-                const deltaX = (pos.x - startPos.x) / scale;
-                const deltaY = (pos.y - startPos.y) / scale;
+                const deltaX = (pos.x - startPos.x) / currentScale;
+                const deltaY = (pos.y - startPos.y) / currentScale;
 
                 const novoX = Math.max(10, Math.min(elemStartPos.x + deltaX, 1000));
                 const novoY = Math.max(10, Math.min(elemStartPos.y + deltaY, 630));
@@ -706,6 +743,7 @@
             canvas.addEventListener("touchstart", iniciarArrasto, { passive: false });
         }
 
+        /* UNIR MESAS EM UMA SÓ */
         function toggleModoGrupo() {
             modoGrupo = !modoGrupo;
             mesasGrupoSelecionadas = [];
@@ -730,7 +768,7 @@
         }
 
         function unirMesasNumaSo() {
-            const nomeGrupo = prompt("Nome da Mesa Unida:", `Mesa Unida ${mesasGrupoSelecionadas.join("+")}`);
+            const nomeGrupo = prompt("Nome da Mesa Unida:", `Mesa ${mesasGrupoSelecionadas.join("+")}`);
             if (!nomeGrupo) return;
 
             const somaPax = mesasGrupoSelecionadas.reduce((acc, id) => {
@@ -739,17 +777,18 @@
             }, 0);
 
             const primeira = mesas.find(x => x.id === mesasGrupoSelecionadas[0]);
-            const novaLargura = Math.max(120, Math.min(somaPax * 22, 320));
+            const novaLargura = Math.max(120, Math.min(somaPax * 22, 350));
 
             const mesaUnificada = {
                 id: nomeGrupo, nome: nomeGrupo, capacidade: somaPax, classe: "retangular mesa-fusa",
-                x: primeira.x, y: primeira.y, largura: novaLargura, altura: 55, estadoCor: "livre"
+                x: primeira.x, y: primeira.y, largura: novaLargura, altura: 55, estadoCor: "livre", rotacao: 0
             };
 
             mesas = mesas.filter(m => !mesasGrupoSelecionadas.includes(m.id));
             mesas.push(mesaUnificada);
             guardarDados();
             renderizarTudo();
+            mostrarToast("Mesas unidas numa só!");
         }
 
         function renderizarTabelaHabituais() {
@@ -823,6 +862,7 @@
             document.getElementById("infoTitulo").textContent = m.nome;
             document.getElementById("edit-mesa-nome").value = m.id;
             document.getElementById("edit-mesa-capacidade").value = m.capacidade;
+            document.getElementById("edit-mesa-rotacao").value = m.rotacao || 0;
             document.getElementById("edit-mesa-estado").value = m.estadoCor || "livre";
 
             const hab = habituais.find(h => h.mesa === m.id);
@@ -841,6 +881,7 @@
 
             m.id = document.getElementById("edit-mesa-nome").value.trim() || m.id;
             m.capacidade = parseInt(document.getElementById("edit-mesa-capacidade").value) || m.capacidade;
+            m.rotacao = parseInt(document.getElementById("edit-mesa-rotacao").value) || 0;
             m.estadoCor = document.getElementById("edit-mesa-estado").value;
 
             guardarDados();
@@ -869,7 +910,7 @@
 
             if (!nome) return;
 
-            mesas.push({ id: nome, nome: "Mesa " + nome, capacidade: cap, classe: fmt, x: 450, y: 300, estadoCor: "livre" });
+            mesas.push({ id: nome, nome: "Mesa " + nome, capacidade: cap, classe: fmt, x: 450, y: 300, estadoCor: "livre", rotacao: 0 });
             guardarDados();
             fecharModal("modalCriarMesa");
             renderizarTudo();
