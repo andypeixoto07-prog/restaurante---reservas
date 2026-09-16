@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>App Gestão de Sala - Completa</title>
+    <title>App Gestão de Sala - Balcão Editável</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -103,14 +103,16 @@
         .porta-icon { position: absolute; top: -14px; left: 550px; font-size: 1.2rem; pointer-events: none; background: #0b1217; padding: 0 6px; color: #fff; font-weight: bold; border: 1px solid var(--panel-border); border-radius: 4px; }
         
         .balcao-obj {
-            position: absolute; left: 850px; bottom: 20px; width: 220px; height: 65px;
+            position: absolute; width: 220px; height: 65px;
             background: #523417; border: 2px solid #855523; border-radius: 6px;
             display: flex; align-items: center; justify-content: center; font-weight: 800; color: #fff; font-size: 0.85rem;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.5); user-select: none; touch-action: none;
         }
 
+        .balcao-obj.draggable { cursor: move; border-color: #facc15; box-shadow: 0 0 15px #facc15; }
+
         .dj-booth {
-            position: absolute; left: 530px; top: 180px; width: 260px; height: 210px;
+            position: absolute; width: 260px; height: 210px;
             background: radial-gradient(circle, rgba(139,92,246,0.4) 0%, rgba(236,72,153,0.2) 70%);
             border: 2px dashed #ec4899; border-radius: 12px; display: flex; flex-direction: column;
             align-items: center; justify-content: center; color: #f472b6; font-weight: 800;
@@ -128,7 +130,7 @@
         }
 
         .mesa.draggable { cursor: move; outline: 2px dashed var(--accent-gold); }
-        .mesa.selecionada-grupo { outline: 4px solid #38bdf8 !important; }
+        .mesa.selecionada-grupo { outline: 4px solid #38bdf8 !important; background-color: rgba(56, 189, 248, 0.4) !important; }
 
         .mesa.st-livre { background-color: var(--st-livre) !important; }
         .mesa.st-reservada { background-color: var(--st-reservada) !important; }
@@ -142,7 +144,7 @@
         .quadrada { width: 48px; height: 48px; border-radius: 6px; }
         .redonda { width: 64px; height: 64px; border-radius: 50%; }
         .grande { width: 190px; height: 50px; border-radius: 25px; }
-        .mesa-fusa { border-radius: 8px; border: 2px dashed #f59e0b; }
+        .mesa-fusa { border-radius: 8px; border: 2px dashed #f59e0b; background-color: #334155 !important; }
 
         .painel-lateral {
             width: 280px; background: var(--panel-bg); border: 1px solid var(--panel-border);
@@ -219,7 +221,7 @@
                 <div id="mapa-viewport-element" class="mapa-viewport">
                     <div id="restaurant-map-canvas" class="mapa-canvas">
                         <div class="porta-icon">🚪 ENTRADA</div>
-                        <div class="balcao-obj">BALCÃO</div>
+                        <div id="balcao-element" class="balcao-obj">BALCÃO</div>
 
                         <div id="dj-booth-element" class="dj-booth" style="display:none;">
                             <div style="font-size:1.4rem;">🎧 🎷</div>
@@ -474,6 +476,7 @@
         let mesasGrupoSelecionadas = [];
         let mesaSelecionadaId = null;
         let pistaPos = { x: 530, y: 180 };
+        let balcaoPos = { x: 850, y: 615 };
         let baseScale = 1;
         let zoomScale = 1;
 
@@ -489,21 +492,24 @@
         });
 
         function carregarDados() {
-            const m = localStorage.getItem("mesas_v10");
+            const m = localStorage.getItem("mesas_v12");
             mesas = m ? JSON.parse(m) : JSON.parse(JSON.stringify(MESAS_PADRAO));
-            const r = localStorage.getItem("reservas_v10");
+            const r = localStorage.getItem("reservas_v12");
             reservas = r ? JSON.parse(r) : [];
-            const h = localStorage.getItem("habituais_v10");
+            const h = localStorage.getItem("habituais_v12");
             habituais = h ? JSON.parse(h) : [];
-            const p = localStorage.getItem("pista_v10");
+            const p = localStorage.getItem("pista_v12");
             if (p) pistaPos = JSON.parse(p);
+            const b = localStorage.getItem("balcao_v12");
+            if (b) balcaoPos = JSON.parse(b);
         }
 
         function guardarDados() {
-            localStorage.setItem("mesas_v10", JSON.stringify(mesas));
-            localStorage.setItem("reservas_v10", JSON.stringify(reservas));
-            localStorage.setItem("habituais_v10", JSON.stringify(habituais));
-            localStorage.setItem("pista_v10", JSON.stringify(pistaPos));
+            localStorage.setItem("mesas_v12", JSON.stringify(mesas));
+            localStorage.setItem("reservas_v12", JSON.stringify(reservas));
+            localStorage.setItem("habituais_v12", JSON.stringify(habituais));
+            localStorage.setItem("pista_v12", JSON.stringify(pistaPos));
+            localStorage.setItem("balcao_v12", JSON.stringify(balcaoPos));
         }
 
         function aplicarTransformMapa() {
@@ -527,7 +533,6 @@
             ajustarEscalaMapa();
         }
 
-        /* PINCH TO ZOOM COM 2 DEDOS E WHEEL DO RATO */
         function configurarPinchZoom() {
             const vp = document.getElementById("mapa-viewport-element");
             let initialDist = 0;
@@ -602,18 +607,17 @@
                 el.style.left = `${m.x}px`;
                 el.style.top = `${m.y}px`;
                 
-                // Rotação individual
                 const rot = m.rotacao || 0;
-                el.style.transform = `rotate(${rot}deg)`;
-
-                // Tamanho dinâmico para aumento de capacidade (ex: 2 para 4 pax)
+                
                 if (m.largura) {
                     el.style.width = `${m.largura}px`;
                 } else if (m.capacidade > 2 && m.classe.includes("quadrada")) {
-                    el.style.width = `${Math.min(100, 48 + (m.capacidade - 2) * 15)}px`;
+                    el.style.width = `${Math.min(100, 48 + (m.capacidade - 2) * 12)}px`;
                 }
 
                 if (m.altura) el.style.height = `${m.altura}px`;
+                
+                el.style.transform = `rotate(${rot}deg)`;
                 el.dataset.id = m.id;
 
                 const hab = habituais.find(h => h.mesa === m.id);
@@ -632,19 +636,27 @@
             const dj = document.getElementById("dj-booth-element");
             dj.style.left = `${pistaPos.x}px`;
             dj.style.top = `${pistaPos.y}px`;
+
+            const balcao = document.getElementById("balcao-element");
+            balcao.style.left = `${balcaoPos.x}px`;
+            balcao.style.top = `${balcaoPos.y}px`;
         }
 
         function toggleEditLayout() {
             modoEdicao = !modoEdicao;
             const dj = document.getElementById("dj-booth-element");
+            const balcao = document.getElementById("balcao-element");
+
             document.getElementById("btn-edit-layout").textContent = modoEdicao ? "❌ Cancelar" : "✏️ Mover / Editar Sala";
             document.getElementById("btn-save-layout").style.display = modoEdicao ? "inline-block" : "none";
 
             if (modoEdicao) {
                 dj.classList.add("draggable");
-                mostrarToast("Arraste elementos com o dedo/rato.");
+                balcao.classList.add("draggable");
+                mostrarToast("Arraste mesas, pista de dança ou balcão.");
             } else {
                 dj.classList.remove("draggable");
+                balcao.classList.remove("draggable");
                 carregarDados();
             }
             renderizarMapa();
@@ -673,15 +685,18 @@
             }
 
             function iniciarArrasto(e) {
-                if (!modoEdicao || (e.touches && e.touches.length > 1)) return;
+                if (!modoEdicao || modoGrupo || (e.touches && e.touches.length > 1)) return;
 
                 const targetMesa = e.target.closest(".mesa");
                 const targetDJ = e.target.closest(".dj-booth");
+                const targetBalcao = e.target.closest(".balcao-obj");
 
                 if (targetMesa) {
                     elementoAtivo = { tipo: "mesa", id: targetMesa.dataset.id, el: targetMesa };
                 } else if (targetDJ) {
                     elementoAtivo = { tipo: "pista", el: targetDJ };
+                } else if (targetBalcao) {
+                    elementoAtivo = { tipo: "balcao", el: targetBalcao };
                 }
 
                 if (elementoAtivo) {
@@ -691,8 +706,10 @@
                     if (elementoAtivo.tipo === "mesa") {
                         const m = mesas.find(x => x.id === elementoAtivo.id);
                         elemStartPos = { x: m.x, y: m.y };
-                    } else {
+                    } else if (elementoAtivo.tipo === "pista") {
                         elemStartPos = { x: pistaPos.x, y: pistaPos.y };
+                    } else if (elementoAtivo.tipo === "balcao") {
+                        elemStartPos = { x: balcaoPos.x, y: balcaoPos.y };
                     }
 
                     document.addEventListener("mousemove", moverArrasto);
@@ -728,6 +745,11 @@
                     pistaPos.y = novoY;
                     elementoAtivo.el.style.left = `${novoX}px`;
                     elementoAtivo.el.style.top = `${novoY}px`;
+                } else if (elementoAtivo.tipo === "balcao") {
+                    balcaoPos.x = novoX;
+                    balcaoPos.y = novoY;
+                    elementoAtivo.el.style.left = `${novoX}px`;
+                    elementoAtivo.el.style.top = `${novoY}px`;
                 }
             }
 
@@ -743,27 +765,35 @@
             canvas.addEventListener("touchstart", iniciarArrasto, { passive: false });
         }
 
-        /* UNIR MESAS EM UMA SÓ */
         function toggleModoGrupo() {
             modoGrupo = !modoGrupo;
-            mesasGrupoSelecionadas = [];
             const btn = document.getElementById("btn-modo-grupo");
 
             if (modoGrupo) {
+                mesasGrupoSelecionadas = [];
                 btn.textContent = "✅ Unir Selecionadas";
                 btn.classList.add("btn-gold");
+                mostrarToast("Selecione as mesas que pretende unir e clique novamente.");
             } else {
-                if (mesasGrupoSelecionadas.length > 1) unirMesasNumaSo();
+                if (mesasGrupoSelecionadas.length >= 2) {
+                    unirMesasNumaSo();
+                } else {
+                    mostrarToast("Selecione pelo menos 2 mesas para unir.");
+                }
                 btn.textContent = "🔗 Unir";
                 btn.classList.remove("btn-gold");
+                mesasGrupoSelecionadas = [];
             }
             renderizarMapa();
         }
 
         function toggleMesaNoGrupo(id) {
             const idx = mesasGrupoSelecionadas.indexOf(id);
-            if (idx === -1) mesasGrupoSelecionadas.push(id);
-            else mesasGrupoSelecionadas.splice(idx, 1);
+            if (idx === -1) {
+                mesasGrupoSelecionadas.push(id);
+            } else {
+                mesasGrupoSelecionadas.splice(idx, 1);
+            }
             renderizarMapa();
         }
 
@@ -777,18 +807,26 @@
             }, 0);
 
             const primeira = mesas.find(x => x.id === mesasGrupoSelecionadas[0]);
-            const novaLargura = Math.max(120, Math.min(somaPax * 22, 350));
+            const novaLargura = Math.max(120, Math.min(somaPax * 20, 350));
 
             const mesaUnificada = {
-                id: nomeGrupo, nome: nomeGrupo, capacidade: somaPax, classe: "retangular mesa-fusa",
-                x: primeira.x, y: primeira.y, largura: novaLargura, altura: 55, estadoCor: "livre", rotacao: 0
+                id: nomeGrupo, 
+                nome: nomeGrupo, 
+                capacidade: somaPax, 
+                classe: "retangular mesa-fusa",
+                x: primeira.x, 
+                y: primeira.y, 
+                largura: novaLargura, 
+                altura: 55, 
+                estadoCor: "livre", 
+                rotacao: 0
             };
 
             mesas = mesas.filter(m => !mesasGrupoSelecionadas.includes(m.id));
             mesas.push(mesaUnificada);
             guardarDados();
             renderizarTudo();
-            mostrarToast("Mesas unidas numa só!");
+            mostrarToast("Mesas unidas com sucesso!");
         }
 
         function renderizarTabelaHabituais() {
