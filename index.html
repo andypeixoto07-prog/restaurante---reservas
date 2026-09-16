@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestão Profissional de Mesas & Reservas</title>
+    <title>Gestão Profissional de Mesas & Planta Interativa</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -27,11 +27,7 @@
             --shadow-md: 0 4px 12px rgba(0,0,0,0.4);
         }
 
-        *, *::before, *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
             background-color: var(--bg-dark);
@@ -43,7 +39,6 @@
             line-height: 1.5;
         }
 
-        /* HEADER & NAVEGAÇÃO */
         header {
             background: var(--panel-bg);
             border-bottom: 1px solid var(--panel-border);
@@ -51,11 +46,10 @@
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
         }
 
         .header-container {
-            max-width: 1600px;
+            max-width: 1700px;
             margin: 0 auto;
             display: flex;
             justify-content: space-between;
@@ -64,751 +58,305 @@
             gap: 12px;
         }
 
-        .brand-area {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
+        .brand-area { display: flex; align-items: center; gap: 12px; }
+        .brand-icon { font-size: 28px; background: rgba(217, 173, 87, 0.15); padding: 6px 10px; border-radius: var(--radius-md); border: 1px solid var(--accent-gold); }
+        .brand-area h1 { font-size: 1.2rem; font-weight: 800; }
+        .brand-area .subtitulo { font-size: 0.75rem; color: var(--accent-gold); font-weight: 600; text-transform: uppercase; }
 
-        .brand-icon {
-            font-size: 28px;
-            background: rgba(217, 173, 87, 0.15);
-            padding: 6px 10px;
-            border-radius: var(--radius-md);
-            border: 1px solid var(--accent-gold);
-        }
-
-        .brand-area h1 {
-            font-size: 1.25rem;
-            font-weight: 800;
-            color: var(--text-main);
-            margin: 0;
-        }
-
-        .brand-area .subtitulo {
-            font-size: 0.78rem;
-            color: var(--accent-gold);
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .header-center {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
+        .header-center { display: flex; align-items: center; gap: 6px; }
         .nav-btn {
-            background: transparent;
-            border: 1px solid transparent;
-            color: var(--text-muted);
-            padding: 8px 14px;
-            border-radius: 6px;
-            font-weight: 600;
-            font-size: 0.88rem;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
+            background: transparent; border: 0; color: var(--text-muted);
+            padding: 8px 14px; border-radius: 6px; font-weight: 600; font-size: 0.88rem; cursor: pointer;
         }
+        .nav-btn.active { color: #0b141b; background: var(--accent-gold); }
 
-        .nav-btn:hover {
-            color: var(--text-main);
-            background: rgba(255,255,255,0.05);
-        }
-
-        .nav-btn.active {
-            color: #0b141b;
-            background: var(--accent-gold);
-            border-color: var(--accent-gold);
-        }
-
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .live-clock {
-            background: rgba(0,0,0,0.3);
-            border: 1px solid var(--panel-border);
-            padding: 4px 12px;
-            border-radius: 6px;
-            font-size: 0.82rem;
-            text-align: right;
-            font-variant-numeric: tabular-nums;
-        }
-
-        .live-clock #clock-time {
-            display: block;
-            color: var(--accent-gold);
-            font-weight: 700;
-            font-size: 0.95rem;
-        }
+        .header-right { display: flex; align-items: center; gap: 10px; }
 
         .btn {
-            border: 0;
-            border-radius: 8px;
-            padding: 10px 18px;
-            font-weight: 700;
-            font-size: 0.9rem;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            transition: all 0.2s ease;
+            border: 0; border-radius: 8px; padding: 9px 16px; font-weight: 700; font-size: 0.88rem;
+            cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s ease;
         }
-
         .btn-gold { background: var(--accent-gold); color: #17120a; }
         .btn-gold:hover { background: var(--accent-gold-hover); }
-
         .btn-music { background: #8b5cf6; color: #fff; }
-        .btn-music:hover { background: #7c3aed; }
         .btn-music.ativo { background: #ec4899; box-shadow: 0 0 12px #ec4899; }
-
         .btn-secondary { background: #334155; color: #fff; }
-        .btn-secondary:hover { background: #475569; }
-
         .btn-danger { background: #ef5350; color: #fff; }
-        .btn-danger:hover { background: #dc2626; }
-
-        .btn-outline {
-            background: transparent;
-            border: 1px solid var(--panel-border);
-            color: var(--text-main);
-        }
+        .btn-outline { background: transparent; border: 1px solid var(--panel-border); color: var(--text-main); }
         .btn-outline:hover { background: rgba(255,255,255,0.05); }
 
-        /* PAINEL PRINCIPAL */
-        .conteudo {
-            max-width: 1600px;
-            margin: 0 auto;
-            padding: 16px;
-            width: 100%;
-            flex: 1;
-        }
-
+        .conteudo { max-width: 1700px; margin: 0 auto; padding: 16px; width: 100%; flex: 1; }
         .tab-page { display: none; }
-        .tab-page.active { display: block; animation: fadeIn 0.2s ease; }
+        .tab-page.active { display: block; }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(4px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* MODO ECRÃ COMPLETO */
+        .mapa-viewport-fullscreen {
+            position: fixed !important; inset: 0 !important; z-index: 9999 !important;
+            width: 100vw !important; height: 100vh !important; max-height: 100vh !important;
+            background: #0d161d !important; border: 0 !important; border-radius: 0 !important;
+            padding: 20px; display: flex; justify-content: center; align-items: center;
         }
 
-        /* GRID DO MAPA + SIDEBAR */
-        .layout-mapa {
-            display: grid;
-            grid-template-columns: minmax(700px, 1fr) 340px;
-            gap: 16px;
-            align-items: start;
-        }
+        .layout-mapa { display: grid; grid-template-columns: minmax(750px, 1fr) 320px; gap: 16px; }
 
         .mapa-viewport {
-            background: #172126;
-            border: 2px solid #596872;
-            border-radius: var(--radius-md);
-            overflow: auto;
-            position: relative;
-            box-shadow: var(--shadow-md);
-            max-height: 780px;
+            background: #172126; border: 2px solid #596872; border-radius: var(--radius-md);
+            overflow: auto; position: relative; max-height: 800px;
         }
 
         .mapa-canvas {
-            position: relative;
-            width: 1080px;
-            height: 730px;
-            background-color: #121c22;
+            position: relative; width: 1050px; height: 750px; background-color: #121c22;
             background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 0);
-            background-size: 20px 20px;
-            margin: 0 auto;
+            background-size: 20px 20px; margin: 0 auto;
         }
 
-        /* PAREDES E ESTRUTURA VISUAL */
-        .parede {
-            position: absolute;
-            left: 10px;
-            top: 10px;
-            right: 10px;
-            bottom: 10px;
-            border: 3px solid #080b0d;
-            pointer-events: none;
-        }
-
-        .texto-decorativo {
-            position: absolute;
-            color: #bfc9cf;
-            font-weight: 800;
-            font-size: 0.85rem;
-            letter-spacing: 1px;
-            pointer-events: none;
-            user-select: none;
-        }
-
-        .salinha-titulo { left: 25px; top: 28px; color: var(--accent-gold); }
-        .entrada-label { top: 15px; left: 580px; color: var(--accent-gold); font-size: 0.75rem; }
-        .porta-icon { position: absolute; top: 0px; left: 630px; font-size: 1.4rem; pointer-events: none; }
-
+        .parede { position: absolute; inset: 10px; border: 3px solid #080b0d; pointer-events: none; }
+        .porta-icon { position: absolute; top: 0; left: 620px; font-size: 1.5rem; pointer-events: none; }
         .balcao-obj {
-            position: absolute;
-            left: 680px;
-            bottom: 25px;
-            width: 180px;
-            height: 65px;
-            background: #68431e;
-            border: 2px solid #a07031;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            font-size: 0.9rem;
-            color: #fce7f3;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.5);
-            pointer-events: none;
+            position: absolute; left: 680px; bottom: 25px; width: 170px; height: 60px;
+            background: #68431e; border: 2px solid #a07031; border-radius: 6px;
+            display: flex; align-items: center; justify-content: center; font-weight: 800; color: #fff;
         }
 
-        /* CABINE DE DJ / PISTA DE DANÇA */
+        /* PISTA DE DANÇA / DJ AMOVÍVEL */
         .dj-booth {
-            position: absolute;
-            left: 520px;
-            top: 220px;
-            width: 240px;
-            height: 180px;
-            background: radial-gradient(circle, rgba(139,92,246,0.3) 0%, rgba(236,72,153,0.1) 70%);
-            border: 2px dashed #ec4899;
-            border-radius: 16px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: #f472b6;
-            font-weight: 800;
-            font-size: 1rem;
-            text-align: center;
-            box-shadow: 0 0 20px rgba(236,72,153,0.3);
-            animation: djPulse 2s infinite alternate;
+            position: absolute; left: 520px; top: 200px; width: 250px; height: 210px;
+            background: radial-gradient(circle, rgba(139,92,246,0.35) 0%, rgba(236,72,153,0.15) 70%);
+            border: 2px dashed #ec4899; border-radius: 12px; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; color: #f472b6; font-weight: 800;
+            box-shadow: 0 0 20px rgba(236,72,153,0.3); z-index: 10; user-select: none;
         }
+        .dj-booth.draggable { cursor: move; border-color: #facc15; }
 
-        @keyframes djPulse {
-            0% { border-color: #ec4899; box-shadow: 0 0 15px rgba(236,72,153,0.3); }
-            100% { border-color: #8b5cf6; box-shadow: 0 0 25px rgba(139,92,246,0.5); }
-        }
-
-        /* MESAS NO MAPA */
+        /* MESAS */
         .mesa {
-            position: absolute;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background: var(--wood-table);
-            border: 2px solid var(--wood-border);
-            color: #fff;
-            font-weight: 800;
-            font-size: 0.85rem;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-            cursor: pointer;
-            user-select: none;
-            transition: transform 0.15s ease, box-shadow 0.15s ease;
+            position: absolute; display: flex; flex-direction: column; justify-content: center;
+            align-items: center; background: var(--wood-table); border: 2px solid var(--wood-border);
+            color: #fff; font-weight: 800; font-size: 0.82rem; box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            cursor: pointer; user-select: none; transition: transform 0.15s ease;
         }
+        .mesa:hover { transform: scale(1.05); z-index: 30; }
+        .mesa.draggable { cursor: move; outline: 2px dashed var(--accent-gold); }
+        .mesa.selecionada-grupo { outline: 3px solid #38bdf8 !important; }
 
-        .mesa:hover {
-            transform: scale(1.08);
-            z-index: 20;
-            box-shadow: 0 8px 18px rgba(0,0,0,0.7);
-        }
+        .mesa small { font-size: 9px; font-weight: 500; color: #f2e4c6; }
+        .mesa .estado-dot { position: absolute; right: 4px; top: 4px; width: 8px; height: 8px; border-radius: 50%; background: var(--st-livre); }
 
-        .mesa.draggable {
-            cursor: move;
-            animation: pulseBorder 1.5s infinite;
-        }
-
-        @keyframes pulseBorder {
-            0% { outline: 2px dashed var(--accent-gold); }
-            50% { outline: 2px dashed #ffffff; }
-            100% { outline: 2px dashed var(--accent-gold); }
-        }
-
-        .mesa small {
-            font-size: 9px;
-            font-weight: 500;
-            color: #f2e4c6;
-            margin-top: -1px;
-        }
-
-        .mesa .estado-dot {
-            position: absolute;
-            right: 4px;
-            top: 4px;
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: var(--st-livre);
-            box-shadow: 0 0 4px rgba(0,0,0,0.8);
-        }
-
-        /* ESTADOS DAS MESAS */
-        .mesa.st-reservada { border-color: var(--st-reservada); }
         .mesa.st-reservada .estado-dot { background: var(--st-reservada); }
-
-        .mesa.st-ocupada { border-color: var(--st-ocupada); }
         .mesa.st-ocupada .estado-dot { background: var(--st-ocupada); }
-
-        .mesa.st-aguardar { border-color: var(--st-aguardar); }
         .mesa.st-aguardar .estado-dot { background: var(--st-aguardar); }
 
-        .mesa.st-indisponivel { border-color: var(--st-indisponivel); opacity: 0.6; }
-        .mesa.st-indisponivel .estado-dot { background: var(--st-indisponivel); }
+        /* FORMATOS DE MESA */
+        .retangular { width: 100px; height: 55px; border-radius: 6px; }
+        .quadrada { width: 52px; height: 52px; border-radius: 6px; }
+        .redonda { width: 72px; height: 72px; border-radius: 50%; }
+        .grande { width: 210px; height: 60px; border-radius: 30px; }
 
-        /* FORMATOS DAS MESAS */
-        .retangular { width: 105px; height: 58px; border-radius: 7px; }
-        .quadrada { width: 55px; height: 55px; border-radius: 7px; }
-        .redonda { width: 76px; height: 76px; border-radius: 50%; }
-        .grande { width: 210px; height: 65px; border-radius: 32px; }
-
-        /* LEGENDAS DO MAPA */
         .mapa-header-bar {
-            background: var(--panel-bg);
-            border: 1px solid var(--panel-border);
-            border-radius: var(--radius-md);
-            padding: 10px 16px;
-            margin-bottom: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
+            background: var(--panel-bg); border: 1px solid var(--panel-border); border-radius: var(--radius-md);
+            padding: 10px 16px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
         }
 
-        .legend-bar {
-            display: flex;
-            gap: 14px;
-            flex-wrap: wrap;
-            font-size: 0.82rem;
-            font-weight: 600;
-        }
+        .painel-lateral { background: var(--panel-bg); border: 1px solid var(--panel-border); border-radius: var(--radius-md); padding: 16px; }
+        .painel-lateral h2 { font-size: 1.1rem; color: var(--accent-gold); margin-bottom: 12px; border-bottom: 1px solid var(--panel-border); padding-bottom: 6px; }
 
-        .legend-item { display: flex; align-items: center; gap: 6px; }
-        .dot-lg { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
-
-        /* SIDEBAR DIREITA */
-        .painel-lateral {
-            background: var(--panel-bg);
-            border: 1px solid var(--panel-border);
-            border-radius: var(--radius-md);
-            padding: 16px;
-            box-shadow: var(--shadow-md);
-        }
-
-        .painel-lateral h2 {
-            font-size: 1.1rem;
-            color: var(--accent-gold);
-            margin-bottom: 12px;
-            border-bottom: 1px solid var(--panel-border);
-            padding-bottom: 8px;
-        }
-
-        .reserva-card-side {
-            background: rgba(0,0,0,0.25);
-            border: 1px solid var(--panel-border);
-            border-radius: 6px;
-            padding: 10px;
-            margin-bottom: 10px;
-        }
-
-        .reserva-card-side strong { color: var(--accent-gold); font-size: 0.95rem; }
-        .reserva-card-side p { font-size: 0.83rem; color: #cbd5e1; margin-top: 4px; }
-
-        /* DASHBOARD METRICAS */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 14px;
-            margin-bottom: 20px;
-        }
-
-        .stat-card {
-            background: var(--panel-bg);
-            border: 1px solid var(--panel-border);
-            border-radius: var(--radius-md);
-            padding: 16px;
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-
-        .stat-icon {
-            font-size: 2rem;
-            background: rgba(255,255,255,0.05);
-            padding: 10px;
-            border-radius: 8px;
-        }
-
-        .stat-val { font-size: 1.6rem; font-weight: 800; line-height: 1; color: var(--accent-gold); }
-        .stat-lbl { font-size: 0.8rem; color: var(--text-muted); margin-top: 4px; }
-
-        /* TABELA DE RESERVAS */
-        .table-controls {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr auto;
-            gap: 10px;
-            background: var(--panel-bg);
-            padding: 14px;
-            border-radius: var(--radius-md);
-            border: 1px solid var(--panel-border);
-            margin-bottom: 16px;
-        }
-
-        input, select, textarea {
-            width: 100%;
-            padding: 10px 12px;
-            background: var(--bg-dark);
-            color: #fff;
-            border: 1px solid var(--panel-border);
-            border-radius: 6px;
-            font-size: 0.88rem;
-            font-family: inherit;
-        }
-
-        input:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent-gold); }
-
-        .table-responsive {
-            background: var(--panel-bg);
-            border: 1px solid var(--panel-border);
-            border-radius: var(--radius-md);
-            overflow-x: auto;
-        }
-
-        .data-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.88rem; }
-        .data-table th, .data-table td { padding: 12px 14px; border-bottom: 1px solid var(--panel-border); }
-        .data-table th { background: rgba(0,0,0,0.3); color: var(--accent-gold); font-weight: 700; }
-
-        .badge-status { padding: 3px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: 700; display: inline-block; }
-        .st-tag-Confirmada { background: #1e3a8a; color: #93c5fd; }
-        .st-tag-Aguardar { background: #78350f; color: #fde047; }
-        .st-tag-Ocupada { background: #1e40af; color: #bfdbfe; }
-        .st-tag-Concluída { background: #064e3b; color: #6ee7b7; }
-        .st-tag-Cancelada { background: #451a03; color: #fca5a5; }
+        .reserva-card-side { background: rgba(0,0,0,0.25); border: 1px solid var(--panel-border); border-radius: 6px; padding: 10px; margin-bottom: 8px; }
 
         /* MODAIS */
-        .modal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.8);
-            backdrop-filter: blur(4px);
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-        }
-
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(4px); align-items: center; justify-content: center; z-index: 1000; }
         .modal.aberto { display: flex; }
-
-        .caixa-modal {
-            background: var(--panel-bg);
-            border: 1px solid var(--accent-gold);
-            border-radius: 12px;
-            padding: 22px;
-            width: min(520px, 94vw);
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.8);
-        }
-
-        .caixa-modal h2 {
-            font-size: 1.25rem;
-            color: var(--accent-gold);
-            margin-bottom: 16px;
-            border-bottom: 1px solid var(--panel-border);
-            padding-bottom: 8px;
-        }
-
+        .caixa-modal { background: var(--panel-bg); border: 1px solid var(--accent-gold); border-radius: 12px; padding: 22px; width: min(520px, 94vw); max-height: 90vh; overflow-y: auto; }
         .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         .form-group-full { grid-column: span 2; }
-        .form-group label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--text-muted); margin-bottom: 4px; }
-        .acoes-modal { display: flex; justify-content: flex-end; gap: 10px; margin-top: 16px; }
 
-        /* TOAST NOTIFICAÇÕES */
+        input, select, textarea { width: 100%; padding: 9px 12px; background: var(--bg-dark); color: #fff; border: 1px solid var(--panel-border); border-radius: 6px; font-size: 0.88rem; }
+        label { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 4px; display: block; }
+
         #toast-container { position: fixed; bottom: 20px; right: 20px; z-index: 2000; display: flex; flex-direction: column; gap: 8px; }
-        .toast {
-            background: #1e293b; color: #fff; padding: 12px 18px; border-radius: 6px;
-            border-left: 4px solid var(--accent-gold); box-shadow: var(--shadow-md); font-size: 0.88rem; animation: slideIn 0.2s ease;
-        }
-
-        @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
-
-        @media (max-width: 1000px) { .layout-mapa { grid-template-columns: 1fr; } .table-controls { grid-template-columns: 1fr 1fr; } }
-        @media (max-width: 600px) { .header-container { flex-direction: column; align-items: stretch; } .header-center { overflow-x: auto; padding-bottom: 6px; } .form-grid { grid-template-columns: 1fr; } .form-group-full { grid-column: span 1; } .table-controls { grid-template-columns: 1fr; } }
+        .toast { background: #1e293b; color: #fff; padding: 12px 18px; border-radius: 6px; border-left: 4px solid var(--accent-gold); font-size: 0.88rem; }
     </style>
 </head>
 <body>
 
-    <!-- CABEÇALHO DA APLICAÇÃO -->
     <header>
         <div class="header-container">
             <div class="brand-area">
                 <span class="brand-icon">🍽️</span>
                 <div>
                     <h1 id="rest-title-display">Restaurante Gourmet</h1>
-                    <div class="subtitulo">Gestão de Mesas & Reservas</div>
+                    <div class="subtitulo">Planta Interativa & Reservas</div>
                 </div>
             </div>
 
             <nav class="header-center">
                 <button class="nav-btn active" data-tab="mapa">🗺️ Planta do Restaurante</button>
-                <button class="nav-btn" data-tab="dashboard">📊 Dashboard</button>
-                <button class="nav-btn" data-tab="reservas">📋 Lista de Reservas</button>
-                <button class="nav-btn" data-tab="config">⚙️ Configurações</button>
+                <button class="nav-btn" data-tab="reservas">📋 Reservas</button>
             </nav>
 
             <div class="header-right">
+                <button id="btn-fullscreen" class="btn btn-outline" onclick="toggleFullscreen()">🖥️ Ecrã Completo</button>
                 <button id="btn-musica-ao-vivo" class="btn btn-music" onclick="toggleModoMusica()">🎵 Música ao Vivo (OFF)</button>
-                <div class="live-clock">
-                    <span id="clock-date">--/--/----</span>
-                    <span id="clock-time">--:--:--</span>
-                </div>
                 <button class="btn btn-gold" onclick="abrirNovaReservaModal()">+ Nova Reserva</button>
             </div>
         </div>
     </header>
 
-    <!-- CONTEÚDO PRINCIPAL -->
     <div class="conteudo">
-
-        <!-- TOAST CONTAINER -->
         <div id="toast-container"></div>
 
-        <!-- TAB 1: PLANTA DO RESTAURANTE (MAPA INTERATIVO) -->
+        <!-- PLANTA DO RESTAURANTE -->
         <section id="tab-mapa" class="tab-page active">
             <div class="mapa-header-bar">
-                <div class="legend-bar">
-                    <span class="legend-item"><span class="dot-lg" style="background:var(--st-livre);"></span> 🟢 Livre</span>
-                    <span class="legend-item"><span class="dot-lg" style="background:var(--st-reservada);"></span> 🔴 Reservada</span>
-                    <span class="legend-item"><span class="dot-lg" style="background:var(--st-ocupada);"></span> 🔵 Ocupada</span>
-                    <span class="legend-item"><span class="dot-lg" style="background:var(--st-aguardar);"></span> 🟠 A Aguardar</span>
-                    <span class="legend-item"><span class="dot-lg" style="background:var(--st-indisponivel);"></span> ⚫ Indisponível</span>
+                <div style="display:flex; gap:12px; font-size:0.85rem; align-items:center; flex-wrap:wrap;">
+                    <span>🟢 Livre</span>
+                    <span>🔴 Reservada</span>
+                    <span>🔵 Ocupada</span>
                 </div>
-                <div style="display:flex; gap:8px;">
-                    <button class="btn btn-outline" onclick="abrirModalCriarMesa()">➕ Criar / Adicionar Mesa</button>
-                    <button id="btn-edit-layout" class="btn btn-secondary" onclick="toggleEditLayout()">✏️ Editar Posições</button>
-                    <button id="btn-save-layout" class="btn btn-gold" style="display:none;" onclick="salvarPosicoesLayout()">💾 Guardar Planta</button>
+                <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                    <button class="btn btn-outline" onclick="abrirModalCriarMesa()">➕ Criar Mesa</button>
+                    <button id="btn-modo-grupo" class="btn btn-outline" onclick="toggleModoGrupo()">🔗 Juntar Mesas</button>
+                    <button id="btn-edit-layout" class="btn btn-secondary" onclick="toggleEditLayout()">✏️ Mover / Configurar Mapa</button>
+                    <button id="btn-save-layout" class="btn btn-gold" style="display:none;" onclick="salvarPosicoesLayout()">💾 Guardar Alterações</button>
                 </div>
             </div>
 
             <div class="layout-mapa">
-                <div class="mapa-viewport">
+                <div id="mapa-viewport-element" class="mapa-viewport">
                     <div id="restaurant-map-canvas" class="mapa-canvas">
-                        <!-- Paredes e Sinalização Fixo -->
                         <div class="parede"></div>
-                        <div class="texto-decorativo salinha-titulo">ZONA SALINHA</div>
                         <div class="porta-icon">🚪</div>
-                        <div class="texto-decorativo entrada-label">ENTRADA PRINCIPAL</div>
                         <div class="balcao-obj">BALCÃO</div>
 
-                        <!-- Elemento Dinâmico para Cabine de DJ -->
+                        <!-- PISTA DE DANÇA / DJ -->
                         <div id="dj-booth-element" class="dj-booth" style="display:none;">
-                            <div style="font-size:1.8rem;">🎧 🎷</div>
+                            <div style="font-size:1.6rem;">🎧 🎷</div>
                             <div>PISTA DE DANÇA</div>
-                            <div style="font-size:0.75rem; font-weight:600; color:#fbcfe8;">Música ao Vivo / DJ</div>
+                            <div style="font-size:0.75rem; color:#fbcfe8;">Música ao Vivo</div>
                         </div>
-
-                        <!-- As Mesas serão geradas via JS -->
                     </div>
                 </div>
 
-                <!-- SIDEBAR COM RESERVAS DE HOJE -->
                 <aside class="painel-lateral">
                     <h2>📅 Reservas de Hoje</h2>
-                    <div id="reservas-hoje-sidebar">
-                        <!-- Conteúdo via JS -->
-                    </div>
+                    <div id="reservas-hoje-sidebar"></div>
                 </aside>
             </div>
         </section>
 
-        <!-- TAB 2: DASHBOARD -->
-        <section id="tab-dashboard" class="tab-page">
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-icon">🪑</div>
-                    <div>
-                        <div class="stat-val" id="dash-total-mesas">0</div>
-                        <div class="stat-lbl">Total de Mesas</div>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">🟢</div>
-                    <div>
-                        <div class="stat-val" id="dash-mesas-livres">0</div>
-                        <div class="stat-lbl">Mesas Livres</div>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">🔴</div>
-                    <div>
-                        <div class="stat-val" id="dash-mesas-reservadas">0</div>
-                        <div class="stat-lbl">Mesas Reservadas</div>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">🔵</div>
-                    <div>
-                        <div class="stat-val" id="dash-mesas-ocupadas">0</div>
-                        <div class="stat-lbl">Mesas Ocupadas</div>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">👥</div>
-                    <div>
-                        <div class="stat-val" id="dash-total-clientes">0</div>
-                        <div class="stat-lbl">Clientes Previstos Hoje</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- TAB 3: LISTA COMPLETA DE RESERVAS -->
+        <!-- LISTA DE RESERVAS -->
         <section id="tab-reservas" class="tab-page">
-            <div class="table-controls">
-                <input type="text" id="filter-search" placeholder="🔍 Pesquisar por nome ou telefone..." oninput="renderizarTabelaReservas()">
-                <input type="date" id="filter-date" onchange="renderizarTabelaReservas()">
-                <select id="filter-status" onchange="renderizarTabelaReservas()">
-                    <option value="">Todos os Estados</option>
-                    <option value="Confirmada">Confirmada</option>
-                    <option value="A aguardar">A aguardar</option>
-                    <option value="Sentado/Ocupada">Sentado/Ocupada</option>
-                    <option value="Concluída">Concluída</option>
-                    <option value="Cancelada">Cancelada</option>
-                </select>
-                <select id="filter-mesa" onchange="renderizarTabelaReservas()">
-                    <option value="">Todas as Mesas</option>
-                </select>
-                <button class="btn btn-outline" onclick="limparFiltros()">Limpar</button>
-            </div>
-
-            <div class="table-responsive">
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>Data</th>
-                            <th>Hora</th>
-                            <th>Cliente</th>
-                            <th>Telefone</th>
-                            <th>Pessoas</th>
-                            <th>Mesa Atribuída</th>
-                            <th>Estado</th>
-                            <th>Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tbody-reservas">
-                        <!-- Gerado por JS -->
-                    </tbody>
-                </table>
+            <div style="background:var(--panel-bg); padding:16px; border-radius:var(--radius-md); border:1px solid var(--panel-border);">
+                <h2>Todas as Reservas</h2>
+                <div id="lista-reservas-completa" style="margin-top:12px;"></div>
             </div>
         </section>
-
-        <!-- TAB 4: CONFIGURAÇÕES & BACKUP -->
-        <section id="tab-config" class="tab-page">
-            <div style="max-width: 600px; background: var(--panel-bg); padding: 20px; border-radius: var(--radius-md); border:1px solid var(--panel-border);">
-                <h2>Configurações do Restaurante</h2>
-                <div style="margin-top: 14px;">
-                    <label>Nome do Restaurante</label>
-                    <input type="text" id="cfg-name" style="margin-top:4px; margin-bottom: 12px;">
-
-                    <label>Duração Padrão da Reserva (Minutos)</label>
-                    <input type="number" id="cfg-duration" value="120" style="margin-top:4px; margin-bottom: 16px;">
-
-                    <button class="btn btn-gold" onclick="guardarConfiguracoes()">Guardar Definições</button>
-                </div>
-
-                <hr style="margin: 20px 0; border-color: var(--panel-border);">
-
-                <h3>Cópias de Segurança (Backup)</h3>
-                <div style="display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap;">
-                    <button class="btn btn-secondary" onclick="exportarBackupJSON()">📥 Exportar Dados (JSON)</button>
-                    <label class="btn btn-outline" style="cursor:pointer;">
-                        📤 Importar Dados
-                        <input type="file" accept=".json" onchange="importarBackupJSON(event)" style="display:none;">
-                    </label>
-                    <button class="btn btn-danger" onclick="resetarTodosDados()">⚠️ Repor Padrões de Fábrica</button>
-                </div>
-            </div>
-        </section>
-
     </div>
 
-    <!-- MODAL 1: INFORMAÇÕES, EDITAR Nº PESSOAS E REMOVER MESA -->
+    <!-- MODAL 1: EDITAR MESA (Nº, CAPACIDADE, ROTAÇÃO E REMOVER) -->
     <div class="modal" id="modalInfo">
         <div class="caixa-modal">
             <h2 id="infoTitulo">Mesa --</h2>
-            <div id="infoTexto" style="margin-bottom: 16px;"></div>
-
-            <div style="margin: 14px 0; padding:12px; background:rgba(0,0,0,0.3); border-radius:8px;">
-                <label style="font-size:0.8rem; color:var(--text-muted); font-weight:600;">Alterar Nº de Pessoas / Capacidade desta Mesa:</label>
-                <div style="display:flex; gap:8px; margin-top:6px;">
-                    <input type="number" id="edit-mesa-capacidade" min="1" max="100" style="width:100px;">
-                    <button class="btn btn-secondary" onclick="guardarCapacidadeMesa()">Alterar</button>
+            
+            <div class="form-grid" style="margin-bottom:12px;">
+                <div class="form-group">
+                    <label>Número / Nome da Mesa:</label>
+                    <input type="text" id="edit-mesa-nome">
+                </div>
+                <div class="form-group">
+                    <label>Nº de Pessoas (Sem Limite):</label>
+                    <input type="number" id="edit-mesa-capacidade" min="1">
+                </div>
+                <div class="form-group form-group-full">
+                    <label>Rotação da Mesa (Retangulares):</label>
+                    <select id="edit-mesa-rotacao">
+                        <option value="0">0° (Horizontal)</option>
+                        <option value="90">90° (Vertical)</option>
+                        <option value="180">180°</option>
+                        <option value="270">270°</option>
+                    </select>
                 </div>
             </div>
 
-            <div class="acoes-modal" style="flex-wrap:wrap; justify-content:space-between;">
-                <button class="btn btn-danger" onclick="removerMesaAtual()">🗑️ Remover Mesa</button>
-                <div style="display:flex; gap:8px;">
-                    <button class="btn btn-gold" id="infoBtnReservar">Fazer Reserva</button>
-                    <button class="btn btn-outline" onclick="fecharModal('modalInfo')">Fechar</button>
-                </div>
+            <div style="display:flex; justify-content:space-between; gap:8px;">
+                <button class="btn btn-danger" onclick="removerMesaAtual()">🗑️ Eliminar Mesa</button>
+                <button class="btn btn-gold" onclick="guardarAlteracoesMesa()">Guardar Alterações</button>
+            </div>
+
+            <hr style="margin:16px 0; border-color:var(--panel-border);">
+
+            <div id="infoTexto"></div>
+
+            <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:12px;">
+                <button class="btn btn-gold" id="infoBtnReservar">Reservar Esta Mesa</button>
+                <button class="btn btn-outline" onclick="fecharModal('modalInfo')">Fechar</button>
             </div>
         </div>
     </div>
 
-    <!-- MODAL 2: CRIAR / ADICIONAR NOVA MESA -->
+    <!-- MODAL 2: CONFIGURAR PISTA DE DANÇA -->
+    <div class="modal" id="modalPista">
+        <div class="caixa-modal">
+            <h2>⚙️ Configurar Pista de Dança / DJ</h2>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Largura (px):</label>
+                    <input type="number" id="pista-largura" value="250">
+                </div>
+                <div class="form-group">
+                    <label>Altura (px):</label>
+                    <input type="number" id="pista-altura" value="210">
+                </div>
+            </div>
+            <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:16px;">
+                <button class="btn btn-gold" onclick="aplicarDimensoesPista()">Aplicar Dimensões</button>
+                <button class="btn btn-outline" onclick="fecharModal('modalPista')">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 3: CRIAR MESA -->
     <div class="modal" id="modalCriarMesa">
         <div class="caixa-modal">
             <h2>➕ Adicionar Nova Mesa</h2>
             <div class="form-grid">
                 <div class="form-group">
-                    <label>Nome / Número da Mesa *</label>
-                    <input type="text" id="nova-mesa-nome" placeholder="Ex: 41 ou Salinha 5">
+                    <label>Número / Nome *</label>
+                    <input type="text" id="nova-mesa-nome" placeholder="Ex: 41">
                 </div>
                 <div class="form-group">
                     <label>Capacidade (Nº Pessoas) *</label>
-                    <input type="number" id="nova-mesa-cap" min="1" value="4">
+                    <input type="number" id="nova-mesa-cap" value="4">
                 </div>
                 <div class="form-group form-group-full">
                     <label>Formato da Mesa *</label>
                     <select id="nova-mesa-formato">
-                        <option value="quadrada">Quadrada (Pequena)</option>
+                        <option value="quadrada">Quadrada</option>
                         <option value="retangular">Retangular</option>
                         <option value="redonda">Redonda</option>
                         <option value="grande">Grande / Osso</option>
                     </select>
                 </div>
             </div>
-            <div class="acoes-modal">
-                <button type="button" class="btn btn-outline" onclick="fecharModal('modalCriarMesa')">Cancelar</button>
-                <button type="button" class="btn btn-gold" onclick="confirmarCriarMesa()">Adicionar ao Mapa</button>
+            <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:16px;">
+                <button class="btn btn-outline" onclick="fecharModal('modalCriarMesa')">Cancelar</button>
+                <button class="btn btn-gold" onclick="confirmarCriarMesa()">Adicionar Mesa</button>
             </div>
         </div>
     </div>
 
-    <!-- MODAL 3: FORMULÁRIO DE NOVA / EDITAR RESERVA -->
+    <!-- MODAL 4: CRIAR RESERVA -->
     <div class="modal" id="modalReserva">
         <div class="caixa-modal">
-            <h2 id="modalReservaTitulo">Nova Reserva</h2>
-            <form id="form-reserva" onsubmit="guardarReserva(event)">
-                <input type="hidden" id="res-id">
+            <h2>Nova Reserva</h2>
+            <form onsubmit="guardarReserva(event)">
                 <div class="form-grid">
                     <div class="form-group">
                         <label>Nome do Cliente *</label>
-                        <input type="text" id="res-nome" required placeholder="Ex: João Silva">
+                        <input type="text" id="res-nome" required>
                     </div>
                     <div class="form-group">
-                        <label>Telefone / Contacto *</label>
-                        <input type="tel" id="res-telefone" required placeholder="Ex: 912 345 678">
+                        <label>Telefone *</label>
+                        <input type="tel" id="res-telefone" required>
                     </div>
                     <div class="form-group">
                         <label>Data *</label>
@@ -823,26 +371,11 @@
                         <input type="number" id="res-pessoas" min="1" value="2" required>
                     </div>
                     <div class="form-group">
-                        <label>Mesa Atribuída *</label>
-                        <select id="res-mesa" required></select>
-                    </div>
-                    <div class="form-group form-group-full">
-                        <label>Estado da Reserva</label>
-                        <select id="res-estado">
-                            <option value="Confirmada">Confirmada</option>
-                            <option value="A aguardar">A aguardar</option>
-                            <option value="Sentado/Ocupada">Sentado/Ocupada</option>
-                            <option value="Concluída">Concluída</option>
-                            <option value="Cancelada">Cancelada</option>
-                        </select>
-                    </div>
-                    <div class="form-group form-group-full">
-                        <label>Observações / Pedidos Especiais</label>
-                        <textarea id="res-obs" rows="2" placeholder="Ex: Aniversário, cadeira de bebé..."></textarea>
+                        <label>Mesa *</label>
+                        <select id="res-mesa"></select>
                     </div>
                 </div>
-
-                <div class="acoes-modal">
+                <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:16px;">
                     <button type="button" class="btn btn-outline" onclick="fecharModal('modalReserva')">Cancelar</button>
                     <button type="submit" class="btn btn-gold">Guardar Reserva</button>
                 </div>
@@ -850,673 +383,450 @@
         </div>
     </div>
 
-    <!-- SCRIPT COMPLETO E INTEGRADO -->
     <script>
-        // LISTA DE MESAS COM TODAS AS MESAS DA IMAGEM CORRIGIDAS E MAPEADAS
-        const CONFIG_MESAS_PADRAO = [
-            // Salinhas (Lado Esquerdo - 4 retangulares de 20 lugares)
-            { id: "Salinha 1", nome: "Salinha 1", capacidade: 20, classe: "retangular s1", tipo: "retangular", x: 30, y: 70 },
-            { id: "Salinha 2", nome: "Salinha 2", capacidade: 20, classe: "retangular s2", tipo: "retangular", x: 30, y: 155 },
-            { id: "Salinha 3", nome: "Salinha 3", capacidade: 20, classe: "retangular s3", tipo: "retangular", x: 30, y: 240 },
-            { id: "Salinha 4", nome: "Salinha 4", capacidade: 20, classe: "retangular s4", tipo: "retangular", x: 30, y: 325 },
+        const MESAS_PADRAO = [
+            // Salinhas
+            { id: "Salinha 1", nome: "Salinha 1", capacidade: 20, classe: "retangular", tipo: "retangular", x: 30, y: 70, rotacao: 0 },
+            { id: "Salinha 2", nome: "Salinha 2", capacidade: 20, classe: "retangular", tipo: "retangular", x: 30, y: 155, rotacao: 0 },
+            { id: "Salinha 3", nome: "Salinha 3", capacidade: 20, classe: "retangular", tipo: "retangular", x: 30, y: 240, rotacao: 0 },
+            { id: "Salinha 4", nome: "Salinha 4", capacidade: 20, classe: "retangular", tipo: "retangular", x: 30, y: 325, rotacao: 0 },
 
-            // Redondo (Topo - grande osso, 25 lugares)
-            { id: "Redondo", nome: "Redondo", capacidade: 25, classe: "grande redondo", tipo: "grande", x: 220, y: 35 },
+            // Topo Esquerdo
+            { id: "Redondo", nome: "Redondo", capacidade: 25, classe: "grande", tipo: "grande", x: 220, y: 35, rotacao: 0 },
+            { id: "39", nome: "Mesa 39", capacidade: 8, classe: "redonda", tipo: "redonda", x: 285, y: 135, rotacao: 0 },
+            { id: "36", nome: "Mesa 36", capacidade: 8, classe: "redonda", tipo: "redonda", x: 400, y: 135, rotacao: 0 },
+            { id: "40", nome: "Mesa 40", capacidade: 8, classe: "redonda", tipo: "redonda", x: 285, y: 270, rotacao: 0 },
+            { id: "35", nome: "Mesa 35", capacidade: 8, classe: "redonda", tipo: "redonda", x: 400, y: 270, rotacao: 0 },
+            { id: "29", nome: "Mesa 29", capacidade: 10, classe: "redonda", tipo: "redonda", x: 265, y: 560, rotacao: 0 },
 
-            // Grupo Topo Esquerdo (Redondas, 8 lugares)
-            { id: "39", nome: "Mesa 39", capacidade: 8, classe: "redonda m39", tipo: "redonda", x: 285, y: 135 },
-            { id: "36", nome: "Mesa 36", capacidade: 8, classe: "redonda m36", tipo: "redonda", x: 400, y: 135 },
-            { id: "40", nome: "Mesa 40", capacidade: 8, classe: "redonda m40", tipo: "redonda", x: 285, y: 270 },
-            { id: "35", nome: "Mesa 35", capacidade: 8, classe: "redonda m35", tipo: "redonda", x: 400, y: 270 },
+            // Bloco Central Superior (Pista de dança)
+            { id: "19", nome: "Mesa 19", capacidade: 2, classe: "quadrada", tipo: "quadrada", x: 530, y: 210, rotacao: 0 },
+            { id: "18", nome: "Mesa 18", capacidade: 2, classe: "quadrada", tipo: "quadrada", x: 600, y: 210, rotacao: 0 },
+            { id: "17", nome: "Mesa 17", capacidade: 4, classe: "retangular", tipo: "retangular", x: 670, y: 210, rotacao: 0 },
+            { id: "16", nome: "Mesa 16", capacidade: 2, classe: "quadrada", tipo: "quadrada", x: 530, y: 280, rotacao: 0 },
+            { id: "15", nome: "Mesa 15", capacidade: 2, classe: "quadrada", tipo: "quadrada", x: 600, y: 280, rotacao: 0 },
+            { id: "14", nome: "Mesa 14", capacidade: 4, classe: "retangular", tipo: "retangular", x: 670, y: 280, rotacao: 0 },
+            { id: "12", nome: "Mesa 12", capacidade: 2, classe: "quadrada", tipo: "quadrada", x: 530, y: 350, rotacao: 0 },
+            { id: "11", nome: "Mesa 11", capacidade: 2, classe: "quadrada", tipo: "quadrada", x: 600, y: 350, rotacao: 0 },
+            { id: "10", nome: "Mesa 10", capacidade: 4, classe: "retangular", tipo: "retangular", x: 670, y: 350, rotacao: 0 },
 
-            // Mesa 29 (10 lugares)
-            { id: "29", nome: "Mesa 29", capacidade: 10, classe: "redonda m29", tipo: "redonda", x: 265, y: 560 },
+            // Bloco Central Inferior (21 a 34)
+            { id: "24", nome: "Mesa 24", capacidade: 2, classe: "quadrada", tipo: "quadrada", x: 370, y: 490, rotacao: 0 },
+            { id: "23", nome: "Mesa 23", capacidade: 2, classe: "quadrada", tipo: "quadrada", x: 435, y: 490, rotacao: 0 },
+            { id: "22", nome: "Mesa 22", capacidade: 2, classe: "quadrada", tipo: "quadrada", x: 500, y: 490, rotacao: 0 },
+            { id: "21", nome: "Mesa 21", capacidade: 2, classe: "quadrada", tipo: "quadrada", x: 565, y: 490, rotacao: 0 },
 
-            // Bloco Central Superior (Removido no Modo Música ao Vivo: 10, 11, 12, 14, 15, 16, 17, 18, 19)
-            { id: "19", nome: "Mesa 19", capacidade: 2, classe: "quadrada m19", tipo: "quadrada", x: 530, y: 210 },
-            { id: "18", nome: "Mesa 18", capacidade: 2, classe: "quadrada m18", tipo: "quadrada", x: 600, y: 210 },
-            { id: "17", nome: "Mesa 17", capacidade: 4, classe: "quadrada m17", tipo: "quadrada", x: 670, y: 210 },
-            { id: "16", nome: "Mesa 16", capacidade: 2, classe: "quadrada m16", tipo: "quadrada", x: 530, y: 280 },
-            { id: "15", nome: "Mesa 15", capacidade: 2, classe: "quadrada m15", tipo: "quadrada", x: 600, y: 280 },
-            { id: "14", nome: "Mesa 14", capacidade: 4, classe: "quadrada m14", tipo: "quadrada", x: 670, y: 280 },
-            { id: "12", nome: "Mesa 12", capacidade: 2, classe: "quadrada m12", tipo: "quadrada", x: 530, y: 350 },
-            { id: "11", nome: "Mesa 11", capacidade: 2, classe: "quadrada m11", tipo: "quadrada", x: 600, y: 350 },
-            { id: "10", nome: "Mesa 10", capacidade: 4, classe: "quadrada m10", tipo: "quadrada", x: 670, y: 350 },
+            { id: "34", nome: "Mesa 34", capacidade: 2, classe: "quadrada", tipo: "quadrada", x: 370, y: 560, rotacao: 0 },
+            { id: "33", nome: "Mesa 33", capacidade: 2, classe: "quadrada", tipo: "quadrada", x: 435, y: 560, rotacao: 0 },
+            { id: "32", nome: "Mesa 32", capacidade: 2, classe: "quadrada", tipo: "quadrada", x: 500, y: 560, rotacao: 0 },
+            { id: "31", nome: "Mesa 31", capacidade: 2, classe: "quadrada", tipo: "quadrada", x: 565, y: 560, rotacao: 0 },
 
-            // Bloco Central Inferior (Quadradas 2 pessoas: 21 a 28, 31 a 34)
-            { id: "24", nome: "Mesa 24", capacidade: 2, classe: "quadrada", tipo: "quadrada", x: 370, y: 490 },
-            { id: "23", nome: "Mesa 23", capacidade: 2, classe: "quadrada", tipo: "quadrada", x: 435, y: 490 },
-            { id: "22", nome: "Mesa 22", capacidade: 2, classe: "quadrada", tipo: "quadrada", x: 500, y: 490 },
-            { id: "21", nome: "Mesa 21", capacidade: 2, classe: "quadrada", tipo: "quadrada", x: 565, y: 490 },
+            { id: "28", nome: "Mesa 28", capacidade: 2, classe: "quadrada", tipo: "quadrada", x: 370, y: 630, rotacao: 0 },
+            { id: "27", nome: "Mesa 27", capacidade: 2, classe: "quadrada", tipo: "quadrada", x: 435, y: 630, rotacao: 0 },
+            { id: "26", nome: "Mesa 26", capacidade: 2, classe: "quadrada", tipo: "quadrada", x: 500, y: 630, rotacao: 0 },
+            { id: "25", nome: "Mesa 25", capacidade: 2, classe: "quadrada", tipo: "quadrada", x: 565, y: 630, rotacao: 0 },
 
-            { id: "34", nome: "Mesa 34", capacidade: 2, classe: "quadrada", tipo: "quadrada", x: 370, y: 560 },
-            { id: "33", nome: "Mesa 33", capacidade: 2, classe: "quadrada", tipo: "quadrada", x: 435, y: 560 },
-            { id: "32", nome: "Mesa 32", capacidade: 2, classe: "quadrada", tipo: "quadrada", x: 500, y: 560 },
-            { id: "31", nome: "Mesa 31", capacidade: 2, classe: "quadrada", tipo: "quadrada", x: 565, y: 560 },
-
-            { id: "28", nome: "Mesa 28", capacidade: 2, classe: "quadrada", tipo: "quadrada", x: 370, y: 630 },
-            { id: "27", nome: "Mesa 27", capacidade: 2, classe: "quadrada", tipo: "quadrada", x: 435, y: 630 },
-            { id: "26", nome: "Mesa 26", capacidade: 2, classe: "quadrada", tipo: "quadrada", x: 500, y: 630 },
-            { id: "25", nome: "Mesa 25", capacidade: 2, classe: "quadrada", tipo: "quadrada", x: 565, y: 630 },
-
-            // Mesa 5
-            { id: "5", nome: "Mesa 5", capacidade: 2, classe: "quadrada m5", tipo: "quadrada", x: 790, y: 20 },
-
-            // Lado Direito (Redondas, 8 lugares)
-            { id: "4", nome: "Mesa 4", capacidade: 8, classe: "redonda m4", tipo: "redonda", x: 960, y: 55 },
-            { id: "6", nome: "Mesa 6", capacidade: 8, classe: "redonda m6", tipo: "redonda", x: 865, y: 140 },
-            { id: "3", nome: "Mesa 3", capacidade: 8, classe: "redonda m3", tipo: "redonda", x: 960, y: 220 },
-            { id: "7", nome: "Mesa 7", capacidade: 8, classe: "redonda m7", tipo: "redonda", x: 865, y: 300 },
-            { id: "2", nome: "Mesa 2", capacidade: 8, classe: "redonda m2", tipo: "redonda", x: 960, y: 380 },
-            { id: "8", nome: "Mesa 8", capacidade: 8, classe: "redonda m8", tipo: "redonda", x: 865, y: 460 },
-            { id: "1", nome: "Mesa 1", capacidade: 8, classe: "redonda m1", tipo: "redonda", x: 960, y: 540 },
-            { id: "9", nome: "Mesa 9", capacidade: 8, classe: "redonda m9", tipo: "redonda", x: 865, y: 540 }
+            // Topo / Lado Direito
+            { id: "5", nome: "Mesa 5", capacidade: 2, classe: "quadrada", tipo: "quadrada", x: 790, y: 20, rotacao: 0 },
+            { id: "4", nome: "Mesa 4", capacidade: 8, classe: "redonda", tipo: "redonda", x: 960, y: 55, rotacao: 0 },
+            { id: "6", nome: "Mesa 6", capacidade: 8, classe: "redonda", tipo: "redonda", x: 865, y: 140, rotacao: 0 },
+            { id: "3", nome: "Mesa 3", capacidade: 8, classe: "redonda", tipo: "redonda", x: 960, y: 220, rotacao: 0 },
+            { id: "7", nome: "Mesa 7", capacidade: 8, classe: "redonda", tipo: "redonda", x: 865, y: 300, rotacao: 0 },
+            { id: "2", nome: "Mesa 2", capacidade: 8, classe: "redonda", tipo: "redonda", x: 960, y: 380, rotacao: 0 },
+            { id: "8", nome: "Mesa 8", capacidade: 8, classe: "redonda", tipo: "redonda", x: 865, y: 460, rotacao: 0 },
+            { id: "1", nome: "Mesa 1", capacidade: 8, classe: "redonda", tipo: "redonda", x: 960, y: 540, rotacao: 0 },
+            { id: "9", nome: "Mesa 9", capacidade: 8, classe: "redonda", tipo: "redonda", x: 865, y: 540, rotacao: 0 }
         ];
 
-        // MESAS QUE SÃO REMOVIDAS NO MODO MÚSICA AO VIVO
-        const MESAS_PISTA_DANCA = ["10", "11", "12", "14", "15", "16", "17", "18", "19"];
+        const MESAS_PISTA = ["10", "11", "12", "14", "15", "16", "17", "18", "19"];
 
-        let appConfig = { nomeRestaurante: "Restaurante Gourmet", duracaoMin: 120 };
         let mesas = [];
         let reservas = [];
-        let modoEdicaoAtivo = false;
-        let modoMusicaAoVivo = false;
-        let mesaArrasteId = null;
+        let modoEdicao = false;
+        let modoMusica = false;
+        let modoGrupo = false;
+        let mesasGrupoSelecionadas = [];
         let mesaSelecionadaId = null;
-        let dragOffset = { x: 0, y: 0 };
+        let pistaConfig = { x: 520, y: 200, width: 250, height: 210 };
 
         document.addEventListener("DOMContentLoaded", () => {
-            carregarDadosStorage();
-            iniciarRelogio();
+            carregarDados();
             iniciarNavegacao();
             renderizarTudo();
+            configurarDragPista();
         });
 
-        function carregarDadosStorage() {
-            const cfgStorage = localStorage.getItem("cfg_restaurante_v3");
-            if (cfgStorage) { try { appConfig = JSON.parse(cfgStorage); } catch(e){} }
+        function carregarDados() {
+            const m = localStorage.getItem("mesas_v4");
+            mesas = m ? JSON.parse(m) : JSON.parse(JSON.stringify(MESAS_PADRAO));
 
-            const mesasStorage = localStorage.getItem("mesas_restaurante_v3");
-            if (mesasStorage) {
-                try { mesas = JSON.parse(mesasStorage); } catch(e){ mesas = JSON.parse(JSON.stringify(CONFIG_MESAS_PADRAO)); }
-            } else {
-                mesas = JSON.parse(JSON.stringify(CONFIG_MESAS_PADRAO));
-            }
+            const r = localStorage.getItem("reservas_v4");
+            reservas = r ? JSON.parse(r) : [];
 
-            const resStorage = localStorage.getItem("reservas_restaurante");
-            if (resStorage) {
-                try { reservas = JSON.parse(resStorage); } catch(e){ reservas = []; }
-            } else {
-                const hojeISO = getHojeISO();
-                reservas = [
-                    { id: "res_1", nome: "Manuel Silva", telefone: "912345678", pessoas: 4, hora: "13:00", data: hojeISO, mesa: "17", estado: "Confirmada", observacoes: "Mesa perto da janela" }
-                ];
-            }
-
-            document.getElementById("cfg-name").value = appConfig.nomeRestaurante;
-            document.getElementById("cfg-duration").value = appConfig.duracaoMin;
-            document.getElementById("rest-title-display").textContent = appConfig.nomeRestaurante;
+            const p = localStorage.getItem("pista_v4");
+            if (p) pistaConfig = JSON.parse(p);
         }
 
-        function guardarDadosStorage() {
-            localStorage.setItem("cfg_restaurante_v3", JSON.stringify(appConfig));
-            localStorage.setItem("mesas_restaurante_v3", JSON.stringify(mesas));
-            localStorage.setItem("reservas_restaurante", JSON.stringify(reservas));
+        function guardarDados() {
+            localStorage.setItem("mesas_v4", JSON.stringify(mesas));
+            localStorage.setItem("reservas_v4", JSON.stringify(reservas));
+            localStorage.setItem("pista_v4", JSON.stringify(pistaConfig));
         }
 
         function renderizarTudo() {
             renderizarMapa();
-            renderizarSidebarHoje();
-            renderizarDashboard();
-            renderizarTabelaReservas();
+            renderizarSidebar();
             atualizarSelectMesas();
         }
 
-        // ALTERAR MODO MÚSICA AO VIVO / PISTA DE DANÇA
-        function toggleModoMusica() {
-            modoMusicaAoVivo = !modoMusicaAoVivo;
-            const btn = document.getElementById("btn-musica-ao-vivo");
-            const djBooth = document.getElementById("dj-booth-element");
-
-            if (modoMusicaAoVivo) {
-                btn.textContent = "🎷 Música ao Vivo (ON)";
-                btn.classList.add("ativo");
-                djBooth.style.display = "flex";
-                mostrarToast("Modo Música ao Vivo ativo! Pista de dança criada.");
-            } else {
-                btn.textContent = "🎵 Música ao Vivo (OFF)";
-                btn.classList.remove("ativo");
-                djBooth.style.display = "none";
-                mostrarToast("Modo Música ao Vivo desativado. Layout normal reposto.");
-            }
-            renderizarMapa();
-        }
-
-        // RENDERIZAR MAPA
         function renderizarMapa() {
             const canvas = document.getElementById("restaurant-map-canvas");
-            if (!canvas) return;
-
             canvas.querySelectorAll(".mesa").forEach(el => el.remove());
 
-            const hojeISO = getHojeISO();
+            const hoje = getHojeISO();
 
             mesas.forEach(m => {
-                // Se o Modo Música estiver ATIVO, esconde as mesas da pista
-                if (modoMusicaAoVivo && MESAS_PISTA_DANCA.includes(m.id)) {
-                    return;
-                }
+                if (modoMusica && MESAS_PISTA.includes(m.id)) return;
 
                 const el = document.createElement("div");
                 el.className = `mesa ${m.classe}`;
-                if (modoEdicaoAtivo) el.classList.add("draggable");
+                if (modoEdicao) el.classList.add("draggable");
+                if (mesasGrupoSelecionadas.includes(m.id)) el.classList.add("selecionada-grupo");
 
                 el.style.left = `${m.x}px`;
                 el.style.top = `${m.y}px`;
+                el.style.transform = `rotate(${m.rotacao || 0}deg)`;
                 el.dataset.id = m.id;
 
-                const resAtiva = reservas.find(r => r.mesa === m.id && r.data === hojeISO && r.estado !== "Cancelada" && r.estado !== "Concluída");
-                if (resAtiva) {
-                    if (resAtiva.estado === "Sentado/Ocupada") el.classList.add("st-ocupada");
-                    else if (resAtiva.estado === "A aguardar") el.classList.add("st-aguardar");
-                    else el.classList.add("st-reservada");
-                }
+                const res = reservas.find(r => r.mesa === m.id && r.data === hoje);
+                if (res) el.classList.add("st-reservada");
 
                 el.innerHTML = `
                     ${m.id}
-                    <small>${m.capacidade} lug</small>
+                    <small>${m.capacidade} pax</small>
                     <i class="estado-dot"></i>
                 `;
 
                 el.addEventListener("click", () => {
-                    if (!modoEdicaoAtivo) abrirModalInfoMesa(m.id);
+                    if (modoGrupo) {
+                        toggleMesaNoGrupo(m.id);
+                    } else if (!modoEdicao) {
+                        abrirModalInfoMesa(m.id);
+                    }
                 });
 
                 el.addEventListener("mousedown", iniciarDragMesa);
-                el.addEventListener("touchstart", iniciarDragMesa, { passive: false });
 
                 canvas.appendChild(el);
             });
+
+            // Atualiza Pista de Dança
+            const dj = document.getElementById("dj-booth-element");
+            dj.style.left = `${pistaConfig.x}px`;
+            dj.style.top = `${pistaConfig.y}px`;
+            dj.style.width = `${pistaConfig.width}px`;
+            dj.style.height = `${pistaConfig.height}px`;
         }
 
-        // DRAG AND DROP
+        // EDICÃO & MOVER MESAS
         function toggleEditLayout() {
-            modoEdicaoAtivo = !modoEdicaoAtivo;
-            const btnEdit = document.getElementById("btn-edit-layout");
-            const btnSave = document.getElementById("btn-save-layout");
+            modoEdicao = !modoEdicao;
+            const dj = document.getElementById("dj-booth-element");
+            document.getElementById("btn-edit-layout").textContent = modoEdicao ? "❌ Cancelar" : "✏️ Mover / Configurar Mapa";
+            document.getElementById("btn-save-layout").style.display = modoEdicao ? "inline-block" : "none";
 
-            if (modoEdicaoAtivo) {
-                btnEdit.textContent = "❌ Cancelar Edição";
-                btnSave.style.display = "inline-block";
-                mostrarToast("Arraste as mesas para reposicionar.");
+            if (modoEdicao) {
+                dj.classList.add("draggable");
+                dj.onclick = () => abrirModal("modalPista");
+                mostrarToast("Modo de edição ativo. Arraste mesas ou a pista de dança.");
             } else {
-                btnEdit.textContent = "✏️ Editar Posições";
-                btnSave.style.display = "none";
-                carregarDadosStorage();
+                dj.classList.remove("draggable");
+                dj.onclick = null;
+                carregarDados();
             }
             renderizarMapa();
         }
 
         function salvarPosicoesLayout() {
-            modoEdicaoAtivo = false;
-            document.getElementById("btn-edit-layout").textContent = "✏️ Editar Posições";
+            modoEdicao = false;
+            document.getElementById("btn-edit-layout").textContent = "✏️ Mover / Configurar Mapa";
             document.getElementById("btn-save-layout").style.display = "none";
-            guardarDadosStorage();
+            guardarDados();
             renderizarMapa();
-            mostrarToast("Disposição das mesas guardada!");
+            mostrarToast("Alterações no mapa salvas!");
         }
 
+        let arrasteId = null, offset = {x:0, y:0};
         function iniciarDragMesa(e) {
-            if (!modoEdicaoAtivo) return;
-            e.preventDefault();
+            if (!modoEdicao) return;
+            arrasteId = e.currentTarget.dataset.id;
+            const rect = e.currentTarget.getBoundingClientRect();
+            offset = { x: e.clientX - rect.left, y: e.clientY - rect.top };
 
-            const target = e.currentTarget;
-            mesaArrasteId = target.dataset.id;
-
-            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-
-            const rect = target.getBoundingClientRect();
-            dragOffset.x = clientX - rect.left;
-            dragOffset.y = clientY - rect.top;
-
-            document.addEventListener("mousemove", moverMesaDrag);
-            document.addEventListener("mouseup", pararMesaDrag);
-            document.addEventListener("touchmove", moverMesaDrag, { passive: false });
-            document.addEventListener("touchend", pararMesaDrag);
+            document.addEventListener("mousemove", moverDrag);
+            document.addEventListener("mouseup", pararDrag);
         }
 
-        function moverMesaDrag(e) {
-            if (!mesaArrasteId || !modoEdicaoAtivo) return;
+        function moverDrag(e) {
+            if (!arrasteId) return;
+            const canvas = document.getElementById("restaurant-map-canvas").getBoundingClientRect();
+            const m = mesas.find(item => item.id === arrasteId);
 
-            const canvas = document.getElementById("restaurant-map-canvas");
-            const canvasRect = canvas.getBoundingClientRect();
-
-            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-
-            let novoX = clientX - canvasRect.left - dragOffset.x;
-            let novoY = clientY - canvasRect.top - dragOffset.y;
-
-            novoX = Math.max(10, Math.min(novoX, canvasRect.width - 50));
-            novoY = Math.max(10, Math.min(novoY, canvasRect.height - 50));
-
-            const mObj = mesas.find(m => m.id === mesaArrasteId);
-            if (mObj) {
-                mObj.x = Math.round(novoX);
-                mObj.y = Math.round(novoY);
-
-                const element = canvas.querySelector(`[data-id="${mesaArrasteId}"]`);
-                if (element) {
-                    element.style.left = `${mObj.x}px`;
-                    element.style.top = `${mObj.y}px`;
-                }
+            if (m) {
+                m.x = Math.max(10, Math.min(e.clientX - canvas.left - offset.x, canvas.width - 60));
+                m.y = Math.max(10, Math.min(e.clientY - canvas.top - offset.y, canvas.height - 60));
+                const el = document.querySelector(`[data-id="${arrasteId}"]`);
+                if (el) { el.style.left = `${m.x}px`; el.style.top = `${m.y}px`; }
             }
         }
 
-        function pararMesaDrag() {
-            mesaArrasteId = null;
-            document.removeEventListener("mousemove", moverMesaDrag);
-            document.removeEventListener("mouseup", pararMesaDrag);
-            document.removeEventListener("touchmove", moverMesaDrag);
-            document.removeEventListener("touchend", pararMesaDrag);
+        function pararDrag() {
+            arrasteId = null;
+            document.removeEventListener("mousemove", moverDrag);
+            document.removeEventListener("mouseup", pararDrag);
         }
 
-        // CRIAR / REMOVER E EDITAR CAPACIDADE DE MESAS
+        // PISTA DE DANÇA DRAG & RESIZE
+        function configurarDragPista() {
+            const dj = document.getElementById("dj-booth-element");
+            let arrastandoPista = false, pOffset = {x:0, y:0};
+
+            dj.addEventListener("mousedown", (e) => {
+                if (!modoEdicao) return;
+                arrastandoPista = true;
+                const rect = dj.getBoundingClientRect();
+                pOffset = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+
+                const moveP = (ev) => {
+                    if (!arrastandoPista) return;
+                    const canvas = document.getElementById("restaurant-map-canvas").getBoundingClientRect();
+                    pistaConfig.x = Math.max(10, Math.min(ev.clientX - canvas.left - pOffset.x, canvas.width - pistaConfig.width));
+                    pistaConfig.y = Math.max(10, Math.min(ev.clientY - canvas.top - pOffset.y, canvas.height - pistaConfig.height));
+                    dj.style.left = `${pistaConfig.x}px`;
+                    dj.style.top = `${pistaConfig.y}px`;
+                };
+
+                const stopP = () => {
+                    arrastandoPista = false;
+                    document.removeEventListener("mousemove", moveP);
+                    document.removeEventListener("mouseup", stopP);
+                };
+
+                document.addEventListener("mousemove", moveP);
+                document.addEventListener("mouseup", stopP);
+            });
+        }
+
+        function aplicarDimensoesPista() {
+            pistaConfig.width = parseInt(document.getElementById("pista-largura").value) || 250;
+            pistaConfig.height = parseInt(document.getElementById("pista-altura").value) || 210;
+            fecharModal("modalPista");
+            renderizarMapa();
+            mostrarToast("Tamanho da pista atualizado!");
+        }
+
+        // JUNTAR MESAS PARA GRUPOS
+        function toggleModoGrupo() {
+            modoGrupo = !modoGrupo;
+            mesasGrupoSelecionadas = [];
+            const btn = document.getElementById("btn-modo-grupo");
+
+            if (modoGrupo) {
+                btn.textContent = "✅ Confirmar Junção";
+                btn.classList.add("btn-gold");
+                mostrarToast("Clica nas mesas que queres juntar em grupo.");
+            } else {
+                if (mesasGrupoSelecionadas.length > 1) {
+                    juntarMesasSelecionadas();
+                }
+                btn.textContent = "🔗 Juntar Mesas";
+                btn.classList.remove("btn-gold");
+            }
+            renderizarMapa();
+        }
+
+        function toggleMesaNoGrupo(id) {
+            const idx = mesasGrupoSelecionadas.indexOf(id);
+            if (idx === -1) mesasGrupoSelecionadas.push(id);
+            else mesasGrupoSelecionadas.splice(idx, 1);
+            renderizarMapa();
+        }
+
+        function juntarMesasSelecionadas() {
+            const nomeGrupo = prompt("Nome do Grupo de Mesas:", `Grupo ${mesasGrupoSelecionadas.join("+")}`);
+            if (!nomeGrupo) return;
+
+            const somaPax = mesasGrupoSelecionadas.reduce((acc, id) => {
+                const m = mesas.find(x => x.id === id);
+                return acc + (m ? parseInt(m.capacidade) : 0);
+            }, 0);
+
+            const primeira = mesas.find(x => x.id === mesasGrupoSelecionadas[0]);
+
+            const novaMesaGrupo = {
+                id: nomeGrupo,
+                nome: nomeGrupo,
+                capacidade: somaPax,
+                classe: "grande",
+                tipo: "grande",
+                x: primeira.x,
+                y: primeira.y,
+                rotacao: 0
+            };
+
+            mesas = mesas.filter(m => !mesasGrupoSelecionadas.includes(m.id));
+            mesas.push(novaMesaGrupo);
+
+            guardarDados();
+            renderizarTudo();
+            mostrarToast(`Mesas unidas em ${nomeGrupo}!`);
+        }
+
+        // MODAIS E EDITAR MESAS
+        function abrirModalInfoMesa(id) {
+            mesaSelecionadaId = id;
+            const m = mesas.find(x => x.id === id);
+            if (!m) return;
+
+            document.getElementById("infoTitulo").textContent = m.nome;
+            document.getElementById("edit-mesa-nome").value = m.id;
+            document.getElementById("edit-mesa-capacidade").value = m.capacidade;
+            document.getElementById("edit-mesa-rotacao").value = m.rotacao || 0;
+
+            document.getElementById("infoTexto").innerHTML = `<p>Capacidade: <strong>${m.capacidade} Pessoas</strong></p>`;
+            document.getElementById("infoBtnReservar").onclick = () => { fecharModal("modalInfo"); abrirNovaReservaModal(m.id); };
+
+            abrirModal("modalInfo");
+        }
+
+        function guardarAlteracoesMesa() {
+            const m = mesas.find(x => x.id === mesaSelecionadaId);
+            if (!m) return;
+
+            const novoNome = document.getElementById("edit-mesa-nome").value.trim();
+            const novaCap = parseInt(document.getElementById("edit-mesa-capacidade").value);
+            const novaRot = parseInt(document.getElementById("edit-mesa-rotacao").value);
+
+            if (novoNome) m.id = novoNome;
+            if (novaCap) m.capacidade = novaCap;
+            m.rotacao = novaRot;
+
+            guardarDados();
+            fecharModal("modalInfo");
+            renderizarTudo();
+            mostrarToast("Mesa atualizada!");
+        }
+
+        function removerMesaAtual() {
+            if (confirm(`Eliminar ${mesaSelecionadaId}?`)) {
+                mesas = mesas.filter(x => x.id !== mesaSelecionadaId);
+                guardarDados();
+                fecharModal("modalInfo");
+                renderizarTudo();
+            }
+        }
+
         function abrirModalCriarMesa() {
             document.getElementById("nova-mesa-nome").value = "";
-            document.getElementById("nova-mesa-cap").value = 4;
             abrirModal("modalCriarMesa");
         }
 
         function confirmarCriarMesa() {
             const nome = document.getElementById("nova-mesa-nome").value.trim();
             const cap = parseInt(document.getElementById("nova-mesa-cap").value);
-            const formato = document.getElementById("nova-mesa-formato").value;
+            const fmt = document.getElementById("nova-mesa-formato").value;
 
-            if (!nome) { alert("Indica um nome/número para a mesa."); return; }
+            if (!nome) return;
 
-            if (mesas.some(m => m.id.toLowerCase() === nome.toLowerCase())) {
-                alert("Já existe uma mesa com esse nome.");
-                return;
-            }
+            mesas.push({
+                id: nome, nome: "Mesa " + nome, capacidade: cap, classe: fmt, tipo: fmt, x: 450, y: 300, rotacao: 0
+            });
 
-            const novaMesa = {
-                id: nome,
-                nome: nome.startsWith("Mesa") ? nome : "Mesa " + nome,
-                capacidade: cap,
-                classe: `${formato}`,
-                tipo: formato,
-                x: 480,
-                y: 300
-            };
-
-            mesas.push(novaMesa);
-            guardarDadosStorage();
+            guardarDados();
             fecharModal("modalCriarMesa");
             renderizarTudo();
-            mostrarToast(`Mesa ${nome} criada com sucesso!`);
         }
 
-        function guardarCapacidadeMesa() {
-            if (!mesaSelecionadaId) return;
-            const mObj = mesas.find(m => m.id === mesaSelecionadaId);
-            const novaCap = parseInt(document.getElementById("edit-mesa-capacidade").value);
+        function toggleModoMusica() {
+            modoMusica = !modoMusica;
+            const btn = document.getElementById("btn-musica-ao-vivo");
+            const dj = document.getElementById("dj-booth-element");
 
-            if (mObj && novaCap > 0) {
-                mObj.capacidade = novaCap;
-                guardarDadosStorage();
-                fecharModal("modalInfo");
-                renderizarTudo();
-                mostrarToast(`Capacidade da ${mObj.nome} alterada para ${novaCap} pessoas.`);
-            }
+            btn.textContent = modoMusica ? "🎷 Música ao Vivo (ON)" : "🎵 Música ao Vivo (OFF)";
+            btn.classList.toggle("ativo", modoMusica);
+            dj.style.display = modoMusica ? "flex" : "none";
+
+            renderizarMapa();
         }
 
-        function removerMesaAtual() {
-            if (!mesaSelecionadaId) return;
-            if (confirm(`Tem a certeza que pretende eliminar a ${mesaSelecionadaId} do mapa?`)) {
-                mesas = mesas.filter(m => m.id !== mesaSelecionadaId);
-                guardarDadosStorage();
-                fecharModal("modalInfo");
-                renderizarTudo();
-                mostrarToast("Mesa removida do restaurante.");
-            }
+        function toggleFullscreen() {
+            const vp = document.getElementById("mapa-viewport-element");
+            vp.classList.toggle("mapa-viewport-fullscreen");
         }
 
-        // DETALHES DA MESA
-        function abrirModalInfoMesa(mesaId) {
-            mesaSelecionadaId = mesaId;
-            const mObj = mesas.find(m => m.id === mesaId);
-            if (!mObj) return;
-
-            const hojeISO = getHojeISO();
-            const resAtiva = reservas.find(r => r.mesa === mesaId && r.data === hojeISO && r.estado !== "Cancelada");
-
-            document.getElementById("infoTitulo").textContent = `${mObj.nome}`;
-            document.getElementById("edit-mesa-capacidade").value = mObj.capacidade;
-
-            const infoTexto = document.getElementById("infoTexto");
-            if (resAtiva) {
-                infoTexto.innerHTML = `
-                    <p>Capacidade: <strong>${mObj.capacidade} pessoas</strong></p>
-                    <p>Estado: <strong style="color:var(--st-reservada);">🔴 Reservada</strong></p>
-                    <hr style="margin:10px 0; border-color:var(--panel-border);">
-                    <p><strong>Cliente:</strong> ${escapeHtml(resAtiva.nome)}</p>
-                    <p><strong>Hora:</strong> ${resAtiva.hora} · 👥 ${resAtiva.pessoas} Pessoas</p>
-                    <p><strong>Contacto:</strong> ${escapeHtml(resAtiva.telefone || '-')}</p>
-                `;
-            } else {
-                infoTexto.innerHTML = `
-                    <p>Capacidade: <strong>${mObj.capacidade} pessoas</strong></p>
-                    <p>Estado: <strong style="color:var(--st-livre);">🟢 Livre</strong></p>
-                `;
-            }
-
-            const btnReservar = document.getElementById("infoBtnReservar");
-            btnReservar.onclick = () => {
-                fecharModal("modalInfo");
-                abrirNovaReservaModal(mesaId);
-            };
-
-            abrirModal("modalInfo");
-        }
-
-        // RENDERIZAÇÃO DE SIDEBAR, DASHBOARD E RESERVAS
-        function renderizarSidebarHoje() {
-            const container = document.getElementById("reservas-hoje-sidebar");
-            const hojeISO = getHojeISO();
-
-            const resHoje = reservas.filter(r => r.data === hojeISO && r.estado !== "Cancelada");
-            resHoje.sort((a,b) => a.hora.localeCompare(b.hora));
-
-            if (resHoje.length === 0) {
-                container.innerHTML = `<p style="color:var(--text-muted); font-size:0.85rem;">Nenhuma reserva para o dia de hoje.</p>`;
-                return;
-            }
-
-            container.innerHTML = resHoje.map(r => `
-                <div class="reserva-card-side">
-                    <strong>${r.hora} — ${escapeHtml(r.nome)}</strong>
-                    <p>📍 Mesa ${r.mesa} · 👥 ${r.pessoas} Pessoas</p>
-                    ${r.telefone ? `<p>📞 ${escapeHtml(r.telefone)}</p>` : ''}
-                    <div style="margin-top:6px; display:flex; gap:6px;">
-                        <button class="btn btn-outline" style="padding:4px 8px; font-size:0.75rem;" onclick="abrirEditarReservaModal('${r.id}')">Editar</button>
-                        <button class="btn btn-danger" style="padding:4px 8px; font-size:0.75rem;" onclick="apagarReserva('${r.id}')">Apagar</button>
-                    </div>
-                </div>
-            `).join("");
-        }
-
-        function renderizarDashboard() {
-            const hojeISO = getHojeISO();
-            const resHoje = reservas.filter(r => r.data === hojeISO && r.estado !== "Cancelada");
-
-            let ocupadas = 0, reservadas = 0;
-            mesas.forEach(m => {
-                const r = reservas.find(res => res.mesa === m.id && res.data === hojeISO && res.estado !== "Cancelada");
-                if (r) {
-                    if (r.estado === "Sentado/Ocupada") ocupadas++;
-                    else reservadas++;
-                }
-            });
-
-            document.getElementById("dash-total-mesas").textContent = mesas.length;
-            document.getElementById("dash-mesas-livres").textContent = mesas.length - (ocupadas + reservadas);
-            document.getElementById("dash-mesas-reservadas").textContent = reservadas;
-            document.getElementById("dash-mesas-ocupadas").textContent = ocupadas;
-
-            const totalPax = resHoje.reduce((acc, curr) => acc + parseInt(curr.pessoas || 0), 0);
-            document.getElementById("dash-total-clientes").textContent = totalPax;
-        }
-
-        function renderizarTabelaReservas() {
-            const tbody = document.getElementById("tbody-reservas");
-            if (!tbody) return;
-
-            const q = (document.getElementById("filter-search")?.value || "").toLowerCase();
-            const dataVal = document.getElementById("filter-date")?.value;
-            const statusVal = document.getElementById("filter-status")?.value;
-            const mesaVal = document.getElementById("filter-mesa")?.value;
-
-            const filtradas = reservas.filter(r => {
-                const matchQ = r.nome.toLowerCase().includes(q) || (r.telefone && r.telefone.includes(q));
-                const matchData = !dataVal || r.data === dataVal;
-                const matchStatus = !statusVal || r.estado === statusVal;
-                const matchMesa = !mesaVal || r.mesa === mesaVal;
-                return matchQ && matchData && matchStatus && matchMesa;
-            });
-
-            filtradas.sort((a,b) => (b.data + b.hora).localeCompare(a.data + a.hora));
-
-            if (filtradas.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; color:var(--text-muted); padding:20px;">Nenhuma reserva encontrada.</td></tr>`;
-                return;
-            }
-
-            tbody.innerHTML = filtradas.map(r => `
-                <tr>
-                    <td><strong>${formatarDataPT(r.data)}</strong></td>
-                    <td>${r.hora}</td>
-                    <td><strong>${escapeHtml(r.nome)}</strong></td>
-                    <td>${escapeHtml(r.telefone || '-')}</td>
-                    <td>👥 ${r.pessoas}</td>
-                    <td>Mesa ${r.mesa}</td>
-                    <td><span class="badge-status st-tag-${r.estado}">${r.estado}</span></td>
-                    <td>
-                        <button class="btn btn-outline" style="padding:4px 8px;" onclick="abrirEditarReservaModal('${r.id}')">✏️</button>
-                        <button class="btn btn-danger" style="padding:4px 8px;" onclick="apagarReserva('${r.id}')">🗑️</button>
-                    </td>
-                </tr>
-            `).join("");
-        }
-
-        function atualizarSelectMesas() {
-            const selectRes = document.getElementById("res-mesa");
-            const selectFiltro = document.getElementById("filter-mesa");
-
-            if (selectRes) {
-                selectRes.innerHTML = mesas.map(m => `<option value="${m.id}">Mesa ${m.nome} (${m.capacidade} lugares)</option>`).join("");
-            }
-
-            if (selectFiltro) {
-                const actual = selectFiltro.value;
-                selectFiltro.innerHTML = `<option value="">Todas as Mesas</option>` + mesas.map(m => `<option value="${m.id}">Mesa ${m.nome}</option>`).join("");
-                selectFiltro.value = actual;
-            }
-        }
-
-        function abrirNovaReservaModal(mesaIdPreferida = null) {
-            document.getElementById("modalReservaTitulo").textContent = "Nova Reserva";
-            document.getElementById("res-id").value = "";
-            document.getElementById("form-reserva").reset();
-
+        // RESERVAS
+        function abrirNovaReservaModal(mesaId = null) {
             document.getElementById("res-data").value = getHojeISO();
-            document.getElementById("res-hora").value = "20:00";
-            document.getElementById("res-pessoas").value = 2;
-            document.getElementById("res-estado").value = "Confirmada";
-
-            if (mesaIdPreferida) document.getElementById("res-mesa").value = mesaIdPreferida;
-            abrirModal("modalReserva");
-        }
-
-        function abrirEditarReservaModal(resId) {
-            const r = reservas.find(item => item.id === resId);
-            if (!r) return;
-
-            document.getElementById("modalReservaTitulo").textContent = "Editar Reserva";
-            document.getElementById("res-id").value = r.id;
-            document.getElementById("res-nome").value = r.nome;
-            document.getElementById("res-telefone").value = r.telefone || "";
-            document.getElementById("res-data").value = r.data;
-            document.getElementById("res-hora").value = r.hora;
-            document.getElementById("res-pessoas").value = r.pessoas;
-            document.getElementById("res-mesa").value = r.mesa;
-            document.getElementById("res-estado").value = r.estado;
-            document.getElementById("res-obs").value = r.observacoes || "";
-
+            if (mesaId) document.getElementById("res-mesa").value = mesaId;
             abrirModal("modalReserva");
         }
 
         function guardarReserva(e) {
             e.preventDefault();
-
-            const id = document.getElementById("res-id").value || "res_" + Date.now();
-            const nome = document.getElementById("res-nome").value.trim();
-            const telefone = document.getElementById("res-telefone").value.trim();
-            const data = document.getElementById("res-data").value;
-            const hora = document.getElementById("res-hora").value;
-            const pessoas = parseInt(document.getElementById("res-pessoas").value);
-            const mesa = document.getElementById("res-mesa").value;
-            const estado = document.getElementById("res-estado").value;
-            const observacoes = document.getElementById("res-obs").value.trim();
-
-            const mObj = mesas.find(m => m.id === mesa);
-
-            if (pessoas > mObj.capacidade) {
-                alert(`Esta mesa (${mObj.nome}) tem capacidade para apenas ${mObj.capacidade} pessoas.`);
-                return;
-            }
-
-            const conflito = reservas.find(r => r.id !== id && r.mesa === mesa && r.data === data && r.hora === hora && r.estado !== "Cancelada");
-            if (conflito) {
-                alert(`A mesa ${mObj.nome} já possui uma reserva ativa para esse horário.`);
-                return;
-            }
-
-            const novaRes = { id, nome, telefone, data, hora, pessoas, mesa, estado, observacoes };
-            const index = reservas.findIndex(r => r.id === id);
-
-            if (index !== -1) {
-                reservas[index] = novaRes;
-                mostrarToast("Reserva atualizada!");
-            } else {
-                reservas.push(novaRes);
-                mostrarToast("Nova reserva guardada!");
-            }
-
-            guardarDadosStorage();
+            const nova = {
+                id: "res_" + Date.now(),
+                nome: document.getElementById("res-nome").value,
+                telefone: document.getElementById("res-telefone").value,
+                data: document.getElementById("res-data").value,
+                hora: document.getElementById("res-hora").value,
+                pessoas: document.getElementById("res-pessoas").value,
+                mesa: document.getElementById("res-mesa").value
+            };
+            reservas.push(nova);
+            guardarDados();
             fecharModal("modalReserva");
             renderizarTudo();
         }
 
-        function apagarReserva(resId) {
-            if (confirm("Tem a certeza que pretende apagar esta reserva?")) {
-                reservas = reservas.filter(r => r.id !== resId);
-                guardarDadosStorage();
-                renderizarTudo();
-                mostrarToast("Reserva removida.");
-            }
+        function renderizarSidebar() {
+            const hoje = getHojeISO();
+            const resHoje = reservas.filter(r => r.data === hoje);
+            const c = document.getElementById("reservas-hoje-sidebar");
+
+            c.innerHTML = resHoje.length === 0 ? `<p style="color:var(--text-muted);">Sem reservas hoje.</p>` :
+                resHoje.map(r => `
+                    <div class="reserva-card-side">
+                        <strong>${r.hora} - ${r.nome}</strong>
+                        <p>Mesa ${r.mesa} · 👥 ${r.pessoas} pax</p>
+                    </div>
+                `).join("");
         }
 
-        function guardarConfiguracoes() {
-            appConfig.nomeRestaurante = document.getElementById("cfg-name").value.trim();
-            appConfig.duracaoMin = parseInt(document.getElementById("cfg-duration").value) || 120;
-            document.getElementById("rest-title-display").textContent = appConfig.nomeRestaurante;
-
-            guardarDadosStorage();
-            mostrarToast("Configurações salvas!");
-        }
-
-        function exportarBackupJSON() {
-            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify({ config: appConfig, mesas, reservas }, null, 2));
-            const a = document.createElement("a");
-            a.href = dataStr;
-            a.download = `backup_restaurante_${getHojeISO()}.json`;
-            a.click();
-        }
-
-        function importarBackupJSON(e) {
-            const file = e.target.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = (evt) => {
-                try {
-                    const parsed = JSON.parse(evt.target.result);
-                    if (parsed.mesas && parsed.reservas) {
-                        mesas = parsed.mesas;
-                        reservas = parsed.reservas;
-                        if (parsed.config) appConfig = parsed.config;
-
-                        guardarDadosStorage();
-                        renderizarTudo();
-                        mostrarToast("Dados importados com sucesso!");
-                    }
-                } catch(err) {
-                    alert("Erro ao importar o ficheiro.");
-                }
-            };
-            reader.readAsText(file);
-        }
-
-        function resetarTodosDados() {
-            if (confirm("ATENÇÃO: Esta operação irá apagar todas as reservas e repor a planta original. Continuar?")) {
-                localStorage.clear();
-                carregarDadosStorage();
-                renderizarTudo();
-                mostrarToast("Aplicação reposta.");
-            }
+        function atualizarSelectMesas() {
+            const s = document.getElementById("res-mesa");
+            s.innerHTML = mesas.map(m => `<option value="${m.id}">${m.id} (${m.capacidade} pax)</option>`).join("");
         }
 
         function iniciarNavegacao() {
-            document.querySelectorAll(".nav-btn").forEach(btn => {
-                btn.addEventListener("click", () => {
-                    document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
-                    document.querySelectorAll(".tab-page").forEach(p => p.classList.remove("active"));
-
-                    btn.classList.add("active");
-                    const tabTarget = btn.dataset.tab;
-                    document.getElementById(`tab-${tabTarget}`).classList.add("active");
-                });
+            document.querySelectorAll(".nav-btn").forEach(b => {
+                b.onclick = () => {
+                    document.querySelectorAll(".nav-btn").forEach(x => x.classList.remove("active"));
+                    document.querySelectorAll(".tab-page").forEach(x => x.classList.remove("active"));
+                    b.classList.add("active");
+                    document.getElementById(`tab-${b.dataset.tab}`).classList.add("active");
+                };
             });
-        }
-
-        function iniciarRelogio() {
-            function update() {
-                const now = new Date();
-                document.getElementById("clock-date").textContent = now.toLocaleDateString("pt-PT");
-                document.getElementById("clock-time").textContent = now.toLocaleTimeString("pt-PT");
-            }
-            update();
-            setInterval(update, 1000);
         }
 
         function abrirModal(id) { document.getElementById(id).classList.add("aberto"); }
         function fecharModal(id) { document.getElementById(id).classList.remove("aberto"); }
-
-        function mostrarToast(msg) {
-            const container = document.getElementById("toast-container");
+        function getHojeISO() { return new Date().toISOString().split("T")[0]; }
+        function mostrarToast(m) {
+            const c = document.getElementById("toast-container");
             const t = document.createElement("div");
-            t.className = "toast";
-            t.textContent = msg;
-            container.appendChild(t);
+            t.className = "toast"; t.textContent = m;
+            c.appendChild(t);
             setTimeout(() => t.remove(), 3000);
-        }
-
-        function limparFiltros() {
-            document.getElementById("filter-search").value = "";
-            document.getElementById("filter-date").value = "";
-            document.getElementById("filter-status").value = "";
-            document.getElementById("filter-mesa").value = "";
-            renderizarTabelaReservas();
-        }
-
-        function getHojeISO() {
-            const d = new Date();
-            const m = String(d.getMonth() + 1).padStart(2, '0');
-            const day = String(d.getDate()).padStart(2, '0');
-            return `${d.getFullYear()}-${m}-${day}`;
-        }
-
-        function formatarDataPT(isoDate) {
-            if (!isoDate) return "";
-            const [y, m, d] = isoDate.split("-");
-            return `${d}/${m}/${y}`;
-        }
-
-        function escapeHtml(str) {
-            if (!str) return "";
-            return String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
         }
     </script>
 </body>
