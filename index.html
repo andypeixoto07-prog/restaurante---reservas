@@ -2,8 +2,8 @@
 <html lang="pt-PT">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestão de Sala & Reservas em Tempo Real</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>App Gestão de Sala - Tablet & Desktop</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -28,60 +28,80 @@
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
         html, body {
-            width: 100%; height: 100vh; overflow: hidden;
+            width: 100%; height: 100%; overflow: hidden;
             background-color: var(--bg-dark); color: var(--text-main);
             font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            display: flex; flex-direction: column;
+            touch-action: manipulation;
         }
 
+        body { display: flex; flex-direction: column; }
+
+        /* HEADER E BARRA DE TAREFAS COM SCROLL PARALELO */
         header {
-            background: var(--panel-bg); border-bottom: 1px solid var(--panel-border);
-            padding: 8px 16px; flex-shrink: 0;
+            background: var(--panel-bg);
+            border-bottom: 1px solid var(--panel-border);
+            padding: 8px 12px;
+            flex-shrink: 0;
+            width: 100%;
         }
 
         .header-container {
-            display: flex; justify-content: space-between; align-items: center; gap: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            overflow-x: auto;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: 4px;
         }
 
-        .brand-area { display: flex; align-items: center; gap: 10px; }
-        .brand-icon { font-size: 22px; background: rgba(217, 173, 87, 0.15); padding: 2px 6px; border-radius: var(--radius-md); border: 1px solid var(--accent-gold); }
-        .brand-area h1 { font-size: 1.05rem; font-weight: 800; }
+        .header-container::-webkit-scrollbar { height: 4px; }
+        .header-container::-webkit-scrollbar-thumb { background: var(--panel-border); border-radius: 4px; }
 
-        .header-center { display: flex; align-items: center; gap: 4px; }
+        .brand-area { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+        .brand-icon { font-size: 20px; background: rgba(217, 173, 87, 0.15); padding: 2px 6px; border-radius: var(--radius-md); border: 1px solid var(--accent-gold); }
+        .brand-area h1 { font-size: 1rem; font-weight: 800; }
+
+        .header-center, .header-right { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+
         .nav-btn {
             background: transparent; border: 0; color: var(--text-muted);
-            padding: 6px 12px; border-radius: 6px; font-weight: 600; font-size: 0.82rem; cursor: pointer;
+            padding: 8px 12px; border-radius: 6px; font-weight: 600; font-size: 0.85rem; cursor: pointer;
         }
         .nav-btn.active { color: #0b141b; background: var(--accent-gold); }
 
-        .header-right { display: flex; align-items: center; gap: 8px; }
-
         .btn {
-            border: 0; border-radius: 6px; padding: 7px 12px; font-weight: 700; font-size: 0.82rem;
-            cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s ease;
+            border: 0; border-radius: 6px; padding: 8px 12px; font-weight: 700; font-size: 0.82rem;
+            cursor: pointer; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap;
         }
         .btn-gold { background: var(--accent-gold); color: #17120a; }
-        .btn-gold:hover { background: var(--accent-gold-hover); }
         .btn-music { background: #8b5cf6; color: #fff; }
         .btn-music.ativo { background: #ec4899; box-shadow: 0 0 10px #ec4899; }
         .btn-secondary { background: #334155; color: #fff; }
         .btn-danger { background: #ef5350; color: #fff; }
         .btn-outline { background: transparent; border: 1px solid var(--panel-border); color: var(--text-main); }
-        .btn-outline:hover { background: rgba(255,255,255,0.05); }
 
-        .conteudo { flex: 1; padding: 8px; display: flex; flex-direction: column; overflow: hidden; }
+        /* CONTEÚDO E ORIENTAÇÃO DO TABLET */
+        .conteudo { flex: 1; padding: 6px; display: flex; flex-direction: column; overflow: hidden; }
         .tab-page { display: none; width: 100%; height: 100%; }
         .tab-page.active { display: flex; flex-direction: column; }
 
-        /* BARRA SUPERIOR DE AÇÕES */
         .mapa-header-bar {
             background: var(--panel-bg); border: 1px solid var(--panel-border); border-radius: var(--radius-md);
-            padding: 6px 12px; margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0;
+            padding: 6px 10px; margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center;
+            overflow-x: auto; flex-shrink: 0; gap: 8px;
         }
 
-        /* LAYOUT PRINCIPAL REDIMENSIONÁVEL */
+        /* LAYOUT ADAPTÁVEL (TABLET PORTRAIT / LANDSCAPE) */
         .layout-mapa {
-            display: flex; gap: 8px; flex: 1; height: calc(100% - 40px); overflow: hidden;
+            display: flex; flex-direction: row; gap: 8px; flex: 1; height: calc(100% - 42px); overflow: hidden;
+        }
+
+        /* QUANDO O TABLET ESTÁ NA VERTICAL */
+        @media (max-aspect-ratio: 1/1) or (max-width: 800px) {
+            .layout-mapa { flex-direction: column; }
+            .painel-lateral { width: 100% !important; height: 180px !important; }
         }
 
         .mapa-viewport {
@@ -90,7 +110,6 @@
             align-items: center; justify-content: center;
         }
 
-        /* CANVAS AJUSTADO À ESTRUTURA VISUAL */
         .mapa-canvas {
             position: relative; width: 1050px; height: 720px; background-color: #0b1217;
             background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 0);
@@ -105,24 +124,28 @@
             display: flex; align-items: center; justify-content: center; font-weight: 800; color: #fff; font-size: 0.85rem;
         }
 
+        /* PISTA DE DANÇA / DJ EDITÁVEL E ARRASTÁVEL */
         .dj-booth {
             position: absolute; left: 520px; top: 200px; width: 250px; height: 210px;
             background: radial-gradient(circle, rgba(139,92,246,0.4) 0%, rgba(236,72,153,0.2) 70%);
             border: 2px dashed #ec4899; border-radius: 12px; display: flex; flex-direction: column;
             align-items: center; justify-content: center; color: #f472b6; font-weight: 800;
-            box-shadow: 0 0 20px rgba(236,72,153,0.3); z-index: 10; user-select: none;
+            box-shadow: 0 0 20px rgba(236,72,153,0.3); z-index: 10; user-select: none; touch-action: none;
         }
-        .dj-booth.draggable { cursor: move; border-color: #facc15; }
 
-        /* MESAS */
+        .dj-booth.draggable {
+            cursor: move; border-color: #facc15; box-shadow: 0 0 25px #facc15; outline: 2px dashed #facc15;
+        }
+
+        /* MESAS COM COR COMPLETA */
         .mesa {
             position: absolute; display: flex; flex-direction: column; justify-content: center;
             align-items: center; color: #fff; font-weight: 800; font-size: 0.8rem;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.6); cursor: pointer; user-select: none;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.6); cursor: pointer; user-select: none; touch-action: none;
             transition: transform 0.15s ease, background-color 0.2s ease; border: 2px solid rgba(255,255,255,0.2);
             text-shadow: 0 1px 3px rgba(0,0,0,0.8);
         }
-        .mesa:hover { transform: scale(1.08); z-index: 30; }
+
         .mesa.draggable { cursor: move; outline: 2px dashed var(--accent-gold); }
         .mesa.selecionada-grupo { outline: 4px solid #38bdf8 !important; }
 
@@ -140,21 +163,18 @@
         .grande { width: 200px; height: 55px; border-radius: 28px; }
         .mesa-fusa { border-radius: 8px; border: 2px dashed #f59e0b; }
 
-        /* PAINEL LATERAL DE RESERVAS (RECOLHÍVEL) */
         .painel-lateral {
-            width: 320px; background: var(--panel-bg); border: 1px solid var(--panel-border);
-            border-radius: var(--radius-md); padding: 12px; display: flex; flex-direction: column;
-            transition: all 0.25s ease;
+            width: 300px; background: var(--panel-bg); border: 1px solid var(--panel-border);
+            border-radius: var(--radius-md); padding: 10px; display: flex; flex-direction: column;
         }
-        .painel-lateral.oculto { display: none; }
-        .painel-lateral h2 { font-size: 0.95rem; color: var(--accent-gold); margin-bottom: 8px; border-bottom: 1px solid var(--panel-border); padding-bottom: 4px; }
+        .painel-lateral.oculto { display: none !important; }
+        .painel-lateral h2 { font-size: 0.9rem; color: var(--accent-gold); margin-bottom: 6px; border-bottom: 1px solid var(--panel-border); padding-bottom: 4px; }
         .lista-reservas-scroll { flex: 1; overflow-y: auto; }
 
         .reserva-card-side {
             background: rgba(0,0,0,0.3); border: 1px solid var(--panel-border); border-radius: 6px;
-            padding: 8px; margin-bottom: 6px; cursor: pointer; transition: background 0.15s;
+            padding: 8px; margin-bottom: 6px; cursor: pointer;
         }
-        .reserva-card-side:hover { background: rgba(217, 173, 87, 0.15); border-color: var(--accent-gold); }
 
         .table-responsive { background: var(--panel-bg); border: 1px solid var(--panel-border); border-radius: var(--radius-md); overflow: auto; flex: 1; }
         .data-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.85rem; }
@@ -163,12 +183,12 @@
 
         .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(4px); align-items: center; justify-content: center; z-index: 1000; }
         .modal.aberto { display: flex; }
-        .caixa-modal { background: var(--panel-bg); border: 1px solid var(--accent-gold); border-radius: 12px; padding: 20px; width: min(500px, 94vw); max-height: 90vh; overflow-y: auto; }
+        .caixa-modal { background: var(--panel-bg); border: 1px solid var(--accent-gold); border-radius: 12px; padding: 18px; width: min(480px, 94vw); max-height: 90vh; overflow-y: auto; }
         .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         .form-group-full { grid-column: span 2; }
 
-        input, select, textarea { width: 100%; padding: 8px 10px; background: var(--bg-dark); color: #fff; border: 1px solid var(--panel-border); border-radius: 6px; font-size: 0.85rem; }
-        label { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 3px; display: block; }
+        input, select, textarea { width: 100%; padding: 8px; background: var(--bg-dark); color: #fff; border: 1px solid var(--panel-border); border-radius: 6px; font-size: 0.85rem; }
+        label { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 2px; display: block; }
 
         #toast-container { position: fixed; bottom: 16px; right: 16px; z-index: 2000; display: flex; flex-direction: column; gap: 6px; }
         .toast { background: #1e293b; color: #fff; padding: 10px 14px; border-radius: 6px; border-left: 4px solid var(--accent-gold); font-size: 0.85rem; }
@@ -184,15 +204,15 @@
             </div>
 
             <nav class="header-center">
-                <button class="nav-btn active" data-tab="mapa">🗺️ Planta da Sala</button>
-                <button class="nav-btn" data-tab="habituais">⭐ Clientes Habituais</button>
+                <button class="nav-btn active" data-tab="mapa">🗺️ Sala</button>
+                <button class="nav-btn" data-tab="habituais">⭐ Habituais</button>
                 <button class="nav-btn" data-tab="reservas">📋 Reservas</button>
             </nav>
 
             <div class="header-right">
-                <button class="btn btn-outline" onclick="toggleSidebarReservas()">👁️ Mostrar/Esconder Reservas</button>
-                <button id="btn-musica-ao-vivo" class="btn btn-music" onclick="toggleModoMusica()">🎵 Música ao Vivo (OFF)</button>
-                <button class="btn btn-gold" onclick="abrirNovaReservaModal()">+ Nova Reserva</button>
+                <button class="btn btn-outline" onclick="toggleSidebarReservas()">👁️ Reservas</button>
+                <button id="btn-musica-ao-vivo" class="btn btn-music" onclick="toggleModoMusica()">🎵 Música (OFF)</button>
+                <button class="btn btn-gold" onclick="abrirNovaReservaModal()">+ Reserva</button>
             </div>
         </div>
     </header>
@@ -200,20 +220,20 @@
     <div class="conteudo">
         <div id="toast-container"></div>
 
-        <!-- TAB 1: MAPA DA SALA -->
+        <!-- TAB 1: PLANTA DA SALA -->
         <section id="tab-mapa" class="tab-page active">
             <div class="mapa-header-bar">
-                <div style="display:flex; gap:12px; font-size:0.8rem; align-items:center; font-weight:600;">
+                <div style="display:flex; gap:10px; font-size:0.78rem; align-items:center; font-weight:600;">
                     <span style="color:var(--st-livre);">🟢 Livre</span>
                     <span style="color:var(--st-reservada);">🔴 Reservada</span>
                     <span style="color:#a1a1aa;">⬛ Indisponível</span>
                     <span style="color:var(--st-azul);">🔵 VIP</span>
                 </div>
                 <div style="display:flex; gap:6px;">
-                    <button class="btn btn-outline" onclick="abrirModalCriarMesa()">➕ Criar Mesa</button>
-                    <button id="btn-modo-grupo" class="btn btn-outline" onclick="toggleModoGrupo()">🔗 Unir Mesas</button>
-                    <button id="btn-edit-layout" class="btn btn-secondary" onclick="toggleEditLayout()">✏️ Mover Elementos</button>
-                    <button id="btn-save-layout" class="btn btn-gold" style="display:none;" onclick="salvarPosicoesLayout()">💾 Guardar Planta</button>
+                    <button class="btn btn-outline" onclick="abrirModalCriarMesa()">➕ Mesa</button>
+                    <button id="btn-modo-grupo" class="btn btn-outline" onclick="toggleModoGrupo()">🔗 Unir</button>
+                    <button id="btn-edit-layout" class="btn btn-secondary" onclick="toggleEditLayout()">✏️ Mover / Editar Sala</button>
+                    <button id="btn-save-layout" class="btn btn-gold" style="display:none;" onclick="salvarPosicoesLayout()">💾 Guardar</button>
                 </div>
             </div>
 
@@ -242,7 +262,7 @@
         <!-- TAB 2: CLIENTES HABITUAIS -->
         <section id="tab-habituais" class="tab-page">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-                <h2>⭐ Lista de Clientes Habituais</h2>
+                <h2>⭐ Clientes Habituais</h2>
                 <button class="btn btn-gold" onclick="abrirModalClienteHabitual()">+ Adicionar Cliente</button>
             </div>
             <div class="table-responsive">
@@ -261,7 +281,7 @@
             </div>
         </section>
 
-        <!-- TAB 3: RESERVAS -->
+        <!-- TAB 3: LISTA DE RESERVAS -->
         <section id="tab-reservas" class="tab-page">
             <div class="table-responsive">
                 <table class="data-table">
@@ -292,11 +312,11 @@
                     <input type="text" id="edit-mesa-nome">
                 </div>
                 <div class="form-group">
-                    <label>Capacidade (Lugares):</label>
+                    <label>Capacidade:</label>
                     <input type="number" id="edit-mesa-capacidade" min="1">
                 </div>
                 <div class="form-group form-group-full">
-                    <label>Cor / Estado Visual:</label>
+                    <label>Cor / Estado:</label>
                     <select id="edit-mesa-estado">
                         <option value="livre">🟢 Verde (Livre)</option>
                         <option value="reservada">🔴 Vermelho (Reservada)</option>
@@ -309,10 +329,10 @@
                 <button class="btn btn-danger" onclick="removerMesaAtual()">🗑️ Eliminar</button>
                 <button class="btn btn-gold" onclick="guardarAlteracoesMesa()">Guardar</button>
             </div>
-            <hr style="margin:12px 0; border-color:var(--panel-border);">
+            <hr style="margin:10px 0; border-color:var(--panel-border);">
             <div id="infoTexto"></div>
             <div style="display:flex; justify-content:flex-end; gap:6px; margin-top:10px;">
-                <button class="btn btn-gold" id="infoBtnReservar">Reservar Esta Mesa</button>
+                <button class="btn btn-gold" id="infoBtnReservar">Reservar</button>
                 <button class="btn btn-outline" onclick="fecharModal('modalInfo')">Fechar</button>
             </div>
         </div>
@@ -342,7 +362,7 @@
                         <textarea id="hab-obs" rows="2"></textarea>
                     </div>
                 </div>
-                <div style="display:flex; justify-content:flex-end; gap:6px; margin-top:12px;">
+                <div style="display:flex; justify-content:flex-end; gap:6px; margin-top:10px;">
                     <button type="button" class="btn btn-outline" onclick="fecharModal('modalHabitual')">Cancelar</button>
                     <button type="submit" class="btn btn-gold">Guardar</button>
                 </div>
@@ -353,7 +373,7 @@
     <!-- MODAL CRIAR MESA -->
     <div class="modal" id="modalCriarMesa">
         <div class="caixa-modal">
-            <h2>➕ Adicionar Nova Mesa</h2>
+            <h2>➕ Nova Mesa</h2>
             <div class="form-grid">
                 <div class="form-group">
                     <label>Número / Nome *</label>
@@ -372,7 +392,7 @@
                     </select>
                 </div>
             </div>
-            <div style="display:flex; justify-content:flex-end; gap:6px; margin-top:12px;">
+            <div style="display:flex; justify-content:flex-end; gap:6px; margin-top:10px;">
                 <button class="btn btn-outline" onclick="fecharModal('modalCriarMesa')">Cancelar</button>
                 <button class="btn btn-gold" onclick="confirmarCriarMesa()">Adicionar</button>
             </div>
@@ -410,7 +430,7 @@
                         <select id="res-mesa"></select>
                     </div>
                 </div>
-                <div style="display:flex; justify-content:flex-end; gap:6px; margin-top:12px;">
+                <div style="display:flex; justify-content:flex-end; gap:6px; margin-top:10px;">
                     <button type="button" class="btn btn-outline" onclick="fecharModal('modalReserva')">Cancelar</button>
                     <button type="submit" class="btn btn-gold">Guardar Reserva</button>
                 </div>
@@ -478,30 +498,31 @@
             carregarDados();
             iniciarNavegacao();
             renderizarTudo();
-            configurarDragPista();
+            configurarDragPistaEElementos();
             ajustarEscalaMapa();
             window.addEventListener("resize", ajustarEscalaMapa);
+            window.addEventListener("orientationchange", () => setTimeout(ajustarEscalaMapa, 200));
         });
 
         function carregarDados() {
-            const m = localStorage.getItem("mesas_v6");
+            const m = localStorage.getItem("mesas_v7");
             mesas = m ? JSON.parse(m) : JSON.parse(JSON.stringify(MESAS_PADRAO));
-            const r = localStorage.getItem("reservas_v6");
+            const r = localStorage.getItem("reservas_v7");
             reservas = r ? JSON.parse(r) : [];
-            const h = localStorage.getItem("habituais_v6");
+            const h = localStorage.getItem("habituais_v7");
             habituais = h ? JSON.parse(h) : [];
-            const p = localStorage.getItem("pista_v6");
+            const p = localStorage.getItem("pista_v7");
             if (p) pistaPos = JSON.parse(p);
         }
 
         function guardarDados() {
-            localStorage.setItem("mesas_v6", JSON.stringify(mesas));
-            localStorage.setItem("reservas_v6", JSON.stringify(reservas));
-            localStorage.setItem("habituais_v6", JSON.stringify(habituais));
-            localStorage.setItem("pista_v6", JSON.stringify(pistaPos));
+            localStorage.setItem("mesas_v7", JSON.stringify(mesas));
+            localStorage.setItem("reservas_v7", JSON.stringify(reservas));
+            localStorage.setItem("habituais_v7", JSON.stringify(habituais));
+            localStorage.setItem("pista_v7", JSON.stringify(pistaPos));
         }
 
-        /* AUTO-AJUSTE DE ESCALA PARA MANTER O MAPA INTEIRO VISÍVEL */
+        /* ESCALA PARA TABLET E MONITORES */
         function ajustarEscalaMapa() {
             const vp = document.getElementById("mapa-viewport-element");
             const canvas = document.getElementById("restaurant-map-canvas");
@@ -509,7 +530,7 @@
 
             const scaleX = vp.clientWidth / 1060;
             const scaleY = vp.clientHeight / 730;
-            const fitScale = Math.min(scaleX, scaleY, 1);
+            const fitScale = Math.min(scaleX, scaleY);
 
             canvas.style.transform = `scale(${fitScale})`;
         }
@@ -564,7 +585,6 @@
                     else if (!modoEdicao) abrirModalInfoMesa(m.id);
                 });
 
-                el.addEventListener("mousedown", iniciarDragMesa);
                 canvas.appendChild(el);
             });
 
@@ -576,12 +596,12 @@
         function toggleEditLayout() {
             modoEdicao = !modoEdicao;
             const dj = document.getElementById("dj-booth-element");
-            document.getElementById("btn-edit-layout").textContent = modoEdicao ? "❌ Cancelar" : "✏️ Mover Elementos";
+            document.getElementById("btn-edit-layout").textContent = modoEdicao ? "❌ Cancelar" : "✏️ Mover / Editar Sala";
             document.getElementById("btn-save-layout").style.display = modoEdicao ? "inline-block" : "none";
 
             if (modoEdicao) {
                 dj.classList.add("draggable");
-                mostrarToast("Modo de edição ativo.");
+                mostrarToast("Modo de edição ativo. Arraste mesas ou a pista com o dedo/rato.");
             } else {
                 dj.classList.remove("draggable");
                 carregarDados();
@@ -591,71 +611,96 @@
 
         function salvarPosicoesLayout() {
             modoEdicao = false;
-            document.getElementById("btn-edit-layout").textContent = "✏️ Mover Elementos";
+            document.getElementById("btn-edit-layout").textContent = "✏️ Mover / Editar Sala";
             document.getElementById("btn-save-layout").style.display = "none";
             guardarDados();
             renderizarMapa();
             mostrarToast("Disposição da sala guardada!");
         }
 
-        let arrasteId = null, offset = {x:0, y:0};
-        function iniciarDragMesa(e) {
-            if (!modoEdicao) return;
-            arrasteId = e.currentTarget.dataset.id;
-            const rect = e.currentTarget.getBoundingClientRect();
-            offset = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+        /* SUPORTE MULTI-TOUCH E RATO PARA ARRASTAR ELEMENTOS DA SALA */
+        function configurarDragPistaEElementos() {
+            const canvas = document.getElementById("restaurant-map-canvas");
+            let elementoAtivo = null;
+            let startPos = { x: 0, y: 0 };
+            let elemStartPos = { x: 0, y: 0 };
 
-            document.addEventListener("mousemove", moverDrag);
-            document.addEventListener("mouseup", pararDrag);
-        }
-
-        function moverDrag(e) {
-            if (!arrasteId) return;
-            const canvas = document.getElementById("restaurant-map-canvas").getBoundingClientRect();
-            const m = mesas.find(item => item.id === arrasteId);
-
-            if (m) {
-                m.x = Math.max(10, Math.min(e.clientX - canvas.left - offset.x, canvas.width - 60));
-                m.y = Math.max(10, Math.min(e.clientY - canvas.top - offset.y, canvas.height - 60));
-                const el = document.querySelector(`[data-id="${arrasteId}"]`);
-                if (el) { el.style.left = `${m.x}px`; el.style.top = `${m.y}px`; }
+            function getClientPos(e) {
+                if (e.touches && e.touches.length > 0) {
+                    return { x: e.touches[0].clientX, y: e.touches[0].clientY };
+                }
+                return { x: e.clientX, y: e.clientY };
             }
-        }
 
-        function pararDrag() {
-            arrasteId = null;
-            document.removeEventListener("mousemove", moverDrag);
-            document.removeEventListener("mouseup", pararDrag);
-        }
-
-        function configurarDragPista() {
-            const dj = document.getElementById("dj-booth-element");
-            let arrastando = false, pOffset = {x:0, y:0};
-
-            dj.addEventListener("mousedown", (e) => {
+            function iniciarArrasto(e) {
                 if (!modoEdicao) return;
-                arrastando = true;
-                const rect = dj.getBoundingClientRect();
-                pOffset = { x: e.clientX - rect.left, y: e.clientY - rect.top };
 
-                const moveP = (ev) => {
-                    if (!arrastando) return;
-                    const canvas = document.getElementById("restaurant-map-canvas").getBoundingClientRect();
-                    pistaPos.x = Math.max(10, Math.min(ev.clientX - canvas.left - pOffset.x, canvas.width - 250));
-                    pistaPos.y = Math.max(10, Math.min(ev.clientY - canvas.top - pOffset.y, canvas.height - 210));
-                    dj.style.left = `${pistaPos.x}px`;
-                    dj.style.top = `${pistaPos.y}px`;
-                };
+                const targetMesa = e.target.closest(".mesa");
+                const targetDJ = e.target.closest(".dj-booth");
 
-                const stopP = () => {
-                    arrastando = false;
-                    document.removeEventListener("mousemove", moveP);
-                    document.removeEventListener("mouseup", stopP);
-                };
+                if (targetMesa) {
+                    elementoAtivo = { tipo: "mesa", id: targetMesa.dataset.id, el: targetMesa };
+                } else if (targetDJ) {
+                    elementoAtivo = { tipo: "pista", el: targetDJ };
+                }
 
-                document.addEventListener("mousemove", moveP);
-                document.addEventListener("mouseup", stopP);
-            });
+                if (elementoAtivo) {
+                    const pos = getClientPos(e);
+                    startPos = { x: pos.x, y: pos.y };
+
+                    if (elementoAtivo.tipo === "mesa") {
+                        const m = mesas.find(x => x.id === elementoAtivo.id);
+                        elemStartPos = { x: m.x, y: m.y };
+                    } else {
+                        elemStartPos = { x: pistaPos.x, y: pistaPos.y };
+                    }
+
+                    document.addEventListener("mousemove", moverArrasto);
+                    document.addEventListener("touchmove", moverArrasto, { passive: false });
+                    document.addEventListener("mouseup", pararArrasto);
+                    document.addEventListener("touchend", pararArrasto);
+                }
+            }
+
+            function moverArrasto(e) {
+                if (!elementoAtivo || !modoEdicao) return;
+                e.preventDefault();
+
+                const pos = getClientPos(e);
+                const scale = parseFloat(canvas.style.transform.replace("scale(", "").replace(")", "")) || 1;
+
+                const deltaX = (pos.x - startPos.x) / scale;
+                const deltaY = (pos.y - startPos.y) / scale;
+
+                const novoX = Math.max(10, Math.min(elemStartPos.x + deltaX, 1000));
+                const novoY = Math.max(10, Math.min(elemStartPos.y + deltaY, 680));
+
+                if (elementoAtivo.tipo === "mesa") {
+                    const m = mesas.find(x => x.id === elementoAtivo.id);
+                    if (m) {
+                        m.x = novoX;
+                        m.y = novoY;
+                        elementoAtivo.el.style.left = `${novoX}px`;
+                        elementoAtivo.el.style.top = `${novoY}px`;
+                    }
+                } else if (elementoAtivo.tipo === "pista") {
+                    pistaPos.x = novoX;
+                    pistaPos.y = novoY;
+                    elementoAtivo.el.style.left = `${novoX}px`;
+                    elementoAtivo.el.style.top = `${novoY}px`;
+                }
+            }
+
+            function pararArrasto() {
+                elementoAtivo = null;
+                document.removeEventListener("mousemove", moverArrasto);
+                document.removeEventListener("touchmove", moverArrasto);
+                document.removeEventListener("mouseup", pararArrasto);
+                document.removeEventListener("touchend", pararArrasto);
+            }
+
+            canvas.addEventListener("mousedown", iniciarArrasto);
+            canvas.addEventListener("touchstart", iniciarArrasto, { passive: false });
         }
 
         function toggleModoGrupo() {
@@ -668,7 +713,7 @@
                 btn.classList.add("btn-gold");
             } else {
                 if (mesasGrupoSelecionadas.length > 1) unirMesasNumaSo();
-                btn.textContent = "🔗 Unir Mesas";
+                btn.textContent = "🔗 Unir";
                 btn.classList.remove("btn-gold");
             }
             renderizarMapa();
@@ -869,19 +914,11 @@
 
             c.innerHTML = resHoje.length === 0 ? `<p style="color:var(--text-muted); font-size:0.8rem;">Sem reservas hoje.</p>` :
                 resHoje.map(r => `
-                    <div class="reserva-card-side" onclick="destacarMesa('${r.mesa}')">
+                    <div class="reserva-card-side">
                         <strong>${r.hora} - ${r.nome}</strong>
                         <p style="font-size:0.75rem;">Mesa ${r.mesa} · 👥 ${r.pessoas} pax</p>
                     </div>
                 `).join("");
-        }
-
-        function destacarMesa(mesaId) {
-            const el = document.querySelector(`[data-id="${mesaId}"]`);
-            if (el) {
-                el.style.transform = "scale(1.25)";
-                setTimeout(() => el.style.transform = "", 1000);
-            }
         }
 
         function renderizarTabelaReservas() {
