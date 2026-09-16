@@ -1,1 +1,510 @@
+:root {
+    --primary: #2c3e50;
+    --accent: #e67e22;
+    --bg-light: #f4f6f7;
+    --card-bg: #ffffff;
+    --text-dark: #333333;
+    
+    /* Cores de Estado */
+    --color-livre: #2ecc71;
+    --color-reservada: #3498db;
+    --color-ocupada: #e74c3c;
+    --color-aguardar: #f39c12;
+    --color-indisponivel: #7f8c8d;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+    line-height: 1.6;
+}
+
+/* HEADER & NAV */
+.main-header {
+    background-color: var(--primary);
+    color: white;
+    padding: 1rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.logo-area h1 {
+    font-size: 1.4rem;
+}
+
+.logo-area .subtitle {
+    font-size: 0.8rem;
+    color: #bdc3c7;
+}
+
+.clock-area {
+    font-size: 1.1rem;
+    font-weight: bold;
+    background: rgba(255,255,255,0.1);
+    padding: 5px 12px;
+    border-radius: 20px;
+}
+
+.mobile-menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.main-nav {
+    display: flex;
+    gap: 10px;
+}
+
+.nav-btn {
+    background: transparent;
+    border: none;
+    color: #ecf0f1;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 0.95rem;
+    transition: 0.3s;
+}
+
+.nav-btn:hover, .nav-btn.active {
+    background-color: var(--accent);
+    color: white;
+}
+
+/* LAYOUT & TABS */
+.container {
+    padding: 1.5rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* DASHBOARD */
+.dashboard-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.card {
+    background: var(--card-bg);
+    padding: 15px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.card i {
+    font-size: 2rem;
+    color: var(--primary);
+}
+
+.card h3 {
+    font-size: 1.5rem;
+}
+
+.card p {
+    font-size: 0.85rem;
+    color: #7f8c8d;
+}
+
+.dashboard-sections {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+}
+
+.panel {
+    background: var(--card-bg);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.panel h2 {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    color: var(--primary);
+}
+
+/* PLANTA / MAPA DE MESAS */
+.map-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    padding: 10px 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.legend {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.85rem;
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.dot.livre, .st-livre { background-color: var(--color-livre); }
+.dot.reservada, .st-reservada { background-color: var(--color-reservada); }
+.dot.ocupada, .st-ocupada { background-color: var(--color-ocupada); }
+.dot.aguardar, .st-aguardar { background-color: var(--color-aguardar); }
+.dot.indisponivel, .st-indisponivel { background-color: var(--color-indisponivel); }
+
+.map-container-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    background: #eef2f5;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #dcdde1;
+}
+
+.restaurant-map {
+    width: 1000px;
+    height: 700px;
+    background-color: #ffffff;
+    position: relative;
+    border: 2px solid #333;
+    border-radius: 8px;
+    margin: 0 auto;
+}
+
+/* Elementos Estáticos */
+.static-object {
+    position: absolute;
+    background: #dcdde1;
+    border: 1px solid #718093;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 0.85rem;
+}
+
+.balcao {
+    bottom: 20px;
+    right: 220px;
+    width: 150px;
+    height: 60px;
+    background: #c0392b;
+    color: white;
+    border-radius: 4px;
+}
+
+.porta {
+    top: 0;
+    left: 580px;
+    width: 50px;
+    height: 30px;
+    border-bottom: none;
+    background: #f1c40f;
+}
+
+/* MESAS */
+.table-element {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    user-select: none;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16);
+    transition: transform 0.1s ease;
+    border: 2px solid rgba(0,0,0,0.2);
+}
+
+.table-element:hover {
+    transform: scale(1.05);
+    z-index: 10;
+}
+
+.table-element.editable {
+    cursor: move;
+    border: 2px dashed #000;
+}
+
+/* Formatos de Mesas */
+.shape-quadrada { border-radius: 6px; }
+.shape-retangular { border-radius: 6px; }
+.shape-redonda { border-radius: 50%; }
+.shape-osso { border-radius: 20px; }
+
+.table-element .t-name { font-size: 0.8rem; }
+.table-element .t-cap { font-size: 0.65rem; opacity: 0.9; }
+
+/* TABELAS E FILTROS */
+.filters-bar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.filters-bar input, .filters-bar select, .form-group input, .form-group select, .form-group textarea {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.table-responsive {
+    overflow-x: auto;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.data-table th, .data-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.data-table th {
+    background-color: #f8f9fa;
+    color: var(--primary);
+}
+
+.badge {
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    color: white;
+    font-weight: bold;
+}
+
+/* BOTÕES */
+.btn {
+    padding: 8px 14px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-primary { background: #3498db; color: white; }
+.btn-secondary { background: #7f8c8d; color: white; }
+.btn-success { background: #2ecc71; color: white; }
+.btn-warning { background: #f39c12; color: white; }
+.btn-danger { background: #e74c3c; color: white; }
+.btn-light { background: #e0e0e0; color: #333; }
+
+.btn-sm { padding: 4px 8px; font-size: 0.8rem; }
+
+/* TIMELINE HOJE */
+.timeline-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.timeline-card {
+    background: white;
+    padding: 15px;
+    border-left: 5px solid var(--primary);
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.timeline-card.next {
+    border-left-color: var(--accent);
+    background: #fffaf0;
+}
+
+/* MODAIS */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 2000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal.active { display: flex; }
+
+.modal-content {
+    background: white;
+    padding: 25px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+}
+
+.close-modal {
+    position: absolute;
+    top: 15px; right: 20px;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 10px;
+}
+
+.warning-box {
+    background: #f8d7da;
+    color: #721c24;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    font-size: 0.85rem;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.modal-actions-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+/* TOASTS */
+#toast-container {
+    position: fixed;
+    bottom: 20px; right: 20px;
+    z-index: 3000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.toast {
+    padding: 12px 20px;
+    background: #333;
+    color: white;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    animation: fadeIn 0.3s forwards;
+}
+
+.toast.success { background: #2ecc71; }
+.toast.error { background: #e74c3c; }
+.toast.info { background: #3498db; }
+
+.hidden { display: none !important; }
+.divider { margin: 20px 0; border: 0; border-top: 1px solid #ccc; }
+
+/* RESPONSIVIDADE (MOBILE-FIRST ADAPTATIONS) */
+@media (max-width: 768px) {
+    .mobile-menu-btn { display: block; }
+    .main-nav {
+        display: none;
+        width: 100%;
+        flex-direction: column;
+        margin-top: 10px;
+    }
+    .main-nav.active { display: flex; }
+    .dashboard-sections { grid-template-columns: 1fr; }
+    .form-grid { grid-template-columns: 1fr; }
+    
+    /* Transformação da Tabela em Cartões no Telemóvel */
+    .data-table, .data-table thead, .data-table tbody, .data-table th, .data-table td, .data-table tr { 
+        display: block; 
+    }
+    .data-table thead tr { position: absolute; top: -9999px; left: -9999px; }
+    .data-table tr { border: 1px solid #ccc; margin-bottom: 10px; border-radius: 6px; background: white; }
+    .data-table td { 
+        border: none;
+        border-bottom: 1px solid #eee; 
+        position: relative;
+        padding-left: 50%; 
+        text-align: right;
+    }
+    .data-table td:before { 
+        position: absolute;
+        top: 12px; left: 15px;
+        width: 45%; 
+        padding-right: 10px; 
+        white-space: nowrap;
+        text-align: left;
+        font-weight: bold;
+    }
+    .data-table td:nth-of-type(1):before { content: "Data"; }
+    .data-table td:nth-of-type(2):before { content: "Hora"; }
+    .data-table td:nth-of-type(3):before { content: "Cliente"; }
+    .data-table td:nth-of-type(4):before { content: "Telefone"; }
+    .data-table td:nth-of-type(5):before { content: "Pessoas"; }
+    .data-table td:nth-of-type(6):before { content: "Mesa"; }
+    .data-table td:nth-of-type(7):before { content: "Estado"; }
+    .data-table td:nth-of-type(8):before { content: "Ações"; }
+}
 
